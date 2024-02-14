@@ -1,11 +1,17 @@
 from amazons.AmazonsLogic import Board
 import pygame
 from ui.DropDown import DropDown
+from amazons.players.HumanPlayer import HumanPlayer
+from amazons.players.RandomPlayer import RandomPlayer
 
 
 class GameGUI:
     def __init__(self, width, height, tile_size):
         # Basic configuration
+        self.running = True
+        self.playing = False
+        self.game_over = False
+
         self.width = width
         self.height = height
         self.tile_size = tile_size
@@ -21,6 +27,11 @@ class GameGUI:
         self.timer = pygame.time.Clock()
         self.fps = 30
 
+        # Players
+        self.players = [HumanPlayer(self), RandomPlayer(self)]
+        self.white_player = self.players[0]
+        self.black_player = self.players[1]
+
         # Play game button
         self.button_rect = pygame.Rect(width + tile_size, tile_size * 8, tile_size * 4, tile_size)
 
@@ -32,11 +43,11 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        self.players = ['Human', 'Random']
+        options = ["Human", "Random"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
-                              self.players, self.big_font, self.font)
+                              options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
-                              self.players, self.big_font, self.font)
+                              options, self.big_font, self.font)
 
         # Game pieces
         self.white_amazon = pygame.image.load('assets/images/white_amazon.png')
@@ -97,51 +108,11 @@ class GameGUI:
                     pygame.draw.rect(self.screen, 'red',
                                      [column * self.tile_size + 1, row * self.tile_size + 1, 100, 100], 2)
 
-    def handle_white_turn(self, click_coords):
-        if click_coords in self.white_positions:  # Select a piece
-            self.selection = click_coords
-            if self.turn_step == 0:
-                self.turn_step = 1
+    def handle_white_turn(self, event):
+        self.white_player.make_move(event)
 
-        if click_coords in self.valid_moves and self.selection is not None:
-            if self.turn_step == 1:  # Move a piece
-                self.white_positions.remove(self.selection)  # Previous position
-                self.white_positions.append(click_coords)  # New position
-
-                self.board.move_piece(self.selection, click_coords, 1)
-                self.selection = click_coords
-                self.turn_step = 2
-                self.get_valid_moves()  # Get the new list of valid moves
-            elif self.turn_step == 2:  # Shoot an arrow
-                self.blocked_positions.append(click_coords)
-
-                self.board.shoot_arrow(click_coords)
-                self.turn_step = 3
-                self.selection = None
-                self.valid_moves = []
-
-    def handle_black_turn(self, click_coords):
-        if click_coords in self.black_positions:  # Select a piece
-            self.selection = click_coords
-            if self.turn_step == 3:
-                self.turn_step = 4
-
-        if click_coords in self.valid_moves and self.selection is not None:
-            if self.turn_step == 4:  # Move a piece
-                self.black_positions.remove(self.selection)  # Previous position
-                self.black_positions.append(click_coords)  # New position
-
-                self.board.move_piece(self.selection, click_coords, -1)
-                self.selection = click_coords
-                self.turn_step = 5
-                self.get_valid_moves()  # Get the new list of valid moves
-            elif self.turn_step == 5:  # Shoot an arrow
-                self.blocked_positions.append(click_coords)
-
-                self.board.shoot_arrow(click_coords)
-                self.turn_step = 0
-                self.selection = None
-                self.valid_moves = []
+    def handle_black_turn(self, event):
+        self.black_player.make_move(event)
 
     def get_valid_moves(self):
         if self.turn_step == 1 or self.turn_step == 4:  # White or black piece selected
@@ -157,14 +128,16 @@ class GameGUI:
                                10)
 
     def draw_win(self, player):
-        winner = 'white' if player == 1 else 'black'
-        pygame.draw.rect(self.screen, 'black', [400, 400, 300, 200])
-        self.screen.blit(self.font.render(f'{winner} won the game', True, 'white'), (420, 420))
-        self.screen.blit(self.font.render('Press ENTER to restart', True, 'white'), (420, 560))
+        winner = 'WHITE' if player == 1 else 'BLACK'
+        self.screen.blit(self.font.render(f'{winner} WON', True, 'black'), (420, 420))
 
     def draw_menu(self):
+        self.screen.blit(self.font.render("White", True, "black"),
+                         (self.menu1.body.x, self.menu1.body.y - self.menu1.body.height / 2))
         self.menu1.draw_menu(self.screen)
         if not self.menu1.deployed:
+            self.screen.blit(self.font.render("Black", True, "black"),
+                             (self.menu2.body.x, self.menu2.body.y - self.menu2.body.height / 2))
             self.menu2.draw_menu(self.screen)
 
     def handle_menu_event(self, event):
@@ -178,7 +151,17 @@ class GameGUI:
         y_offset = self.button_rect.height / 2 - self.big_font.size(text)[1] / 2
 
         pygame.draw.rect(self.screen, 'black', self.button_rect, 3)
-        self.screen.blit(self.big_font.render('Play', True, 'black'),
+        self.screen.blit(self.big_font.render(text, True, 'black'),
+                         (self.button_rect.x + x_offset, self.button_rect.y + y_offset))
+
+    def draw_restart_button(self):
+        text = 'Restart'
+
+        x_offset = (self.button_rect.width - self.big_font.size(text)[0]) / 2
+        y_offset = self.button_rect.height / 2 - self.big_font.size(text)[1] / 2
+
+        pygame.draw.rect(self.screen, 'black', self.button_rect, 3)
+        self.screen.blit(self.big_font.render(text, True, 'black'),
                          (self.button_rect.x + x_offset, self.button_rect.y + y_offset))
 
     # Returns True if the button was pressed with the intention to play
@@ -187,17 +170,25 @@ class GameGUI:
             if self.button_rect.collidepoint((event.pos[0], event.pos[1])):
                 return True
 
+    def set_players(self):
+        self.white_player = self.players[self.menu1.selected_option]
+        self.black_player = self.players[self.menu2.selected_option]
+
     def run(self):
-        run = True
-        playing = False
-        game_over = False
-        while run:
+        while self.running:
             self.timer.tick(self.fps)
             self.screen.fill('gray')
             self.draw_board()
             self.draw_pieces()
             self.draw_menu()
-            self.draw_play_button()
+
+            # Play button
+            if not self.playing and not self.game_over:
+                self.draw_play_button()
+
+            # Restart button
+            if self.game_over and not self.playing:
+                self.draw_restart_button()
 
             if self.selection is not None:
                 self.get_valid_moves()
@@ -207,43 +198,43 @@ class GameGUI:
             for event in pygame.event.get():
                 # Quit game
                 if event.type == pygame.QUIT:
-                    run = False
+                    self.running = False
 
                 # Menu options
-                if not playing:
+                if not self.playing:
                     self.handle_menu_event(event)
 
                 # Game start
-                if not playing:
+                if not self.playing:
                     if self.handle_play_event(event):
-                        playing = True
+                        self.playing = True
+                        self.set_players()
 
-                if playing:
-                    # Game moves
-                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not game_over:
-                        x_coord = event.pos[0] // self.tile_size
-                        y_coord = event.pos[1] // self.tile_size
-                        click_coords = (x_coord, y_coord)
+                # Game restart
+                if self.game_over:
+                    if self.handle_play_event(event):
+                        self.game_over = False
+                        self.playing = True
+                        self.restart_game()
+                        self.set_players()
 
-                        if self.turn_step <= 2:  # White's turn
-                            self.handle_white_turn(click_coords)
-                        else:  # Black's turn
-                            self.handle_black_turn(click_coords)
-
-                    # Game restart
-                    # if event.type == pygame.KEYDOWN and game_over:  # Both ifs for key pressed after game ended
-                    #     if event.key == pygame.K_RETURN:
-                    #         game_over = False
-                    #         restart_game()
+                # Game moves
+                if self.playing:
+                    if self.turn_step <= 2:  # White's turn
+                        self.handle_white_turn(event)
+                    else:  # Black's turn
+                        self.handle_black_turn(event)
 
             # Game end
             if self.turn_step == 0 or self.turn_step == 3:  # Checks that the winner is not selected during a half-move
                 if self.board.is_win(-1):  # Black wins
                     self.draw_win(-1)
-                    game_over = True
+                    self.game_over = True
+                    self.playing = False
                 elif self.board.is_win(1):  # White wins
                     self.draw_win(1)
-                    game_over = True
+                    self.game_over = True
+                    self.playing = False
 
             pygame.display.flip()
         pygame.quit()

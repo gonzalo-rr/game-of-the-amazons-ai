@@ -37,15 +37,15 @@ class Board:
     Get all the legal moves for a player (-1 is black, 1 is white)
     """
     def get_legal_moves(self, player):
-        moves = set()
+        moves = []
 
         # Find the positions of the player's amazons
-        amazons = set()
+        amazons = []
 
         for i in range(self.n):
             for j in range(self.n):
                 if self.board[i][j] == player:
-                    amazons.add((i, j))
+                    amazons.append((i, j))
                     if len(amazons) == 4:
                         break
             else:
@@ -55,19 +55,19 @@ class Board:
         # Find the moves for each amazon
         for amazon in amazons:
             for move in self.get_moves_amazon(amazon, player):
-                moves.add(move)
+                moves.append(move)
         return moves
 
     """
     Get the full moves for a certain amazon
     """
     def get_moves_amazon(self, amazon, player):
-        moves = set()
+        moves = []
 
         for move in self.get_moves_position(amazon):  # Get the 'physical' moves
             self.board[amazon[0]][amazon[1]] = 0
             for shot in self.get_moves_position(move):  # For each 'physical' move get each arrow shot
-                moves.add((amazon, move, shot))
+                moves.append((amazon, move, shot))
             self.board[amazon[0]][amazon[1]] = player
 
         return moves
@@ -76,14 +76,14 @@ class Board:
     Get the queen-like moves from a certain position
     """
     def get_moves_position(self, position):
-        moves = set()
+        moves = []
 
         for direction in self.__directions:
             x = position[0] + direction[0]
             y = position[1] + direction[1]
 
             while self.n > x >= 0 and self.n > y >= 0 and self.board[x][y] == 0:
-                moves.add((x, y))
+                moves.append((x, y))
                 x += direction[0]
                 y += direction[1]
 
