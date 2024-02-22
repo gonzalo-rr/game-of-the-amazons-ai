@@ -1,10 +1,12 @@
 from amazons.AmazonsLogic import Board
 import pygame
+
+from amazons.algorithms import RandomAlgorithm, GreedyAlgorithm
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
-from amazons.players.RandomPlayer import RandomPlayer
+from amazons.players.AIPlayer import AIPlayer
 
-wait_time = 5000
+wait_time = 0000
 
 
 class GameGUI:
@@ -41,7 +43,7 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random"]
+        options = ["Human", "Random", "Greedy"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
@@ -71,9 +73,15 @@ class GameGUI:
         self.blocked_positions = []
 
         # Players
-        self.players = [HumanPlayer(self), RandomPlayer(self)]
+        self.players = [
+            HumanPlayer(self),
+            AIPlayer(self, RandomAlgorithm, wait_time),
+            AIPlayer(self, GreedyAlgorithm, wait_time)
+        ]
+        self.players[1].algorithm = RandomAlgorithm
+        self.players[2].algorithm = GreedyAlgorithm
         self.white_player = self.players[0]
-        self.black_player = self.players[1]
+        self.black_player = self.players[0]
 
         # Event queue
         self.event_queue = None
@@ -251,6 +259,17 @@ class GameGUI:
         self.update_gui()
         pygame.display.flip()
 
+    def check_end(self):
+        if self.turn_step != 2 and self.turn_step != 5:  # Checks that the winner is not selected during a half-move
+            if self.board.is_win(-1):  # Black wins
+                self.draw_win(-1)
+                self.game_over = True
+                self.playing = False
+            elif self.board.is_win(1):  # White wins
+                self.draw_win(1)
+                self.game_over = True
+                self.playing = False
+
     def run(self):
         self.timer.tick(self.fps)
 
@@ -267,6 +286,9 @@ class GameGUI:
 
             self.event_queue = pygame.event.get()
 
+            # Game end
+            self.check_end()
+
             # Game moves
             if self.playing:
                 if self.turn_step <= 2:  # White's turn
@@ -274,7 +296,7 @@ class GameGUI:
                 else:  # Black's turn
                     self.handle_turn(-1)
 
-                # Event handling
+            # Event handling
             for event in self.event_queue:
                 # Quit game
                 if event.type == pygame.QUIT:
@@ -294,17 +316,6 @@ class GameGUI:
                         self.playing = True
                         self.restart_game()
                         self.set_players()
-
-            # Game end
-            if self.turn_step == 0 or self.turn_step == 3:  # Checks that the winner is not selected during a half-move
-                if self.board.is_win(-1):  # Black wins
-                    self.draw_win(-1)
-                    self.game_over = True
-                    self.playing = False
-                elif self.board.is_win(1):  # White wins
-                    self.draw_win(1)
-                    self.game_over = True
-                    self.playing = False
 
             pygame.display.flip()
         pygame.quit()

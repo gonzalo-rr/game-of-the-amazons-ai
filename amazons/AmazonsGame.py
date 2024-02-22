@@ -3,6 +3,7 @@ from .AmazonsLogic import Board
 import sys
 import numpy as np
 
+
 class AmazonsGame(Game):
 
     def getInitBoard(self):
@@ -10,7 +11,7 @@ class AmazonsGame(Game):
         return np.array(board.board)
 
     def getBoardSize(self):
-        return (10, 10)
+        return 10, 10
 
     def getActionSize(self):
         return self.b
