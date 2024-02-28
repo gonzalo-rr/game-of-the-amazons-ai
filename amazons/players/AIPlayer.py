@@ -29,9 +29,11 @@ class AIPlayer:
             player = -1
 
         if self.game.board.is_win(player) or self.game.board.is_win(-player):
-            return None
+            return
 
         move = self.algorithm.make_move(self.game.board, player)
+        if move is None:
+            return
 
         amazon = move[0]
         place = move[1]

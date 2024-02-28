@@ -1,7 +1,7 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms import RandomAlgorithm, GreedyAlgorithm
+from amazons.algorithms import RandomAlgorithm, GreedyAlgorithm, MinimaxAlgorithm
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
 from amazons.players.AIPlayer import AIPlayer
@@ -43,7 +43,7 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random", "Greedy"]
+        options = ["Human", "Random", "Greedy", "Minimax"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
@@ -76,10 +76,9 @@ class GameGUI:
         self.players = [
             HumanPlayer(self),
             AIPlayer(self, RandomAlgorithm, wait_time),
-            AIPlayer(self, GreedyAlgorithm, wait_time)
+            AIPlayer(self, GreedyAlgorithm, wait_time),
+            AIPlayer(self, MinimaxAlgorithm, wait_time)
         ]
-        self.players[1].algorithm = RandomAlgorithm
-        self.players[2].algorithm = GreedyAlgorithm
         self.white_player = self.players[0]
         self.black_player = self.players[0]
 

@@ -7,31 +7,35 @@ Board data:
         place: the tile where the piece will be moved
         shoot: the tile that will be shot by the amazon
 """
+from copy import copy
 
 
 class Board:
     __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
-    def __init__(self):
+    def __init__(self, *args):
         self.n = 10  # Dimension of the board
         self.board = [None] * self.n  # Board
 
-        for i in range(self.n):
-            self.board[i] = [0] * self.n
+        if len(args) == 1:
+            for i in range(self.n):
+                self.board[i] = copy(args[0][i])
+        else:
+            for i in range(self.n):
+                self.board[i] = [0] * self.n
 
-        self.board[3][0] = -1
-        self.board[6][0] = -1
-        self.board[0][3] = -1
-        self.board[9][3] = -1
+            self.board[3][0] = -1
+            self.board[6][0] = -1
+            self.board[0][3] = -1
+            self.board[9][3] = -1
 
-        self.board[0][6] = 1
-        self.board[9][6] = 1
-        self.board[3][9] = 1
-        self.board[6][9] = 1
+            self.board[0][6] = 1
+            self.board[9][6] = 1
+            self.board[3][9] = 1
+            self.board[6][9] = 1
 
     def __getitem__(self, index):
         return self.board[index]
-        pass
 
     """
     Get all the legal moves for a player (-1 is black, 1 is white)
@@ -121,6 +125,18 @@ class Board:
         self.move_piece(amazon, place, player)
 
         self.shoot_arrow(shoot)
+
+    def undo_move(self, move, player):
+        if not self.check_valid_move(move):
+            return
+
+        (amazon, place, shoot) = move
+
+        self.board[shoot[0]][shoot[1]] = 0
+
+        self.board[place[0]][place[1]] = 0
+
+        self.board[amazon[0]][amazon[1]] = player
 
     """
     :returns True if the specified move is valid and False otherwise
