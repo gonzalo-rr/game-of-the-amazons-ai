@@ -14,25 +14,54 @@ class Board:
     __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
     def __init__(self, *args):
-        self.n = 10  # Dimension of the board
-        self.board = [None] * self.n  # Board
-
         if len(args) == 1:
-            for i in range(self.n):
-                self.board[i] = copy(args[0][i])
+            if type(args[0]) is bool:
+                if args[0]:
+                    self.n = 5  # Dimension of the board
+                    self.board = [0] * self.n  # Board
+
+                    for i in range(self.n):
+                        self.board[i] = [0] * self.n
+
+                    self.board[1][0] = -1
+                    self.board[3][0] = -1
+                    self.board[0][1] = -1
+                    self.board[4][1] = -1
+
+                    self.board[0][3] = 1
+                    self.board[4][3] = 1
+                    self.board[1][4] = 1
+                    self.board[3][4] = 1
+
+                    self.black_positions = [(1, 0), (3, 0), (0, 1), (4, 1)]
+                    self.white_positions = [(0, 3), (4, 3), (1, 4), (3, 4)]
+                else:
+                    self.n = 10  # Dimension of the board
+                    self.board = [0] * self.n  # Board
+
+                    for i in range(self.n):
+                        self.board[i] = [0] * self.n
+
+                    self.board[3][0] = -1
+                    self.board[6][0] = -1
+                    self.board[0][3] = -1
+                    self.board[9][3] = -1
+
+                    self.board[0][6] = 1
+                    self.board[9][6] = 1
+                    self.board[3][9] = 1
+                    self.board[6][9] = 1
+
+                    self.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
+                    self.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
+            else:
+                self.n = len(args[0])  # Dimension of the board
+                self.board = [0] * self.n  # Board
+
+                for i in range(len(args[0])):
+                    self.board[i] = copy(args[0][i])
         else:
-            for i in range(self.n):
-                self.board[i] = [0] * self.n
-
-            self.board[3][0] = -1
-            self.board[6][0] = -1
-            self.board[0][3] = -1
-            self.board[9][3] = -1
-
-            self.board[0][6] = 1
-            self.board[9][6] = 1
-            self.board[3][9] = 1
-            self.board[6][9] = 1
+            return  # Error
 
     def __getitem__(self, index):
         return self.board[index]
@@ -40,6 +69,7 @@ class Board:
     """
     Get all the legal moves for a player (-1 is black, 1 is white)
     """
+
     def get_legal_moves(self, player):
         moves = []
 
@@ -65,6 +95,7 @@ class Board:
     """
     Get the full moves for a certain amazon
     """
+
     def get_moves_amazon(self, amazon, player):
         moves = []
 
@@ -79,6 +110,7 @@ class Board:
     """
     Get the queen-like moves from a certain position
     """
+
     def get_moves_position(self, position):
         moves = []
 
@@ -96,6 +128,7 @@ class Board:
     """
     :returns True is the specified player has legal moves and False otherwise
     """
+
     def has_legal_moves(self, player):
         if len(self.get_legal_moves(player)) > 0:
             return True
@@ -116,6 +149,7 @@ class Board:
     place: the tile where the piece will be moved
     shoot: the tile that will be shot by the amazon
     """
+
     def execute_move(self, move, player):
         if not self.check_valid_move(move):
             return
@@ -141,6 +175,7 @@ class Board:
     """
     :returns True if the specified move is valid and False otherwise
     """
+
     def check_valid_move(self, move):
         return True
 
@@ -148,6 +183,7 @@ class Board:
     Moves a piece from one tile to another
     (note that this is not a full move, just a piece move without the shot)
     """
+
     def move_piece(self, amazon, place, player):
         (x1, y1) = amazon
         (x2, y2) = place
@@ -159,6 +195,7 @@ class Board:
     """
     Blocks a tile from the board
     """
+
     def shoot_arrow(self, shoot):
         (x, y) = shoot
 
@@ -167,6 +204,7 @@ class Board:
     """
     Prints the board xd
     """
+
     def print_board(self):
         for i in range(self.n):
             for j in range(self.n):

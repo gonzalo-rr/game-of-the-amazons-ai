@@ -1,8 +1,6 @@
 from copy import deepcopy
 
-"""
-Wants to decrease the number of moves for the opposite player
-"""
+from amazons.AmazonsLogic import Board
 
 
 def make_move(board, player):
@@ -10,7 +8,7 @@ def make_move(board, player):
     best_score = best_score = player * float('-inf')
     best_move = None
     for move in moves:
-        new_board = deepcopy(board)
+        new_board = Board(board.board)
         new_board.execute_move(move, player)
         score = evaluate(new_board)
 

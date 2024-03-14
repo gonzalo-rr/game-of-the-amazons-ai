@@ -2,6 +2,7 @@ from amazons.AmazonsLogic import Board
 import pygame
 
 from amazons.algorithms import RandomAlgorithm, GreedyAlgorithm, MinimaxAlgorithm
+from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
 from amazons.players.AIPlayer import AIPlayer
@@ -10,19 +11,32 @@ wait_time = 0000
 
 
 class GameGUI:
-    def __init__(self, width, height, tile_size):
+    def __init__(self, tile_size):
+        # Game variables
+        # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,
+        # 3 - blacks turn no selection, 4 - blacks turn selection, 5 - blacks turn half move
+        self.board = Board(False)
+
+        self.turn_step = 0
+        self.selection = None
+        self.valid_moves = []
+
+        self.white_positions = self.board.white_positions
+        self.black_positions = self.board.black_positions
+        self.blocked_positions = []
+
         # Basic configuration
         self.running = True
         self.playing = False
         self.game_over = False
         self.waiting = 0
 
-        self.width = width
-        self.height = height
+        self.width = self.board.n * tile_size
+        self.height = self.board.n * tile_size
         self.tile_size = tile_size
 
-        self.total_width = width + tile_size * 6
-        self.total_height = height
+        self.total_width = self.width + tile_size * 6
+        self.total_height = self.height
 
         self.size = (self.total_width, self.total_height)
         self.screen = pygame.display.set_mode(self.size)
@@ -33,11 +47,11 @@ class GameGUI:
         self.fps = 30
 
         # Play game button
-        self.button_rect = pygame.Rect(width + tile_size, tile_size * 8, tile_size * 4, tile_size)
+        self.button_rect = pygame.Rect(self.width + tile_size, tile_size * 8, tile_size * 4, tile_size)
 
         # Game menu
-        menu_rect1 = pygame.Rect(width + tile_size, tile_size, tile_size * 4, tile_size)
-        menu_rect2 = pygame.Rect(width + tile_size, tile_size * 3, tile_size * 4, tile_size)
+        menu_rect1 = pygame.Rect(self.width + tile_size, tile_size, tile_size * 4, tile_size)
+        menu_rect2 = pygame.Rect(self.width + tile_size, tile_size * 3, tile_size * 4, tile_size)
         self.screen.blit(self.font.render('White', True, 'black'),
                          (menu_rect1.x, menu_rect1.y - tile_size / 2))
         self.screen.blit(self.font.render('Black', True, 'black'),
@@ -59,25 +73,14 @@ class GameGUI:
         self.blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
         self.blocked_tile = pygame.transform.scale(self.blocked_tile, (80, 80))
 
-        # Game variables
-        # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,
-        # 3 - blacks turn no selection, 4 - blacks turn selection, 5 - blacks turn half move
-        self.board = Board()
-
-        self.turn_step = 0
-        self.selection = None
-        self.valid_moves = []
-
-        self.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
-        self.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
-        self.blocked_positions = []
+        minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
 
         # Players
         self.players = [
             HumanPlayer(self),
             AIPlayer(self, RandomAlgorithm, wait_time),
             AIPlayer(self, GreedyAlgorithm, wait_time),
-            AIPlayer(self, MinimaxAlgorithm, wait_time)
+            AIPlayer(self, minimax, wait_time)
         ]
         self.white_player = self.players[0]
         self.black_player = self.players[0]
@@ -96,8 +99,8 @@ class GameGUI:
         self.selection = None
         self.valid_moves = []
 
-        self.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
-        self.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
+        self.white_positions = self.board.white_positions
+        self.black_positions = self.board.black_positions
         self.blocked_positions = []
 
     def draw_board(self):
