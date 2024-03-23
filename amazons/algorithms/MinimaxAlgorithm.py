@@ -4,13 +4,9 @@ import time
 from copy import deepcopy
 
 from amazons.AmazonsLogic import Board
+from amazons.assets.HistoryTable import HistoryTable
 
 sys.setrecursionlimit(2_000)
-start = 0
-
-max_depth = 1
-
-n_nodes = 0
 
 """
 white - max
@@ -18,50 +14,80 @@ black - min
 """
 
 
-def make_move(board, player):
-    global start
+class MinimaxAlgorithm:
 
-    start = time.time()
-    new_board = Board(board.board)
+    def __init__(self, max_depth, max_time):
+        self.max_depth = max_depth
+        self.max_time = max_time
+        self.history_table = HistoryTable()
+        self.end = 0
 
-    best_score, best_move = minimax(new_board, player, float('-inf'), float('inf'), 0)
-
-    return best_move
-
-
-def minimax(board, player, alpha, beta, depth):
-    if board.is_win(player) or board.is_win(-player) or depth == max_depth:
-        return evaluate_mobility(board), None
-    else:
-        best_score = player * float('-inf')
+    def make_move(self, board, player):
+        new_board = Board(board.board)
         best_move = None
 
-        moves = board.get_legal_moves(player)
-        random.shuffle(moves)
+        self.end = time.time() + self.max_time
+        for depth in range(1, self.max_depth + 1):
+            self.max_depth = depth
+            if time.time() >= self.end:
+                break
+            _, best_move = self.minimax(new_board, player, float('-inf'), float('inf'), 0)
 
-        for move in moves:
-            board.execute_move(move, player)
-            score, _ = minimax(board, -player, alpha, beta, depth + 1)
-            board.undo_move(move, player)
+        self.history_table.save_table()
+        return best_move
 
-            if player == 1:
-                if score > best_score:
-                    best_move = move
-                    best_score = score
+    def minimax(self, board, player, alpha, beta, depth):
+        if board.is_win(player) or board.is_win(-player) or depth == self.max_depth:
+            return evaluate_mobility(board), None
+        else:
+            best_score = player * float('-inf')
+            best_move = None
 
-                alpha = max(alpha, score)
-                if beta <= alpha:
-                    break
-            else:
-                if score < best_score:
-                    best_move = move
-                    best_score = score
+            moves = board.get_legal_moves(player)
+            rating = [0 for _ in range(len(moves))]
 
-                beta = min(beta, score)
-                if beta <= alpha:
-                    break
+            for i, move in enumerate(moves):  # Rating all moves
+                rating[i] = self.history_table.get_rating(move)
 
-        return best_score, best_move
+            moves = sort_moves(moves, rating)
+
+            for move in moves:
+                board.execute_move(move, player)
+                score, _ = self.minimax(board, -player, alpha, beta, depth + 1)
+                board.undo_move(move, player)
+
+                if player == 1:
+                    if score > best_score:
+                        best_move = move
+                        best_score = score
+
+                    alpha = max(alpha, score)
+                    if beta <= alpha:
+                        print("pruning")
+                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
+                        break
+                else:
+                    if score < best_score:
+                        best_move = move
+                        best_score = score
+
+                    beta = min(beta, score)
+                    if beta <= alpha:
+                        print("pruning")
+                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
+                        break
+
+            return best_score, best_move
+
+
+def sort_moves(moves, rating):
+    combi = zip(moves, rating)
+    combi = sorted(combi, key=lambda c: c[1], reverse=True)
+    return [item[0] for item in combi]
+
+
+def weight(depth):
+    return depth * depth
 
 
 def evaluate_mobility(board):
@@ -73,4 +99,3 @@ def evaluate_mobility(board):
     white_moves = board.get_legal_moves(1)
     black_moves = board.get_legal_moves(-1)
     return len(white_moves) - len(black_moves)
-

@@ -33,6 +33,7 @@ class MinimaxAlgorithmMultiProcess:
         best_move = None
         self.end = time.time() + self.max_time
         for depth in range(1, self.max_depth + 1):
+            self.max_depth = depth
             if time.time() >= self.end:
                 break
             best_move = self.get_best_move(board, player)

@@ -6,6 +6,7 @@ import pygame
 from amazons.AmazonsLogic import Board
 from amazons.algorithms import RandomAlgorithm, GreedyAlgorithm, MinimaxAlgorithm
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
+from amazons.assets.HistoryTable import HistoryTable
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
 
@@ -18,6 +19,16 @@ def main():
     # match_training()
 
     # test_parallelization()
+
+    # Check history table ratings
+    # h = HistoryTable()
+    # h.load_table()
+    # b = Board(False)
+    # moves = b.get_legal_moves(1)
+    # for move in moves:
+    #     rating = h.get_rating(move)
+    #     if rating > 0:
+    #         print(rating)
 
 
 def test_parallelization():
@@ -87,9 +98,7 @@ def calculate_copy_times():
 def run_gui():
     # Basic configuration
     pygame.init()
-
-    width = 1_000
-    height = 1_000
+    
     tile_size = 100
     gameGUI = GameGUI(tile_size)
 
