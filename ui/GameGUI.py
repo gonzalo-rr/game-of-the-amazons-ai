@@ -2,7 +2,7 @@ from amazons.AmazonsLogic import Board
 import pygame
 
 from amazons.algorithms import RandomAlgorithm, GreedyAlgorithm
-from amazons.algorithms.MinimaxAlgorithm import MinimaxAlgorithm
+from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
@@ -75,6 +75,7 @@ class GameGUI:
         self.blocked_tile = pygame.transform.scale(self.blocked_tile, (80, 80))
 
         # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
+        # minimax = MinimaxAlgorithm(5, 2)
         minimax = MinimaxAlgorithm(5, 2)
 
         # Players
