@@ -1,10 +1,14 @@
 import _pickle as pickle
+import os.path
 
 
 class HistoryTable:
     def __init__(self):
-        self.moves_table = [[[[0 for _ in range(10)] for _ in range(10)] for _ in range(10)] for _ in range(10)]
-        self.arrows_table = [[0 for _ in range(10)] for _ in range(10)]
+        if os.path.isfile('history_table.pkl'):  # Load table if it exists
+            self.load_table()
+        else:  # Create the table if it doesn't
+            self.moves_table = [[[[0 for _ in range(10)] for _ in range(10)] for _ in range(10)] for _ in range(10)]
+            self.arrows_table = [[0 for _ in range(10)] for _ in range(10)]
 
     def get_rating(self, move):
         amazon = move[0]

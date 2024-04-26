@@ -1,8 +1,9 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms import RandomAlgorithm, GreedyAlgorithm
-from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
+from amazons.algorithms import RandomAlgorithm, GreedyAlgorithmMobility
+from amazons.algorithms.MinimaxAlgorithm import MinimaxAlgorithm
+from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
@@ -58,7 +59,7 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random", "Greedy", "Minimax"]
+        options = ["Human", "Random", "Mobility", "Minimax"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
@@ -76,13 +77,14 @@ class GameGUI:
 
         # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
         # minimax = MinimaxAlgorithm(5, 2)
+        minimaxMob = MinimaxAlgorithmMobility(5, 2)
         minimax = MinimaxAlgorithm(5, 2)
 
         # Players
         self.players = [
             HumanPlayer(self),
             AIPlayer(self, RandomAlgorithm, wait_time),
-            AIPlayer(self, GreedyAlgorithm, wait_time),
+            AIPlayer(self, minimaxMob, wait_time),
             AIPlayer(self, minimax, wait_time)
         ]
         self.white_player = self.players[0]
@@ -239,13 +241,6 @@ class GameGUI:
         pygame.display.flip()
 
     def move_piece(self, prev, new, player):
-        if player == 1:
-            positions = self.white_positions
-        else:
-            positions = self.black_positions
-        positions.remove(prev)  # Previous position
-        positions.append(new)  # New position
-
         self.board.move_piece(prev, new, player)
         self.selection = new
         self.turn_step += 1

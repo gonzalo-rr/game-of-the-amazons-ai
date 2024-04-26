@@ -14,9 +14,11 @@ class Board:
     __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
     def __init__(self, *args):
+        self.white_positions = []
+        self.black_positions = []
         if len(args) == 1:
             if type(args[0]) is bool:
-                if args[0]:
+                if args[0]:  # Small is True
                     self.n = 5  # Dimension of the board
                     self.board = [0] * self.n  # Board
 
@@ -35,7 +37,7 @@ class Board:
 
                     self.black_positions = [(1, 0), (3, 0), (0, 1), (4, 1)]
                     self.white_positions = [(0, 3), (4, 3), (1, 4), (3, 4)]
-                else:
+                else:  # Big is False
                     self.n = 10  # Dimension of the board
                     self.board = [0] * self.n  # Board
 
@@ -55,11 +57,15 @@ class Board:
                     self.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
                     self.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
             else:
-                self.n = len(args[0])  # Dimension of the board
+                prev_board = args[0]
+                self.n = len(prev_board.board)  # Dimension of the board
                 self.board = [0] * self.n  # Board
 
-                for i in range(len(args[0])):
-                    self.board[i] = copy(args[0][i])
+                for i in range(self.n):
+                    self.board[i] = copy(prev_board.board[i])
+
+                self.black_positions = copy(prev_board.black_positions)
+                self.white_positions = copy(prev_board.white_positions)
         else:
             return  # Error
 
@@ -172,6 +178,13 @@ class Board:
 
         self.board[amazon[0]][amazon[1]] = player
 
+        if player == 1:  # White
+            self.white_positions.remove(place)
+            self.white_positions.append(amazon)
+        else:  # Black
+            self.black_positions.remove(place)
+            self.black_positions.append(amazon)
+
     """
     :returns True if the specified move is valid and False otherwise
     """
@@ -191,6 +204,13 @@ class Board:
         self.board[x1][y1] = 0
 
         self.board[x2][y2] = player
+
+        if player == 1:  # White
+            self.white_positions.remove(amazon)
+            self.white_positions.append(place)
+        else:  # Black
+            self.black_positions.remove(amazon)
+            self.black_positions.append(place)
 
     """
     Blocks a tile from the board
