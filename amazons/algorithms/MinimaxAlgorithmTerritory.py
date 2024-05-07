@@ -14,13 +14,16 @@ black - min
 """
 
 
-class MinimaxAlgorithm:
+class MinimaxAlgorithmTerritory:
 
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
         self.history_table = HistoryTable()
         self.end = 0
+
+    def __str__(self):
+        return 'Minimax Territory'
 
     def make_move(self, board, player):
         new_board = Board(board)

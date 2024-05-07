@@ -6,7 +6,8 @@ import pygame
 from amazons.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithm import MinimaxAlgorithm
+from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
+from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from amazons.assets.HistoryTable import HistoryTable
@@ -150,15 +151,31 @@ def run_gui():
 
 
 def match_training():
+    n_matches = 2
+
     # First set of games: greedy (territory) vs greedy (mobility)
 
-    p1 = RandomAlgorithm()
+    p1 = GreedyAlgorithmTerritory()
     p2 = GreedyAlgorithmMobility()
-    play_n_games(p1, p2, 10, 'resultsRandomGreedy.csv')
+    play_n_games(p1, p2, n_matches, 'resultsGreedy.csv')
 
-    # Second set of games: minimax (mobility) vs greedy (mobility)
+    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 1
 
-    # p1 = Ran
+    p1 = MinimaxAlgorithmMobility(1, 10)
+    p2 = MinimaxAlgorithmTerritory(1, 10)
+    play_n_games(p1, p2, n_matches, 'resultsMinimax1rec.csv')
+
+    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 3
+
+    p1 = MinimaxAlgorithmMobility(3, 5)
+    p2 = MinimaxAlgorithmTerritory(3, 5)
+    play_n_games(p1, p2, n_matches, 'resultsMinimax3rec.csv')
+
+    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 5
+
+    p1 = MinimaxAlgorithmMobility(5, 5)
+    p2 = MinimaxAlgorithmTerritory(5, 5)
+    play_n_games(p1, p2, n_matches, 'resultsMinimax5rec.csv')
 
     # Third set of games: greedy (mobility) vs greedy (territory)
 
@@ -166,7 +183,6 @@ def match_training():
     # p2 =
 
     # Fourth set of games: greedy vs minimax (mobility)
-
 
 
 def play_n_games(p1, p2, n_matches, name):
@@ -239,7 +255,7 @@ def play_game(white, black):
     return results
 
 
-# white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black):
+# white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black:
 def update_csv(results, name):
     with open(name, 'w', newline='\n') as file:
         w = csv.writer(file, delimiter=';')

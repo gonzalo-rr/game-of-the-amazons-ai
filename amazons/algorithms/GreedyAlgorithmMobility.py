@@ -11,9 +11,10 @@ class GreedyAlgorithmMobility:
     def make_move(self, board, player):
         moves = board.get_legal_moves(player)
         best_score = player * float('-inf')
-        best_move = None
+        best_move = moves[0]
 
         if len(moves) == 1:
+            print("hola")
             best_move = moves[0]
 
         for move in moves:
