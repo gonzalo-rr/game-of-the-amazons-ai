@@ -6,8 +6,8 @@ import pygame
 from amazons.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.MinimaxAlgorithmRelativeTerritory5 import MinimaxAlgorithmRelativeTerritory5
+from amazons.algorithms.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from amazons.assets.HistoryTable import HistoryTable
@@ -54,7 +54,46 @@ def main():
 
     # run_gui()
 
-    match_training()
+    matches = []
+    n_matches = 100
+
+    # greedyRTerritory10 = GreedyAlgorithmRelativeTerritory()
+    # greedyTerritory = GreedyAlgorithmMobility()
+    #
+    # matches.append(
+    #     (greedyRTerritory10, greedyTerritory, 'Game1')
+    # )
+    #
+    # minimaxMobility1 = MinimaxAlgorithmMobility(1, 10)
+    # minimaxRTerritory1 = MinimaxAlgorithmRelativeTerritory(1, 10)
+    #
+    # matches.append(
+    #     (minimaxMobility1, minimaxRTerritory1, 'Game2')
+    # )
+    #
+    # minimaxMobility3 = MinimaxAlgorithmMobility(3, 5)
+    # minimaxRTerritory3 = MinimaxAlgorithmRelativeTerritory(3, 5)
+    #
+    # matches.append(
+    #     (minimaxMobility3, minimaxRTerritory3, 'Game3')
+    # )
+    #
+    # minimaxMobility5 = MinimaxAlgorithmMobility(5, 5)
+    # minimaxRTerritory5 = MinimaxAlgorithmRelativeTerritory(5, 5)
+    #
+    # matches.append(
+    #     (minimaxMobility5, minimaxRTerritory5, 'Game4')
+    # )
+
+    # Minimax Relative Territory 5 vs Minimax Relative Territory 10
+    minimaxRTerritory5 = MinimaxAlgorithmRelativeTerritory5(2, 10)
+    minimaxRTerritory10 = MinimaxAlgorithmRelativeTerritory(2, 10)
+
+    matches.append(
+        (minimaxRTerritory5, minimaxRTerritory10, 'MinimaxRT5VMinimaxRT10.csv')
+    )
+
+    match_training(matches, n_matches)
 
     # test_parallelization()
 
@@ -150,39 +189,13 @@ def run_gui():
     gameGUI.run()
 
 
-def match_training():
-    n_matches = 2
+def match_training(matches, n_matches):
+    for match in matches:
+        player1 = match[0]
+        player2 = match[1]
+        name = match[2]
 
-    # First set of games: greedy (territory) vs greedy (mobility)
-
-    p1 = GreedyAlgorithmTerritory()
-    p2 = GreedyAlgorithmMobility()
-    play_n_games(p1, p2, n_matches, 'resultsGreedy.csv')
-
-    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 1
-
-    p1 = MinimaxAlgorithmMobility(1, 10)
-    p2 = MinimaxAlgorithmTerritory(1, 10)
-    play_n_games(p1, p2, n_matches, 'resultsMinimax1rec.csv')
-
-    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 3
-
-    p1 = MinimaxAlgorithmMobility(3, 5)
-    p2 = MinimaxAlgorithmTerritory(3, 5)
-    play_n_games(p1, p2, n_matches, 'resultsMinimax3rec.csv')
-
-    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 5
-
-    p1 = MinimaxAlgorithmMobility(5, 5)
-    p2 = MinimaxAlgorithmTerritory(5, 5)
-    play_n_games(p1, p2, n_matches, 'resultsMinimax5rec.csv')
-
-    # Third set of games: greedy (mobility) vs greedy (territory)
-
-    # p1 =
-    # p2 =
-
-    # Fourth set of games: greedy vs minimax (mobility)
+        play_n_games(player1, player2, n_matches, name)
 
 
 def play_n_games(p1, p2, n_matches, name):
@@ -251,7 +264,8 @@ def play_game(white, black):
     end = time.time()
     print('Game finished')
 
-    results = [white, black, result, end-start, n_moves_white, n_moves_black, avg_move_time_white, avg_move_time_black]
+    results = [white, black, result, end - start, n_moves_white, n_moves_black, avg_move_time_white,
+               avg_move_time_black]
     return results
 
 
