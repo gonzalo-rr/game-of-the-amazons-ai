@@ -2,7 +2,7 @@ from amazons.AmazonsLogic import Board
 import pygame
 
 from amazons.algorithms import RandomAlgorithm, GreedyAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
+from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
 from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
@@ -60,33 +60,35 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random", "Mobility", "Minimax"]
+        options = ["Human", "Random", "Minimax", "MCTS"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
                               options, self.big_font, self.font)
 
         # Game pieces
-        self.white_amazon = pygame.image.load('assets/images/white_amazon.png')
+        self.white_amazon = pygame.image.load('amazons/assets/images/white_amazon.png')
         self.white_amazon = pygame.transform.scale(self.white_amazon, (80, 80))
 
-        self.black_amazon = pygame.image.load('assets/images/black_amazon.png')
+        self.black_amazon = pygame.image.load('amazons/assets/images/black_amazon.png')
         self.black_amazon = pygame.transform.scale(self.black_amazon, (80, 80))
 
-        self.blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
+        self.blocked_tile = pygame.image.load('amazons/assets/images/blocked_tile.png')
         self.blocked_tile = pygame.transform.scale(self.blocked_tile, (80, 80))
 
         # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
         # minimax = MinimaxAlgorithm(5, 2)
-        minimaxMob = MinimaxAlgorithmMobility(5, 2)
-        minimax = MinimaxAlgorithm(5, 2)
+        # minimaxMob = MinimaxAlgorithmMobility(5, 2)
+        minimax = MinimaxAlgorithmTerritory(5, 2)
+        mcts = MCTSAlgorithm(10)
 
         # Players
         self.players = [
             HumanPlayer(self),
             AIPlayer(self, RandomAlgorithm, wait_time),
-            AIPlayer(self, minimaxMob, wait_time),
-            AIPlayer(self, minimax, wait_time)
+            # AIPlayer(self, minimaxMob, wait_time),
+            AIPlayer(self, minimax, wait_time),
+            AIPlayer(self, mcts, wait_time)
         ]
         self.white_player = self.players[0]
         self.black_player = self.players[0]
