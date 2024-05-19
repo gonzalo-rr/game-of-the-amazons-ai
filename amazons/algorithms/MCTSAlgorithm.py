@@ -73,16 +73,19 @@ class MCTSAlgorithm:
 
         finished = False
         while not finished:
+            if current_state.is_win(node.player):
+                win = 1
+                break
+            if current_state.is_win(-node.player):
+                break
+
             moves = current_state.get_legal_moves(current_player)
+
             move = random.choice(moves)  # random move
             current_state.execute_move(move, current_player)
             current_player *= -1
 
-            if current_state.is_win(node.player):
-                finished = True
-                win = 1
-            if current_state.is_win(-node.player):
-                finished = True
+
 
         return win
 

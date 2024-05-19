@@ -1,7 +1,7 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms import RandomAlgorithm, GreedyAlgorithmMobility
+from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
 from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
@@ -85,7 +85,7 @@ class GameGUI:
         # Players
         self.players = [
             HumanPlayer(self),
-            AIPlayer(self, RandomAlgorithm, wait_time),
+            AIPlayer(self, RandomAlgorithm(), wait_time),
             # AIPlayer(self, minimaxMob, wait_time),
             AIPlayer(self, minimax, wait_time),
             AIPlayer(self, mcts, wait_time)
