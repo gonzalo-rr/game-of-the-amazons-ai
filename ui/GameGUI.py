@@ -1,14 +1,16 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms import RandomAlgorithm, GreedyAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
+from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
+from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
 from amazons.players.AIPlayer import AIPlayer
+
+import threading
 
 wait_time = 0000
 
@@ -67,26 +69,25 @@ class GameGUI:
                               options, self.big_font, self.font)
 
         # Game pieces
-        self.white_amazon = pygame.image.load('assets/images/white_amazon.png')
+        self.white_amazon = pygame.image.load('amazons/assets/images/white_amazon.png')
         self.white_amazon = pygame.transform.scale(self.white_amazon, (80, 80))
 
-        self.black_amazon = pygame.image.load('assets/images/black_amazon.png')
+        self.black_amazon = pygame.image.load('amazons/assets/images/black_amazon.png')
         self.black_amazon = pygame.transform.scale(self.black_amazon, (80, 80))
 
-        self.blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
+        self.blocked_tile = pygame.image.load('amazons/assets/images/blocked_tile.png')
         self.blocked_tile = pygame.transform.scale(self.blocked_tile, (80, 80))
 
         # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
         # minimax = MinimaxAlgorithm(5, 2)
         minimaxMob = MinimaxAlgorithmMobility(5, 2)
-        minimax = MinimaxAlgorithm(5, 2)
 
         # Players
         self.players = [
             HumanPlayer(self),
-            AIPlayer(self, RandomAlgorithm, wait_time),
-            AIPlayer(self, minimaxMob, wait_time),
-            AIPlayer(self, minimax, wait_time)
+            AIPlayer(self, RandomAlgorithm(), wait_time),
+            AIPlayer(self, GreedyAlgorithmMobility(), wait_time),
+            AIPlayer(self, minimaxMob, wait_time)
         ]
         self.white_player = self.players[0]
         self.black_player = self.players[0]
@@ -200,7 +201,9 @@ class GameGUI:
 
     def handle_turn(self, turn):
         player = self.white_player if turn == 1 else self.black_player
-        player.make_move()
+        thread = threading.Thread(target=lambda: player.make_move())
+        thread.daemon = True
+        thread.start()
 
     def make_move(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not self.game_over:
@@ -302,6 +305,7 @@ class GameGUI:
                 # Quit game
                 if event.type == pygame.QUIT:
                     self.running = False
+                    exit(-1)
 
                 # Menu options and Game start
                 if not self.playing:

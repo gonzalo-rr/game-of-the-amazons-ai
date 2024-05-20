@@ -52,9 +52,9 @@ def main():
 
     # calculate_copy_times()
 
-    # run_gui()
+    run_gui()
 
-    match_training()
+    # match_training()
 
     # test_parallelization()
 
