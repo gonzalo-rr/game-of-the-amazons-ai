@@ -4,7 +4,7 @@ from collections import deque
 from copy import copy
 
 from amazons.AmazonsLogic import Board
-from amazons.assets.HistoryTable10 import HistoryTable10
+from amazons.assets.HistoryTableRT import HistoryTableRT
 
 sys.setrecursionlimit(2_000)
 
@@ -19,11 +19,11 @@ class MinimaxAlgorithmRelativeTerritory:
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
-        self.history_table = HistoryTable10()
+        self.history_table = HistoryTableRT()
         self.end = 0
 
     def __str__(self):
-        return 'Minimax Territory'
+        return 'Minimax Relative Territory'
 
     def make_move(self, board, player):
         new_board = Board(board)
@@ -153,19 +153,21 @@ def calculate_distance(board, start, end):
     return float('inf')
 
 
-def difference(white_moves, black_moves):
-    k = 10
-    if white_moves > 9999:
-        if black_moves > 9999:
-            return 0
-        else:
-            return -k
-    if black_moves > 9999:
+def difference(D1, D2):
+    # 5 if D2 is inf and D1 is not
+    # -5 if D1 is inf and D2 is not
+    # 0 if both are inf
+    # D2 - D1 otherwise
+
+    k = 5
+    if D2 > 9999 and D1 < 9999:
         return k
-    if white_moves == black_moves:
+    if D1 > 9999 and D2 < 9999:
+        return -k
+    if D1 > 9999 and D2 > 9999:
         return 0
     else:
-        return black_moves - white_moves
+        return D2 - D1
 
 
 def evaluate_territory(board):
@@ -247,11 +249,6 @@ def evaluate_territory(board):
     for i in range(board.n):
         for j in range(board.n):
             if board[i][j] == 0:  # Empty square
-                # t1 += difference(board_white[i][j], board_black[i][j])
-                # if board_white[i][j] > board_black[i][j]:  # Reached first by black
-                #     t1 -= abs(board_white[i][j] - board_black[i][j])
-                # elif board_white[i][j] < board_black[i][j]:  # Reached first by white
-                #     t1 += abs(board_white[i][j] - board_black[i][j])
                 t1 += difference(board_white[i][j], board_black[i][j])
 
     return t1

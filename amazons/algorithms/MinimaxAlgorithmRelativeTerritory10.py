@@ -4,7 +4,7 @@ from collections import deque
 from copy import copy
 
 from amazons.AmazonsLogic import Board
-from amazons.assets.HistoryTable5 import HistoryTable5
+from amazons.assets.HistoryTable10 import HistoryTable10
 
 sys.setrecursionlimit(2_000)
 
@@ -14,12 +14,12 @@ black - min
 """
 
 
-class MinimaxAlgorithmRelativeTerritory5:
+class MinimaxAlgorithmRelativeTerritory:
 
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
-        self.history_table = HistoryTable5()
+        self.history_table = HistoryTable10()
         self.end = 0
 
     def __str__(self):
@@ -154,7 +154,7 @@ def calculate_distance(board, start, end):
 
 
 def difference(white_moves, black_moves):
-    k = 5
+    k = 10
     if white_moves > 9999:
         if black_moves > 9999:
             return 0

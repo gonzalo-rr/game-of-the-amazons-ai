@@ -4,13 +4,14 @@ from copy import copy, deepcopy
 import pygame
 
 from amazons.AmazonsLogic import Board
+from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmRelativeTerritory5 import MinimaxAlgorithmRelativeTerritory5
 from amazons.algorithms.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
+from amazons.algorithms.MinimaxAlgorithmRelativeTerritory10 import MinimaxAlgorithmRelativeTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
-from amazons.assets.HistoryTable import HistoryTable
+from amazons.assets.HistoryTableT import HistoryTableT
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
 import csv
@@ -85,12 +86,28 @@ def main():
     #     (minimaxMobility5, minimaxRTerritory5, 'Game4')
     # )
 
-    # Minimax Relative Territory 5 vs Minimax Relative Territory 10
-    minimaxRTerritory5 = MinimaxAlgorithmRelativeTerritory5(2, 10)
-    minimaxRTerritory10 = MinimaxAlgorithmRelativeTerritory(2, 10)
+    # Minimax Territory 5 vs Minimax Relative Territory 1 max depth
+    minimaxT = MinimaxAlgorithmTerritory(1, 10)
+    minimaxRT = MinimaxAlgorithmRelativeTerritory(1, 10)
 
     matches.append(
-        (minimaxRTerritory5, minimaxRTerritory10, 'MinimaxRT5VMinimaxRT10.csv')
+        (minimaxT, minimaxRT, 'MinimaxTVMinimaxRT1rec.csv')
+    )
+
+    # Minimax Territory 5 vs Minimax Relative Territory 3 max depth
+    minimaxT = MinimaxAlgorithmTerritory(3, 10)
+    minimaxRT = MinimaxAlgorithmRelativeTerritory(3, 10)
+
+    matches.append(
+        (minimaxT, minimaxRT, 'MinimaxTVMinimaxRT3rec.csv')
+    )
+
+    # Minimax Territory 5 vs Minimax Relative Territory 5 max depth
+    minimaxT = MinimaxAlgorithmTerritory(5, 10)
+    minimaxRT = MinimaxAlgorithmRelativeTerritory(5, 10)
+
+    matches.append(
+        (minimaxT, minimaxRT, 'MinimaxTVMinimaxRT5rec.csv')
     )
 
     match_training(matches, n_matches)

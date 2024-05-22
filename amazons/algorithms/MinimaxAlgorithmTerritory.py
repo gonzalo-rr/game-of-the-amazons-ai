@@ -4,7 +4,7 @@ from collections import deque
 from copy import copy
 
 from amazons.AmazonsLogic import Board
-from amazons.assets.HistoryTable import HistoryTable
+from amazons.assets.HistoryTableT import HistoryTableT
 
 sys.setrecursionlimit(2_000)
 
@@ -19,7 +19,7 @@ class MinimaxAlgorithmTerritory:
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
-        self.history_table = HistoryTable()
+        self.history_table = HistoryTableT()
         self.end = 0
 
     def __str__(self):
@@ -154,20 +154,19 @@ def calculate_distance(board, start, end):
 
 
 def difference(D1, D2):
-    k = 1 / 5
-    if D1 > 9999:
-        if D2 > 9999:
-            return 0
-        else:
-            return -10
-    if D2 > 9999:
-        return 10
-    if D1 == D2:
+    # 0 if both are inf
+    # 1 / 5 if both are equal and not inf
+    # 1 if D1 < D2
+    # -1 if D1 > D2
+
+    if D1 > 9999 and D2 > 9999:
         return 0
+    if D1 == D2 and D1 < 9999 and D2 < 9999:
+        return 1 / 5
+    if D1 < D2:
+        return 1
     if D1 > D2:
-        return -1 * abs(D1 - D2)
-    else:
-        return abs(D1 - D2)
+        return -1
 
 
 def evaluate_territory(board):
@@ -249,11 +248,6 @@ def evaluate_territory(board):
     for i in range(board.n):
         for j in range(board.n):
             if board[i][j] == 0:  # Empty square
-                # t1 += difference(board_white[i][j], board_black[i][j])
-                # if board_white[i][j] > board_black[i][j]:  # Reached first by black
-                #     t1 -= abs(board_white[i][j] - board_black[i][j])
-                # elif board_white[i][j] < board_black[i][j]:  # Reached first by white
-                #     t1 += abs(board_white[i][j] - board_black[i][j])
                 t1 += difference(board_white[i][j], board_black[i][j])
 
     return t1
