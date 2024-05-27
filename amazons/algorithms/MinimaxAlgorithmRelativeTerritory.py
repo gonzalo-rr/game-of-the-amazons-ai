@@ -4,7 +4,7 @@ from collections import deque
 from copy import copy
 
 from amazons.AmazonsLogic import Board
-from amazons.assets.HistoryTableT import HistoryTableT
+from amazons.assets.HistoryTableRT import HistoryTableRT
 
 sys.setrecursionlimit(2_000)
 
@@ -14,16 +14,16 @@ black - min
 """
 
 
-class MinimaxAlgorithmTerritory:
+class MinimaxAlgorithmRelativeTerritory:
 
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
-        self.history_table = HistoryTableT()
+        self.history_table = HistoryTableRT()
         self.end = 0
 
     def __str__(self):
-        return 'Minimax Territory'
+        return 'Minimax Relative Territory'
 
     def make_move(self, board, player):
         new_board = Board(board)
@@ -154,19 +154,20 @@ def calculate_distance(board, start, end):
 
 
 def difference(D1, D2):
+    # 5 if D2 is inf and D1 is not
+    # -5 if D1 is inf and D2 is not
     # 0 if both are inf
-    # 1 / 5 if both are equal and not inf
-    # 1 if D1 < D2
-    # -1 if D1 > D2
+    # D2 - D1 otherwise
 
+    k = 5
+    if D2 > 9999 and D1 < 9999:
+        return k
+    if D1 > 9999 and D2 < 9999:
+        return -k
     if D1 > 9999 and D2 > 9999:
         return 0
-    if D1 == D2 and D1 < 9999 and D2 < 9999:
-        return 1 / 5
-    if D1 < D2:
-        return 1
-    if D1 > D2:
-        return -1
+    else:
+        return D2 - D1
 
 
 def evaluate_territory(board):

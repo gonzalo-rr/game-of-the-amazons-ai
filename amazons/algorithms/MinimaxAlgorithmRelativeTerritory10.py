@@ -4,7 +4,7 @@ from collections import deque
 from copy import copy
 
 from amazons.AmazonsLogic import Board
-from amazons.assets.HistoryTableT import HistoryTableT
+from amazons.assets.HistoryTable10 import HistoryTable10
 
 sys.setrecursionlimit(2_000)
 
@@ -14,12 +14,12 @@ black - min
 """
 
 
-class MinimaxAlgorithmTerritory:
+class MinimaxAlgorithmRelativeTerritory:
 
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
-        self.history_table = HistoryTableT()
+        self.history_table = HistoryTable10()
         self.end = 0
 
     def __str__(self):
@@ -153,20 +153,19 @@ def calculate_distance(board, start, end):
     return float('inf')
 
 
-def difference(D1, D2):
-    # 0 if both are inf
-    # 1 / 5 if both are equal and not inf
-    # 1 if D1 < D2
-    # -1 if D1 > D2
-
-    if D1 > 9999 and D2 > 9999:
+def difference(white_moves, black_moves):
+    k = 10
+    if white_moves > 9999:
+        if black_moves > 9999:
+            return 0
+        else:
+            return -k
+    if black_moves > 9999:
+        return k
+    if white_moves == black_moves:
         return 0
-    if D1 == D2 and D1 < 9999 and D2 < 9999:
-        return 1 / 5
-    if D1 < D2:
-        return 1
-    if D1 > D2:
-        return -1
+    else:
+        return black_moves - white_moves
 
 
 def evaluate_territory(board):
@@ -248,6 +247,11 @@ def evaluate_territory(board):
     for i in range(board.n):
         for j in range(board.n):
             if board[i][j] == 0:  # Empty square
+                # t1 += difference(board_white[i][j], board_black[i][j])
+                # if board_white[i][j] > board_black[i][j]:  # Reached first by black
+                #     t1 -= abs(board_white[i][j] - board_black[i][j])
+                # elif board_white[i][j] < board_black[i][j]:  # Reached first by white
+                #     t1 += abs(board_white[i][j] - board_black[i][j])
                 t1 += difference(board_white[i][j], board_black[i][j])
 
     return t1

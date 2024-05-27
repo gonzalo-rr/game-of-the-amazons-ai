@@ -2,9 +2,9 @@ import _pickle as pickle
 import os.path
 
 
-class HistoryTable:
+class HistoryTableT:
     def __init__(self):
-        if os.path.isfile('history_table.pkl'):  # Load table if it exists
+        if os.path.isfile('history_table_t.pkl'):  # Load table if it exists
             self.load_table()
         else:  # Create the table if it doesn't
             self.moves_table = [[[[0 for _ in range(10)] for _ in range(10)] for _ in range(10)] for _ in range(10)]
@@ -26,11 +26,11 @@ class HistoryTable:
         self.arrows_table[shoot[0]][shoot[1]] += weight
 
     def save_table(self):
-        with open('history_table.pkl', 'wb') as output:
+        with open('history_table_t.pkl', 'wb') as output:
             pickle.dump(self, output)
 
     def load_table(self):
-        with open('history_table.pkl', 'rb') as inp:
+        with open('history_table_t.pkl', 'rb') as inp:
             history_table = pickle.load(inp)
             self.moves_table = history_table.moves_table
             self.arrows_table = history_table.arrows_table

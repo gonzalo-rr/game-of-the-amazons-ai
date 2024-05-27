@@ -3,7 +3,7 @@ import pygame
 
 from amazons.algorithms import RandomAlgorithm, GreedyAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from ui.DropDown import DropDown
