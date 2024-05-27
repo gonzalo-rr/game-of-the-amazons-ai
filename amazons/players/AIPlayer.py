@@ -2,8 +2,6 @@ import time
 
 import pygame
 
-from amazons.algorithms import RandomAlgorithm, GreedyAlgorithmMobility
-
 
 class AIPlayer:
 

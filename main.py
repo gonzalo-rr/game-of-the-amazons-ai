@@ -4,12 +4,14 @@ from copy import copy, deepcopy
 import pygame
 
 from amazons.AmazonsLogic import Board
+from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
 from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
+from amazons.algorithms.mcts_tree.Node import Node
 from amazons.assets.HistoryTable import HistoryTable
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
@@ -17,6 +19,17 @@ import csv
 
 
 def main():
+    # mcts = MCTSAlgorithm(10)
+    # b = Board(False)
+    # mcts.make_move(b, 1)
+
+
+    # node = Node(b, 1)
+    # node.expand()
+    # print(len(node.children))
+
+
+
     # board = Board(False)
     # board.board = [
     #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0],
