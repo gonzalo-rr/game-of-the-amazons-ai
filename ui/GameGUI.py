@@ -1,7 +1,8 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms import RandomAlgorithm, GreedyAlgorithmMobility
+from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
+from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
 from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
 from amazons.algorithms.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
@@ -35,6 +36,7 @@ class GameGUI:
         self.playing = False
         self.game_over = False
         self.waiting = 0
+        self.making_move = False
 
         self.width = self.board.n * tile_size
         self.height = self.board.n * tile_size
@@ -62,7 +64,7 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random", "Minimax", "MCTS"]
+        options = ["Human", "Random", "MCTS"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
@@ -81,15 +83,13 @@ class GameGUI:
         # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
         # minimax = MinimaxAlgorithm(5, 2)
         # minimaxMob = MinimaxAlgorithmMobility(5, 2)
-        minimax = MinimaxAlgorithmTerritory(5, 2)
-        mcts = MCTSAlgorithm(10)
+        mcts = MCTSAlgorithm(1000, 100)
 
         # Players
         self.players = [
             HumanPlayer(self),
             AIPlayer(self, RandomAlgorithm(), wait_time),
             # AIPlayer(self, minimaxMob, wait_time),
-            AIPlayer(self, minimax, wait_time),
             AIPlayer(self, mcts, wait_time)
         ]
         self.white_player = self.players[0]
@@ -100,7 +100,7 @@ class GameGUI:
 
     def restart_game(self):
         # Game board
-        self.board = Board()
+        self.board = Board(False)
 
         # Game variables
         # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,
@@ -204,9 +204,14 @@ class GameGUI:
 
     def handle_turn(self, turn):
         player = self.white_player if turn == 1 else self.black_player
-        thread = threading.Thread(target=lambda: player.make_move())
-        thread.daemon = True
-        thread.start()
+        if player.is_human():
+            player.make_move()
+        else:
+            if not self.making_move:
+                thread = threading.Thread(target=lambda: player.make_move())
+                thread.daemon = True
+                thread.start()
+                self.making_move = True
 
     def make_move(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not self.game_over:
@@ -222,8 +227,9 @@ class GameGUI:
     def handle_click(self, click_coords, player):
         positions = self.white_positions if player == 1 else self.black_positions
 
-        if click_coords in positions:  # Select a piece
-            self.select_amazon(click_coords)
+        if self.turn_step != 2 and self.turn_step != 5:  # Piece not already selected
+            if click_coords in positions:  # Select a piece
+                self.select_amazon(click_coords)
 
         if click_coords in self.valid_moves and self.selection is not None:
             if player == 1:

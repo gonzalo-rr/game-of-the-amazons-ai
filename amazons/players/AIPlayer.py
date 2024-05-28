@@ -11,6 +11,9 @@ class AIPlayer:
         self.algorithm = algorithm
         self.wait_time = wait_time
 
+    def is_human(self):
+        return False
+
     def wait(self, millis):
         end = round(time.time() * 1000) + millis
         while round(time.time() * 1000) < end:
@@ -50,3 +53,5 @@ class AIPlayer:
         pygame.event.post(event1)
         pygame.event.post(event2)
         pygame.event.post(event3)
+
+        self.game.making_move = False

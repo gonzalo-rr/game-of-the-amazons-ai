@@ -7,7 +7,9 @@ from amazons.algorithms.mcts_tree.Node import Node
 
 class MCTSAlgorithm:
 
-    def __init__(self, max_time):
+    def __init__(self, max_simulations, max_time):
+        self.max_simulations = max_simulations
+        self.simulations = 0
         self.max_time = max_time
         self.end = 0
         self.root = None
@@ -18,12 +20,16 @@ class MCTSAlgorithm:
     def make_move(self, board, player):
         new_board = Board(board)
 
+        self.simulations = 0
         self.end = time.time() + self.max_time
+        print(time.time())
+        print(self.end)
+        print(self.max_time)
         self.root = Node(new_board, None, player)
 
         self.root.expand()
         count = 1
-        while time.time() <= self.end:
+        while time.time() <= self.end and self.simulations < self.max_simulations:
             # print("count", count)
             # Selection
             best_node, best_ucb = self.select(self.root)
@@ -42,7 +48,15 @@ class MCTSAlgorithm:
 
             count+=1
 
-        self.root.children.sort(key=lambda c: c.w)
+        self.root.children.sort(key=lambda c: self.selection(c), reverse=True)
+        print(len(self.root.children))
+        node1 = self.root.children[0]
+        node2 = self.root.children[1]
+        print(node1.s)
+        print(node1.w)
+        print(node2.s)
+        print(node2.w)
+        print(self.simulations)
         # print(self.root.children[0].action)
         return self.root.children[0].action
 
@@ -66,6 +80,7 @@ class MCTSAlgorithm:
         return best_node, best_ucb
 
     def simulate(self, node):
+        self.simulations += 1
         win = 0
 
         current_state = Board(node.state)
@@ -85,8 +100,6 @@ class MCTSAlgorithm:
             current_state.execute_move(move, current_player)
             current_player *= -1
 
-
-
         return win
 
     def backpropagation(self, node, win):
@@ -98,3 +111,6 @@ class MCTSAlgorithm:
             current_node.parent.w += win
             current_node.parent.s += 1
             current_node = current_node.parent
+
+    def selection(self, node):
+        return node.w

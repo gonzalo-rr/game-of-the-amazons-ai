@@ -12,7 +12,6 @@ from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerrito
 from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from amazons.algorithms.mcts_tree.Node import Node
-from amazons.assets.HistoryTable import HistoryTable
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
 import csv

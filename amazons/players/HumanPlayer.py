@@ -6,6 +6,9 @@ class HumanPlayer:
     def __init__(self, game_gui):
         self.game = game_gui
 
+    def is_human(self):
+        return True
+
     def make_move(self):
         for event in self.game.event_queue:
             # Quit game

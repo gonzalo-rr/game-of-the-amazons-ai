@@ -11,9 +11,9 @@ class Node:
         self.player = player
         self.parent = None
         self.children = []
-        self.w = 0
-        self.s = 0
-        self.c = 2
+        self.w = 0  # number of simulations resulting in a win
+        self.s = 0  # number of simulations
+        self.c = 2  # exploration parameter
         self.N = 0
 
     def ucb_score(self):

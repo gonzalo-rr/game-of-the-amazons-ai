@@ -3,8 +3,11 @@ import random
 
 class RandomAlgorithm:
 
+    def __init__(self):
+        self.name = 'Random Algorithm'
+
     def __str__(self):
-        return 'Random Algorithm'
+        return self.name
 
     def make_move(self, board, player):
         moves = board.get_legal_moves(player)
