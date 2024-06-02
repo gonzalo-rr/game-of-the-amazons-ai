@@ -5,6 +5,7 @@ import pygame
 
 from amazons.AmazonsLogic import Board
 from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
+from amazons.algorithms.MinimaxAlgorithmTerritoryMobility import *
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
@@ -65,6 +66,28 @@ def main():
     # calculate_copy_times()
 
     run_gui()
+
+    # calculate_king_moves(Board(False))
+    # b = Board(False)
+    # b.board = [
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
+    #     [0, 0, 0, 0, 2, 0, 0, 2, 0, 0],
+    #     [0, 0, 0, 1, 0, -1, 0, 0, 0, 0],
+    #     [0, 0, 2, 2, 0, -1, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+    #     [0, 2, -1, 2, 0, 2, 2, 2, 2, 2],
+    #     [0, 0, 0, 0, 0, 2, 1, 1, 2, 0],
+    #     [0, 0, 0, 1, 2, 2, 0, 2, 0, 0],
+    #     [0, 2, -1, 0, 0, 2, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
+    #      ]
+    # b.white_positions = [(2,3),(6,6),(6,7),(7,3)]
+    # b.black_positions = [(2,5), (3,5), (5,2), (8,2)]
+    # b.print_board()
+    # print()
+    # _, bw, bb = evaluate_territory(b)
+    # evaluate_individual_mobility(b, bw, bb)
+
 
     # match_training()
 

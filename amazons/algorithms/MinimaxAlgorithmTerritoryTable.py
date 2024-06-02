@@ -1,4 +1,3 @@
-import random
 import sys
 import time
 from collections import deque
@@ -15,11 +14,12 @@ black - min
 """
 
 
-class MinimaxAlgorithmTerritory:
+class MinimaxAlgorithmTerritoryTable:
 
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
+        self.history_table = HistoryTableT()
         self.end = 0
 
     def __str__(self):
@@ -38,11 +38,12 @@ class MinimaxAlgorithmTerritory:
             if new_best_move is not None:
                 best_move = new_best_move
 
+        self.history_table.save_table()
         return best_move
 
     def minimax(self, board, player, alpha, beta, depth):
         if board.is_win(player) or board.is_win(-player) or depth == self.max_depth:
-            return evaluate_territory(board, player), None
+            return evaluate_territory(board)
         else:
             best_score = player * float('-inf')
             best_move = None
@@ -51,7 +52,12 @@ class MinimaxAlgorithmTerritory:
             if len(moves) == 1:
                 best_move = moves[0]
 
-            random.shuffle(moves)
+            rating = [0 for _ in range(len(moves))]
+
+            for i, move in enumerate(moves):  # Rating all moves
+                rating[i] = self.history_table.get_rating(move) / 4  # ??
+
+            moves = sort_moves(moves, rating)
 
             for move in moves:
                 board.execute_move(move, player)
@@ -65,6 +71,7 @@ class MinimaxAlgorithmTerritory:
 
                     alpha = max(alpha, score)
                     if beta <= alpha:
+                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
                         break
                 else:
                     if score < best_score:
@@ -73,9 +80,16 @@ class MinimaxAlgorithmTerritory:
 
                     beta = min(beta, score)
                     if beta <= alpha:
+                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
                         break
 
             return best_score, best_move
+
+
+def sort_moves(moves, rating):
+    combi = zip(moves, rating)
+    combi = sorted(combi, key=lambda c: c[1], reverse=True)
+    return [item[0] for item in combi]
 
 
 def weight(depth):
@@ -139,25 +153,23 @@ def calculate_distance(board, start, end):
     return float('inf')
 
 
-def difference(D1, D2, player):
+def difference(D1, D2):
     # 0 if both are inf
-    # k if both are equal and not inf (k can be 1/5 or -1/5 depending on the turn)
+    # 1 / 5 if both are equal and not inf
     # 1 if D1 < D2
     # -1 if D1 > D2
-
-    k = (1 / 5) * player
 
     if D1 > 9999 and D2 > 9999:
         return 0
     if D1 == D2 and D1 < 9999 and D2 < 9999:
-        return k
+        return 1 / 5
     if D1 < D2:
         return 1
     if D1 > D2:
         return -1
 
 
-def evaluate_territory(board, player):
+def evaluate_territory(board):
     if board.is_win(1):
         return 9999
     if board.is_win(-1):
@@ -230,13 +242,13 @@ def evaluate_territory(board, player):
         if len(new_squares) == 0:  # Check if there are no more squares to be marked
             all_reached = True
 
-    # Third: for each empty square, calculate the difference between white and black scores
+        # Third: for each empty square, calculate the difference between white and black scores
 
     t1 = 0  # evaluation for queen moves
     for i in range(board.n):
         for j in range(board.n):
             if board[i][j] == 0:  # Empty square
-                t1 += difference(board_white[i][j], board_black[i][j], player)
+                t1 += difference(board_white[i][j], board_black[i][j])
 
     return t1
 

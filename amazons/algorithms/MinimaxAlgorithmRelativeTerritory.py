@@ -1,3 +1,4 @@
+import random
 import sys
 import time
 from collections import deque
@@ -19,7 +20,6 @@ class MinimaxAlgorithmRelativeTerritory:
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
         self.max_time = max_time
-        self.history_table = HistoryTableRT()
         self.end = 0
 
     def __str__(self):
@@ -38,7 +38,6 @@ class MinimaxAlgorithmRelativeTerritory:
             if new_best_move is not None:
                 best_move = new_best_move
 
-        self.history_table.save_table()
         return best_move
 
     def minimax(self, board, player, alpha, beta, depth):
@@ -52,12 +51,7 @@ class MinimaxAlgorithmRelativeTerritory:
             if len(moves) == 1:
                 best_move = moves[0]
 
-            rating = [0 for _ in range(len(moves))]
-
-            for i, move in enumerate(moves):  # Rating all moves
-                rating[i] = self.history_table.get_rating(move) / 4  # ??
-
-            moves = sort_moves(moves, rating)
+            random.shuffle(moves)
 
             for move in moves:
                 board.execute_move(move, player)
@@ -71,7 +65,6 @@ class MinimaxAlgorithmRelativeTerritory:
 
                     alpha = max(alpha, score)
                     if beta <= alpha:
-                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
                         break
                 else:
                     if score < best_score:
@@ -80,16 +73,9 @@ class MinimaxAlgorithmRelativeTerritory:
 
                     beta = min(beta, score)
                     if beta <= alpha:
-                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
                         break
 
             return best_score, best_move
-
-
-def sort_moves(moves, rating):
-    combi = zip(moves, rating)
-    combi = sorted(combi, key=lambda c: c[1], reverse=True)
-    return [item[0] for item in combi]
 
 
 def weight(depth):

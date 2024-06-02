@@ -5,7 +5,6 @@ from collections import deque
 from copy import copy
 
 from amazons.AmazonsLogic import Board
-from amazons.assets.HistoryTableT import HistoryTableT
 
 sys.setrecursionlimit(2_000)
 
@@ -15,7 +14,7 @@ black - min
 """
 
 
-class MinimaxAlgorithmTerritory:
+class MinimaxAlgorithmTerritoryMobility:
 
     def __init__(self, max_depth, max_time):
         self.max_depth = max_depth
@@ -42,7 +41,9 @@ class MinimaxAlgorithmTerritory:
 
     def minimax(self, board, player, alpha, beta, depth):
         if board.is_win(player) or board.is_win(-player) or depth == self.max_depth:
-            return evaluate_territory(board, player), None
+            t1, board_white, board_black = evaluate_territory(board)
+            m = evaluate_individual_mobility(board, board_white, board_black)
+            return (t1 + m), None
         else:
             best_score = player * float('-inf')
             best_move = None
@@ -78,36 +79,11 @@ class MinimaxAlgorithmTerritory:
             return best_score, best_move
 
 
+directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
+
+
 def weight(depth):
     return depth * depth
-
-
-def evaluate_territory1(board):
-    # First: initialize the territory boards of white and black
-
-    board_white = [0] * board.n  # white territory evaluation for queen moves
-    board_black = [0] * board.n  # black territory evaluation for queen moves
-
-    for i in range(board.n):
-        board_white[i] = [0] * board.n
-        board_black[i] = [0] * board.n
-
-    # Second: calculate the number of queen and king moves to each square for black and white
-
-    for i in range(board.n):
-        for j in range(board.n):
-            if board[i][j] == 0:  # Empty square
-                board_white[i][j] = calculate_full_distance(board, (i, j), 1)
-                board_black[i][j] = calculate_full_distance(board, (i, j), -1)
-
-    # Third: for each empty square, calculate the difference between white and black scores
-
-    t1 = 0  # evaluation for queen moves
-    for i in range(board.n):
-        for j in range(board.n):
-            if board[i][j] == 0:  # Empty square
-                t1 += difference(board_white[i][j], board_black[i][j])
-    return t1
 
 
 def calculate_full_distance(board, square, player):
@@ -139,30 +115,23 @@ def calculate_distance(board, start, end):
     return float('inf')
 
 
-def difference(D1, D2, player):
+def difference(D1, D2):
     # 0 if both are inf
-    # k if both are equal and not inf (k can be 1/5 or -1/5 depending on the turn)
+    # 1 / 5 if both are equal and not inf
     # 1 if D1 < D2
     # -1 if D1 > D2
-
-    k = (1 / 5) * player
 
     if D1 > 9999 and D2 > 9999:
         return 0
     if D1 == D2 and D1 < 9999 and D2 < 9999:
-        return k
+        return 1 / 5
     if D1 < D2:
         return 1
     if D1 > D2:
         return -1
 
 
-def evaluate_territory(board, player):
-    if board.is_win(1):
-        return 9999
-    if board.is_win(-1):
-        return -9999
-
+def evaluate_territory(board):
     # First: initialize the territory boards of white and black
 
     board_white = [float('inf')] * board.n  # white territory evaluation for queen moves
@@ -171,6 +140,11 @@ def evaluate_territory(board, player):
     for i in range(board.n):
         board_white[i] = [float('inf')] * board.n
         board_black[i] = [float('inf')] * board.n
+
+    if board.is_win(1):
+        return 9999, board_white, board_black
+    if board.is_win(-1):
+        return -9999, board_white, board_black
 
     # Second: calculate the number of queen moves to each square for white and black
 
@@ -236,9 +210,9 @@ def evaluate_territory(board, player):
     for i in range(board.n):
         for j in range(board.n):
             if board[i][j] == 0:  # Empty square
-                t1 += difference(board_white[i][j], board_black[i][j], player)
+                t1 += difference(board_white[i][j], board_black[i][j])
 
-    return t1
+    return t1, board_white, board_black
 
 
 # If no unmarked squares are reached, that means that all reachable squares have been reached
@@ -247,3 +221,65 @@ def all_squares_marked(new_squares, reached_squares):
         if square not in reached_squares:
             return False
     return True
+
+
+def evaluate_individual_mobility(board, board_white, board_black):
+    king_moves_board = calculate_king_moves(board)
+    # Player 1 (white)
+    mov_white = 0
+    for amazon in board.white_positions:
+        mov_white += calculate_mobility(king_moves_board, board, board_black, amazon)
+
+    mov_black = 0
+    # Player 2 (black)
+    for amazon in board.black_positions:
+        mov_black += calculate_mobility(king_moves_board, board, board_white, amazon)
+
+    return mov_white - mov_black
+
+
+def calculate_king_moves(board):
+    new_board = [0] * board.n
+    for i in range(board.n):
+        new_board[i] = [0] * board.n
+
+    for i in range(board.n):
+        for j in range(board.n):
+            if board[i][j] == 0:
+                new_board[i][j] = calculate_free_squares_around(board, (i, j))
+
+    return new_board
+
+
+def calculate_free_squares_around(board, square):
+    free_squares = 0
+    for direction in directions:
+        x = square[0] + direction[0]
+        y = square[1] + direction[1]
+
+        if board.n > x >= 0 and board.n > y >= 0 and board.board[x][y] == 0:
+            if board[x][y] == 0:
+                free_squares += 1
+            x += direction[0]
+            y += direction[1]
+
+    return free_squares
+
+
+def calculate_mobility(king_moves_board, board, opponent_board, amazon):
+    alpha = 0
+
+    for direction in directions:
+        x = amazon[0] + direction[0]
+        y = amazon[1] + direction[1]
+
+        dist = 0
+        while board.n > x >= 0 and board.n > y >= 0 and board.board[x][y] == 0:
+            if board[x][y] == 0 and opponent_board[x][y] < 9999:
+                alpha += (king_moves_board[x][y]) / (2 ** dist)
+            x += direction[0]
+            y += direction[1]
+
+            dist += 1
+
+    return alpha
