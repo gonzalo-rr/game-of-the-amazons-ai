@@ -1,45 +1,23 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
-from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
-from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
-from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
-from amazons.algorithms.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritoryTable import MinimaxAlgorithmTerritoryTable
-from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
-from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
 from amazons.players.AIPlayer import AIPlayer
 
 import threading
 
+from ui.PlayersMenu import PlayersMenu
+
 wait_time = 0000
 
 
 class GameGUI:
-    def __init__(self, tile_size):
+    def __init__(self, tile_size, algorithms):
+        self.board = Board(False)
+
         # Game variables
         # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,
         # 3 - blacks turn no selection, 4 - blacks turn selection, 5 - blacks turn half move
-        self.board = Board(False)
-        # b = Board(False)
-        # b.board = [
-        #     [1, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 2],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, -1],
-        #      ]
-        # b.white_positions = [(0,0)]
-        # b.black_positions = [(9,9)]
-        # self.board = b
 
         self.turn_step = 0
         self.selection = None
@@ -65,8 +43,8 @@ class GameGUI:
 
         self.size = (self.total_width, self.total_height)
         self.screen = pygame.display.set_mode(self.size)
-        self.font = pygame.font.Font('freesansbold.ttf', 40)
-        self.big_font = pygame.font.Font('freesansbold.ttf', 50)
+        self.font = pygame.font.Font('freesansbold.ttf', 30)
+        self.big_font = pygame.font.Font('freesansbold.ttf', 40)
 
         self.timer = pygame.time.Clock()
         self.fps = 30
@@ -74,44 +52,27 @@ class GameGUI:
         # Play game button
         self.button_rect = pygame.Rect(self.width + tile_size, tile_size * 8, tile_size * 4, tile_size)
 
-        # Game menu
-        menu_rect1 = pygame.Rect(self.width + tile_size, tile_size, tile_size * 4, tile_size)
-        menu_rect2 = pygame.Rect(self.width + tile_size, tile_size * 3, tile_size * 4, tile_size)
-        self.screen.blit(self.font.render('White', True, 'black'),
-                         (menu_rect1.x, menu_rect1.y - tile_size / 2))
-        self.screen.blit(self.font.render('Black', True, 'black'),
-                         (menu_rect2.x, menu_rect2.y - tile_size / 2))
-
-        options = ["Human", "Random", "MinimaxT1", "MinimaxT2"]
-        self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
-                              options, self.big_font, self.font)
-        self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
-                              options, self.big_font, self.font)
-
-        # Game pieces
-        self.white_amazon = pygame.image.load('assets/images/white_amazon.png')
-        self.white_amazon = pygame.transform.scale(self.white_amazon, (80, 80))
-
-        self.black_amazon = pygame.image.load('assets/images/black_amazon.png')
-        self.black_amazon = pygame.transform.scale(self.black_amazon, (80, 80))
-
-        self.blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
-        self.blocked_tile = pygame.transform.scale(self.blocked_tile, (80, 80))
-
-        # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
-        # minimax = MinimaxAlgorithm(5, 2)
-        # minimaxTM = MinimaxAlgorithmTerritoryMobility(1, 1)
-        minimaxT = MinimaxAlgorithmTerritory(1, 1)
-        mcts = MCTSAlgorithm(1000, 100)
-
         # Players
-        self.players = [
-            HumanPlayer(self),
-            AIPlayer(self, RandomAlgorithm(), wait_time),
-            AIPlayer(self, minimaxT, wait_time),
-        ]
+        self.players = []
+        self.players.append(HumanPlayer(self))
+        for algorithm in algorithms:
+            self.players.append(AIPlayer(self, algorithm, wait_time))
         self.white_player = self.players[0]
         self.black_player = self.players[0]
+
+        # Game menu
+        self.menu = PlayersMenu(self.screen, (self.width + tile_size, tile_size), tile_size, self.players,
+                                self.big_font, self.font)
+
+        # Game pieces
+        self.white_amazon = pygame.image.load('amazons/assets/images/white_amazon.png')
+        self.white_amazon = pygame.transform.scale(self.white_amazon, (80, 80))
+
+        self.black_amazon = pygame.image.load('amazons/assets/images/black_amazon.png')
+        self.black_amazon = pygame.transform.scale(self.black_amazon, (80, 80))
+
+        self.blocked_tile = pygame.image.load('amazons/assets/images/blocked_tile.png')
+        self.blocked_tile = pygame.transform.scale(self.blocked_tile, (80, 80))
 
         # Event queue
         self.event_queue = None
@@ -170,19 +131,6 @@ class GameGUI:
         winner = 'WHITE' if player == 1 else 'BLACK'
         self.screen.blit(self.font.render(f'{winner} WON', True, 'black'), (420, 420))
 
-    def draw_menu(self):
-        self.screen.blit(self.font.render("White", True, "black"),
-                         (self.menu1.body.x, self.menu1.body.y - self.menu1.body.height / 2))
-        self.menu1.draw_menu(self.screen)
-        if not self.menu1.deployed:
-            self.screen.blit(self.font.render("Black", True, "black"),
-                             (self.menu2.body.x, self.menu2.body.y - self.menu2.body.height / 2))
-            self.menu2.draw_menu(self.screen)
-
-    def handle_menu_event(self, event):
-        if not self.menu1.handle_event(event):
-            self.menu2.handle_event(event)
-
     def draw_play_button(self):
         text = 'Play'
 
@@ -209,16 +157,12 @@ class GameGUI:
             if self.button_rect.collidepoint((event.pos[0], event.pos[1])):
                 return True
 
-    def set_players(self):
-        self.white_player = self.players[self.menu1.selected_option]
-        self.black_player = self.players[self.menu2.selected_option]
-
     def update_gui(self):
         self.screen.fill('gray')
         self.draw_board()
         self.draw_valid_moves()
         self.draw_pieces()
-        self.draw_menu()
+        self.menu.draw()
 
     def handle_turn(self, turn):
         player = self.white_player if turn == 1 else self.black_player
@@ -335,10 +279,10 @@ class GameGUI:
 
                 # Menu options and Game start
                 if not self.playing:
-                    self.handle_menu_event(event)
+                    self.menu.handle_menu_event(event)
                     if self.handle_play_event(event):
                         self.playing = True
-                        self.set_players()
+                        self.white_player, self.black_player = self.menu.get_players()
 
                 # Game restart
                 if self.game_over:
@@ -346,7 +290,7 @@ class GameGUI:
                         self.game_over = False
                         self.playing = True
                         self.restart_game()
-                        self.set_players()
+                        self.white_player, self.black_player = self.menu.get_players()
 
             pygame.display.flip()
         pygame.quit()

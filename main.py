@@ -180,7 +180,13 @@ def run_gui():
     pygame.init()
 
     tile_size = 100
-    gameGUI = GameGUI(tile_size)
+    algorithms = [
+        RandomAlgorithm(),
+        GreedyAlgorithmMobility(),
+        MinimaxAlgorithmTerritory(2, 5),
+    ]
+
+    gameGUI = GameGUI(tile_size, algorithms)
 
     gameGUI.run()
 
