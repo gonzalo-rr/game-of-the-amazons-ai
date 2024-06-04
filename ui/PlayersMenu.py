@@ -15,8 +15,8 @@ class PlayersMenu:
         x = location[0]
         y = location[1]
 
-        self.menu_rect1 = pygame.Rect(x, y, unit_size * 4, unit_size)
-        self.menu_rect2 = pygame.Rect(x, unit_size * 3, unit_size * 4, unit_size)
+        self.menu_rect1 = pygame.Rect(x, y, unit_size * 4, unit_size * (3 / 4))
+        self.menu_rect2 = pygame.Rect(x, unit_size * 3, unit_size * 4, unit_size * (3 / 4))
 
         self.screen.blit(font.render('White', True, 'black'),
                          (self.menu_rect1.x, self.menu_rect1.y - unit_size / 2))
