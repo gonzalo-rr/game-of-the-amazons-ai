@@ -1,6 +1,7 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
+from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
 from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
@@ -64,7 +65,7 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random", "MCTS"]
+        options = ["Human", "Greedy", "MCTS"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
@@ -83,12 +84,12 @@ class GameGUI:
         # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
         # minimax = MinimaxAlgorithm(5, 2)
         # minimaxMob = MinimaxAlgorithmMobility(5, 2)
-        mcts = MCTSAlgorithm(1000, 100)
+        mcts = MCTSAlgorithm(1000, 10)
 
         # Players
         self.players = [
             HumanPlayer(self),
-            AIPlayer(self, RandomAlgorithm(), wait_time),
+            AIPlayer(self, GreedyAlgorithmMobility(), wait_time),
             # AIPlayer(self, minimaxMob, wait_time),
             AIPlayer(self, mcts, wait_time)
         ]

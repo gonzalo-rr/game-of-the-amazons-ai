@@ -14,7 +14,6 @@ class GreedyAlgorithmMobility:
         best_move = moves[0]
 
         if len(moves) == 1:
-            print("hola")
             best_move = moves[0]
 
         for move in moves:

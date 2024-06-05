@@ -5,6 +5,7 @@ import pygame
 
 from amazons.AmazonsLogic import Board
 from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
+from amazons.algorithms.MCTSAlgorithm2 import MCTSAlgorithm2
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
@@ -31,17 +32,30 @@ def main():
 
     # board = Board(False)
     # board.board = [
-    #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [-1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    #      [0, 0, 0, 0, 2, 2, 2, 0, 0, 0],
-    #      [0, 0, 0, 0, 2, 0, 2, 0, 0, 0],
-    #      [-1, 0, 0, 0, 2, 2, 2, 0, 0, 1],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0]
-    #      ]
+    #     [-1, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [1, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [2, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     ]
+    # board.print_board()
+    # board.white_positions = [(2, 0)]
+    # board.black_positions = [(0, 0)]
+    #
+    # mcts = MCTSAlgorithm(500000, 30)
+    # m = mcts.make_move(board, 1)
+    #
+    # print(m)
+    #
+    # board.execute_move(m, 1)
+    #
+    # board.print_board()
+
     # # print(len(board.get_legal_moves(-1)))
     # # board.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
     # # board.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
@@ -64,9 +78,9 @@ def main():
 
     # calculate_copy_times()
 
-    run_gui()
+    # run_gui()
 
-    # match_training()
+    match_training()
 
     # test_parallelization()
 
@@ -167,27 +181,27 @@ def match_training():
 
     # First set of games: greedy (territory) vs greedy (mobility)
 
-    p1 = GreedyAlgorithmTerritory()
-    p2 = GreedyAlgorithmMobility()
-    play_n_games(p1, p2, n_matches, 'resultsGreedy.csv')
+    p1 = MCTSAlgorithm(5000, 10)
+    p2 = MCTSAlgorithm2(5000, 10)
+    play_n_games(p1, p2, n_matches, 'results.csv')
 
-    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 1
-
-    p1 = MinimaxAlgorithmMobility(1, 10)
-    p2 = MinimaxAlgorithmTerritory(1, 10)
-    play_n_games(p1, p2, n_matches, 'resultsMinimax1rec.csv')
-
-    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 3
-
-    p1 = MinimaxAlgorithmMobility(3, 5)
-    p2 = MinimaxAlgorithmTerritory(3, 5)
-    play_n_games(p1, p2, n_matches, 'resultsMinimax3rec.csv')
-
-    # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 5
-
-    p1 = MinimaxAlgorithmMobility(5, 5)
-    p2 = MinimaxAlgorithmTerritory(5, 5)
-    play_n_games(p1, p2, n_matches, 'resultsMinimax5rec.csv')
+    # # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 1
+    #
+    # p1 = MinimaxAlgorithmMobility(1, 10)
+    # p2 = MinimaxAlgorithmTerritory(1, 10)
+    # play_n_games(p1, p2, n_matches, 'resultsMinimax1rec.csv')
+    #
+    # # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 3
+    #
+    # p1 = MinimaxAlgorithmMobility(3, 5)
+    # p2 = MinimaxAlgorithmTerritory(3, 5)
+    # play_n_games(p1, p2, n_matches, 'resultsMinimax3rec.csv')
+    #
+    # # Second set of games: minimax (mobility) vs minimax (territory) recursion limit 5
+    #
+    # p1 = MinimaxAlgorithmMobility(5, 5)
+    # p2 = MinimaxAlgorithmTerritory(5, 5)
+    # play_n_games(p1, p2, n_matches, 'resultsMinimax5rec.csv')
 
     # Third set of games: greedy (mobility) vs greedy (territory)
 

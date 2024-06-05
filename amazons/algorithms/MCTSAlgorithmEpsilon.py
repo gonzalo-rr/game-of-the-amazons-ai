@@ -1,12 +1,11 @@
 import random
 import time
-import math
 
 from amazons.AmazonsLogic import Board
-from amazons.algorithms.mcts_tree.Node import Node
+from amazons.algorithms.mcts_tree.NodeEpsilon import NodeEpsilon
 
 
-class MCTSAlgorithm:
+class MCTSAlgorithmEpsilon:
 
     def __init__(self, max_simulations, max_time):
         self.max_simulations = max_simulations
@@ -15,9 +14,8 @@ class MCTSAlgorithm:
         self.end = 0
         self.root = None
         self.current_state = None
-        self.leaf_nodes = []
 
-        self.c = 2  # Exploration parameter
+        self.epsilon = 0.5
 
     def __str__(self):
         return "MCTS"
@@ -28,7 +26,7 @@ class MCTSAlgorithm:
 
         new_board = Board(board)
 
-        self.root = Node(new_board, None, player)
+        self.root = NodeEpsilon(new_board, None, player)
         self.root.expand()
         self.current_state = self.root
 
@@ -57,69 +55,36 @@ class MCTSAlgorithm:
         self.root.children.sort(key=lambda c: c.s, reverse=True)
         return self.root.children[0].action
 
-    # def make_move(self, board, player):
-    #     if board.is_win(1) or board.is_win(-1):
-    #         return None
-    #
-    #     new_board = Board(board)
-    #
-    #     self.simulations = 0
-    #     self.end = time.time() + self.max_time
-    #     self.root = Node(new_board, None, player)
-    #
-    #     self.root.expand()
-    #     count = 1
-    #     while time.time() <= self.end and self.simulations < self.max_simulations:
-    #         # print("count", count)
-    #         # Selection
-    #         best_node, best_ucb = self.select(self.root)
-    #         # print("BEST:", best_ucb)
-    #
-    #         # Expansion
-    #         if best_node.s > 0:
-    #             # print("expanding")
-    #             best_node.expand()
-    #
-    #         # Simulation
-    #         win = self.simulate(best_node)
-    #
-    #         # Backpropagation
-    #         self.backpropagate(best_node, win)
-    #
-    #         count+=1
-    #
-    #     self.root.children.sort(key=lambda c: self.selection(c), reverse=True)
-    #     # print(len(self.root.children))
-    #     node1 = self.root.children[0]
-    #     node2 = self.root.children[1]
-    #     # print(node1.s)
-    #     # print(node1.w)
-    #     # print(node2.s)
-    #     # print(node2.w)
-    #     # print(self.simulations)
-    #     # print(self.root.children[0].action)
-    #     return self.root.children[0].action
-
     def select(self, node):
-        best_node = None
-        best_ucb = 0
+        # Traverse the tree to get Q of all nodes
+        q_dict = ()
+        for child in node.children:
+            get_q(child)
+        # Order nodes by Q
+        # With probability epsilon, select node with highest Q
+        # If highest Q node is not selected, select node by probability p
+
+
+        best_child = None
+        best_child_ucb = 0
 
         for child in node.children:
             if len(child.children) == 0:  # Not yet expanded (leaf node)
-                ucb = self.ucb_score(child)
-                if ucb > best_ucb:
-                    best_ucb = ucb
-                    best_node = child
+                ucb = child.ucb_score()
+                if ucb > best_child_ucb:
+                    best_child_ucb = ucb
+                    best_child = child
             else:  # Already expanded (not leaf node)
                 node, ucb = self.select(child)
-                if ucb > best_ucb:
-                    best_node = node
-                    best_ucb = ucb
+                if ucb > best_child_ucb:
+                    best_child = node
+                    best_child_ucb = ucb
 
         # print(best_ucb)
-        return best_node, best_ucb
+        return best_child, best_child_ucb
 
     def simulate(self, node):
+        # Simulation based on the probability of moves using formula
         self.simulations += 1
 
         current_state = Board(node.state)
@@ -139,7 +104,10 @@ class MCTSAlgorithm:
             current_state.execute_move(move, current_player)
             current_player *= -1
 
+
     def backpropagate(self, node, win):
+        # Back-propagate Q based on the formula
+
         node.w += win
         node.s += 1
 
@@ -148,9 +116,3 @@ class MCTSAlgorithm:
             current_node.parent.w += win
             current_node.parent.s += 1
             current_node = current_node.parent
-
-
-    def ucb_score(self, node):
-        if node.s == 0:
-            return float('inf')
-        return (node.w / node.s) + self.c * math.sqrt(math.log(node.parent.s) / node.s)
