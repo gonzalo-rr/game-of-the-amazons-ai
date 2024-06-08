@@ -24,22 +24,24 @@ class GameGUI:
         # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,
         # 3 - blacks turn no selection, 4 - blacks turn selection, 5 - blacks turn half move
         self.board = Board(False)
-        # b = Board(False)
+        b = Board(False)
         # b.board = [
-        #     [1, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 2],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
-        #     [0, 0, 0, 0, 0, 0, 0, 0, 2, -1],
-        #      ]
-        # b.white_positions = [(0,0)]
-        # b.black_positions = [(9,9)]
-        # self.board = b
+        #     [0, 0, 2, 0, 0, 0, 0, 2, 0, 0],
+        #     [0, 0, 2, 2, 2, 2, 0, 2, 0, 0],
+        #     [0, 2, 2, -1, 2, 2, 2, 0, 0, 0],
+        #     [2, 0, 2, 2, 2, 2, 2, 2, 0, 2],
+        #     [0, 2, 2, 2, 0, 2, 2, 2, 2, 1],
+        #     [1, 2, 2, 2, 0, 2, 2, 0, 2, 2],
+        #     [0, 2, 1, 2, -1, 2, 2, 2, 2, 2],
+        #     [0, 2, 2, -1, 2, 0, -1, 2, 0, 1],
+        #     [0, 2, 2, 2, 2, 2, 2, 2, 0, 0],
+        #     [2, 0, 2, 2, 2, 2, 0, 0, 0, 0],
+        # ]
+        # b.white_positions = [(4,9),(5,0),(6,2),(7,9)]
+        # b.black_positions = [(2,3),(6,4),(7,3),(7,6)]
+
+
+        self.board = b
 
         self.turn_step = 0
         self.selection = None
@@ -82,7 +84,7 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random", "MinimaxT1", "MinimaxT2"]
+        options = ["Human", "Random", "MinimaxT", "MinimaxTM"]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
@@ -101,7 +103,8 @@ class GameGUI:
         # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
         # minimax = MinimaxAlgorithm(5, 2)
         # minimaxTM = MinimaxAlgorithmTerritoryMobility(1, 1)
-        minimaxT = MinimaxAlgorithmTerritory(1, 1)
+        minimaxT = MinimaxAlgorithmTerritory(1, 5)
+        minimaxTM = MinimaxAlgorithmTerritoryMobility(1, 5)
         mcts = MCTSAlgorithm(1000, 100)
 
         # Players
@@ -109,6 +112,7 @@ class GameGUI:
             HumanPlayer(self),
             AIPlayer(self, RandomAlgorithm(), wait_time),
             AIPlayer(self, minimaxT, wait_time),
+            AIPlayer(self, minimaxTM, wait_time),
         ]
         self.white_player = self.players[0]
         self.black_player = self.players[0]
