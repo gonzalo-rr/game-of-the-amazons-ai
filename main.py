@@ -4,8 +4,8 @@ from copy import copy, deepcopy
 import pygame
 
 from amazons.AmazonsLogic import Board
-from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
-from amazons.algorithms.MCTSAlgorithm2 import MCTSAlgorithm2
+from amazons.algorithms.MCTSAlgorithmUCB import MCTSAlgorithm
+from amazons.algorithms.MCTSAlgorithmUCB_cut import MCTSAlgorithm2
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
@@ -23,12 +23,9 @@ def main():
     # b = Board(False)
     # mcts.make_move(b, 1)
 
-
     # node = Node(b, 1)
     # node.expand()
     # print(len(node.children))
-
-
 
     # board = Board(False)
     # board.board = [
@@ -78,9 +75,9 @@ def main():
 
     # calculate_copy_times()
 
-    # run_gui()
+    run_gui()
 
-    match_training()
+    # match_training()
 
     # test_parallelization()
 
