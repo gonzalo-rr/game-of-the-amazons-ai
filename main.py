@@ -280,7 +280,6 @@ def run_gui():
 
     tile_size = 100
     algorithms = [
-        RandomAlgorithm(),
         GreedyAlgorithmMobility(),
         MinimaxAlgorithmTerritory(2, 5),
     ]

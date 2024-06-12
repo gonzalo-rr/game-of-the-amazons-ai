@@ -23,7 +23,10 @@ class PlayersMenu:
         self.screen.blit(font.render('Black', True, 'black'),
                          (self.menu_rect2.x, self.menu_rect2.y - unit_size / 2))
 
-        options = ["Human", "Random", "MinimaxT1", "MinimaxT2"]
+        options = []
+        for player in players:
+            options.append(str(player))
+
         self.dropdown1 = DropDown(self.menu_rect1[0], self.menu_rect1[1], self.menu_rect1[2], self.menu_rect1[3],
                                   options, big_font, font)
         self.dropdown2 = DropDown(self.menu_rect2[0], self.menu_rect2[1], self.menu_rect2[2], self.menu_rect2[3],

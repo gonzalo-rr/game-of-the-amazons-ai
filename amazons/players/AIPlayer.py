@@ -12,7 +12,7 @@ class AIPlayer:
         self.__wait_time = wait_time
 
     def __str__(self):
-        return str(self.algorithm)
+        return str(self.__algorithm)
 
     def is_human(self):
         return False
