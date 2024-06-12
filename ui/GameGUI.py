@@ -1,14 +1,16 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
+from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
+from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritoryTable import MinimaxAlgorithmRelativeTerritoryTable
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobilityTable import MinimaxAlgorithmTerritoryMobilityTable
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryTable import MinimaxAlgorithmTerritoryTable
+from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
+from amazons.algorithms.minimax.MinimaxAlgorithmMobilityTable import MinimaxAlgorithmMobilityTable
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
-from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
-from amazons.algorithms.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritoryTable import MinimaxAlgorithmTerritoryTable
-from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
 from amazons.players.AIPlayer import AIPlayer
@@ -84,7 +86,26 @@ class GameGUI:
         self.screen.blit(self.font.render('Black', True, 'black'),
                          (menu_rect2.x, menu_rect2.y - tile_size / 2))
 
-        options = ["Human", "Random", "MinimaxT", "MinimaxTM"]
+        minimaxMob = MinimaxAlgorithmMobility(2, 10)
+        minimaxMobT = MinimaxAlgorithmMobilityTable(2, 10)
+        minimaxTer = MinimaxAlgorithmTerritory(2, 10)
+        minimaxTerT = MinimaxAlgorithmTerritoryTable(2, 10)
+        minimaxRelTer = MinimaxAlgorithmRelativeTerritory(2, 10)
+        minimaxRelTerT = MinimaxAlgorithmRelativeTerritoryTable(2, 10)
+        minimaxTerMob = MinimaxAlgorithmTerritoryMobility(2, 10)
+        minimaxTerMobT = MinimaxAlgorithmTerritoryMobilityTable(2, 10)
+
+        # Players
+        self.players = [
+            AIPlayer(self, minimaxRelTer, wait_time),
+            AIPlayer(self, minimaxRelTerT, wait_time),
+            AIPlayer(self, minimaxTerMob, wait_time),
+            AIPlayer(self, minimaxTerMobT, wait_time),
+        ]
+        self.white_player = self.players[0]
+        self.black_player = self.players[0]
+
+        options = [str(self.players[0]), str(self.players[1]), str(self.players[2]), str(self.players[3])]
         self.menu1 = DropDown(menu_rect1[0], menu_rect1[1], menu_rect1[2], menu_rect1[3],
                               options, self.big_font, self.font)
         self.menu2 = DropDown(menu_rect2[0], menu_rect2[1], menu_rect2[2], menu_rect2[3],
@@ -99,23 +120,6 @@ class GameGUI:
 
         self.blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
         self.blocked_tile = pygame.transform.scale(self.blocked_tile, (80, 80))
-
-        # minimax = MinimaxAlgorithmMultiProcess(1, 10, 6)
-        # minimax = MinimaxAlgorithm(5, 2)
-        # minimaxTM = MinimaxAlgorithmTerritoryMobility(1, 1)
-        minimaxT = MinimaxAlgorithmTerritory(1, 5)
-        minimaxTM = MinimaxAlgorithmTerritoryMobility(1, 5)
-        mcts = MCTSAlgorithm(1000, 100)
-
-        # Players
-        self.players = [
-            HumanPlayer(self),
-            AIPlayer(self, RandomAlgorithm(), wait_time),
-            AIPlayer(self, minimaxT, wait_time),
-            AIPlayer(self, minimaxTM, wait_time),
-        ]
-        self.white_player = self.players[0]
-        self.black_player = self.players[0]
 
         # Event queue
         self.event_queue = None

@@ -1,18 +1,12 @@
-import time
-from copy import copy, deepcopy
+from copy import deepcopy
 
 import pygame
 
-from amazons.AmazonsLogic import Board
-from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
-from amazons.algorithms.MinimaxAlgorithmTerritoryMobility import *
-from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import *
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
-from amazons.algorithms.mcts_tree.Node import Node
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
 import csv
