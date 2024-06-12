@@ -24,7 +24,7 @@ class NodeEpsilon:
     def expand(self):
         moves = self.state.get_legal_moves(self.player)
         # Order moves by function
-        moves = self.sort_moves(moves)
+        moves = self.__sort_moves(moves)
         # Take 48 best moves
         moves = moves[0:48]
         random.shuffle(moves)
@@ -36,24 +36,23 @@ class NodeEpsilon:
             new_node.parent = self
             self.children.append(new_node)
 
-    def sort_moves(self, moves):
+    def __sort_moves(self, moves):
         rating = []
         for move in moves:
             self.state.execute_move(move, self.player)
-            rating.append(evaluate_mobility(self.state))
+            rating.append(self.__evaluate_mobility(self.state))
             self.state.undo_move(move, self.player)
 
         combi = zip(moves, rating)
         combi = sorted(combi, key=lambda c: c[1], reverse=self.player == 1)
         return [item[0] for item in combi]
 
+    def __evaluate_mobility(self, board):
+        if board.is_win(1):
+            return float('inf')
+        if board.is_win(-1):
+            return float('-inf')
 
-def evaluate_mobility(board):
-    if board.is_win(1):
-        return float('inf')
-    if board.is_win(-1):
-        return float('-inf')
-
-    white_moves = board.get_legal_moves(1)
-    black_moves = board.get_legal_moves(-1)
-    return len(white_moves) - len(black_moves)
+        white_moves = board.get_legal_moves(1)
+        black_moves = board.get_legal_moves(-1)
+        return len(white_moves) - len(black_moves)

@@ -13,7 +13,6 @@ class Node:
         self.children = []
         self.w = 0  # number of simulations resulting in a win
         self.s = 0  # number of simulations
-        # self.c = 2  # exploration parameter
 
     def expand(self):
         moves = self.state.get_legal_moves(self.player)
