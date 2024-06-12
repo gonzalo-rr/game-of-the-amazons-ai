@@ -63,7 +63,6 @@ class GameGUI:
         # Game menu
         self.__menu = PlayersMenu(self.screen, (self.width + tile_size, tile_size), tile_size, self.__players,
                                   self.big_font, self.font)
-        print(self.__players)
 
         # Game pieces
         self.__white_amazon = pygame.image.load('amazons/assets/images/white_amazon.png')
