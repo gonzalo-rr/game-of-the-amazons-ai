@@ -3,24 +3,24 @@ import time
 import math
 
 from amazons.AmazonsLogic import Board
-from amazons.algorithms.mcts_tree.NodeEpsilon import NodeEpsilon
+from amazons.algorithms.mcts.node.Node import Node
 
 
-class MCTSAlgorithm2:
+class MCTSAlgorithm:
 
-    def __init__(self, max_simulations, max_time, exploration_parameter=2):
-        self.__max_simulations = max_simulations
-        self.__simulations = 0
-        self.__max_time = max_time
-        self.__end = 0
-        self.__root = None
-        self.__current_state = None
-        self.__leaf_nodes = []
+    def __init__(self, max_simulations, max_time):
+        self.max_simulations = max_simulations
+        self.simulations = 0
+        self.max_time = max_time
+        self.end = 0
+        self.root = None
+        self.current_state = None
+        self.leaf_nodes = []
 
-        self.c = exploration_parameter  # Exploration parameter
+        self.c = 2  # Exploration parameter
 
     def __str__(self):
-        return "MCTS_Cut"
+        return "MCTS"
 
     def make_move(self, board, player):
         if board.is_win(1) or board.is_win(-1):
@@ -28,34 +28,34 @@ class MCTSAlgorithm2:
 
         new_board = Board(board)
 
-        self.__root = NodeEpsilon(new_board, None, player)
-        self.__root.expand()
-        self.__current_state = self.__root
+        self.root = Node(new_board, None, player)
+        self.root.expand()
+        self.current_state = self.root
 
-        if len(self.__root.children) == 1:
-            return self.__root.children[0].action
+        if len(self.root.children) == 1:
+            return self.root.children[0].action
 
-        self.__simulations = 0
-        self.__end = time.time() + self.__max_time
+        self.simulations = 0
+        self.end = time.time() + self.max_time
 
-        while time.time() <= self.__end and self.__simulations < self.__max_simulations:
-            if len(self.__current_state.children) == 0:  # Leaf node
-                if self.__current_state.n == 0:  # Not yet sampled
-                    result = self.__simulate(self.__current_state)  # SIMULATION
-                    self.__backpropagate(self.__current_state, result)  # BACKPROPAGATION
+        while time.time() <= self.end and self.simulations < self.max_simulations:
+            if len(self.current_state.children) == 0:  # Leaf node
+                if self.current_state.s == 0:  # Not yet sampled
+                    result = self.simulate(self.current_state)  # SIMULATION
+                    self.backpropagate(self.current_state, result)  # BACKPROPAGATION
                 else:  # Already sampled
-                    self.__current_state.expand()  # EXPANSION
-                    if not (self.__current_state.state.is_win(1) or self.__current_state.state.is_win(-1)):
-                        self.__current_state = self.__current_state.children[0]
+                    self.current_state.expand()  # EXPANSION
+                    if not (self.current_state.state.is_win(1) or self.current_state.state.is_win(-1)):
+                        self.current_state = self.current_state.children[0]
 
-                    result = self.__simulate(self.__current_state)  # SIMULATION
-                    self.__backpropagate(self.__current_state, result)  # BACKPROPAGATION
-                self.__current_state = self.__root  # Always return no root after back-propagation
+                    result = self.simulate(self.current_state)  # SIMULATION
+                    self.backpropagate(self.current_state, result)  # BACKPROPAGATION
+                self.current_state = self.root  # Always return no root after back-propagation
             else:  # Not a leaf node
-                self.__current_state, _ = self.__select(self.__root)  # SELECTION
+                self.current_state, _ = self.select(self.root)  # SELECTION
 
-        self.__root.children.sort(key=lambda c: c.n, reverse=True)
-        return self.__root.children[0].action
+        self.root.children.sort(key=lambda c: c.s, reverse=True)
+        return self.root.children[0].action
 
     # def make_move(self, board, player):
     #     if board.is_win(1) or board.is_win(-1):
@@ -100,35 +100,36 @@ class MCTSAlgorithm2:
     #     # print(self.root.children[0].action)
     #     return self.root.children[0].action
 
-    def __select(self, node):
+    def select(self, node):
         best_node = None
         best_ucb = 0
 
         for child in node.children:
             if len(child.children) == 0:  # Not yet expanded (leaf node)
-                ucb = self.__ucb_score(child)
+                ucb = self.ucb_score(child)
                 if ucb > best_ucb:
                     best_ucb = ucb
                     best_node = child
             else:  # Already expanded (not leaf node)
-                node, ucb = self.__select(child)
+                node, ucb = self.select(child)
                 if ucb > best_ucb:
                     best_node = node
                     best_ucb = ucb
 
+        # print(best_ucb)
         return best_node, best_ucb
 
-    def __simulate(self, node):
-        self.__simulations += 1
+    def simulate(self, node):
+        self.simulations += 1
 
         current_state = Board(node.state)
         current_player = node.player
 
         finished = False
         while not finished:
-            if current_state.is_win(self.__root.player):
+            if current_state.is_win(self.root.player):
                 return 1
-            if current_state.is_win(-self.__root.player):
+            if current_state.is_win(-self.root.player):
                 return 0
 
             moves = current_state.get_legal_moves(current_player)
@@ -137,19 +138,19 @@ class MCTSAlgorithm2:
             current_state.execute_move(move, current_player)
             current_player *= -1
 
-    def __backpropagate(self, node, win):
+    def backpropagate(self, node, win):
         node.w += win
-        node.n += 1
+        node.s += 1
 
         current_node = node
         while current_node.parent is not None:
             current_node.parent.w += win
-            current_node.parent.n += 1
+            current_node.parent.s += 1
             current_node = current_node.parent
 
             win = 1 - win  # Win for node means loss to parent
 
-    def __ucb_score(self, node):
-        if node.n == 0:
+    def ucb_score(self, node):
+        if node.s == 0:
             return float('inf')
-        return (node.w / node.n) + self.c * math.sqrt(math.log(node.parent.n) / node.n)
+        return (node.w / node.s) + self.c * math.sqrt(math.log(node.parent.s) / node.s)

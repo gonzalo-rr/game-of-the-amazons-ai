@@ -1,18 +1,11 @@
 import time
-from copy import copy, deepcopy
+from copy import deepcopy
 
 import pygame
 
 from amazons.AmazonsLogic import Board
-from amazons.algorithms.MCTSAlgorithmUCB import MCTSAlgorithm
-from amazons.algorithms.MCTSAlgorithmUCB_cut import MCTSAlgorithm2
-from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
-from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
-from amazons.algorithms.mcts_tree.Node import Node
+from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithm
+from amazons.algorithms.mcts.MCTSAlgorithmUCB_cut import MCTSAlgorithm2
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
 import csv

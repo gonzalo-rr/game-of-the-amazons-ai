@@ -1,16 +1,9 @@
 from amazons.AmazonsLogic import Board
 import pygame
 
-from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.MCTSAlgorithmUCB_cut import MCTSAlgorithm2
-from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
-from amazons.algorithms.MCTSAlgorithmUCB import MCTSAlgorithm
-from amazons.algorithms.MCTSAlgorithmEGreedy import MCTSAlgorithmB
-from amazons.algorithms.MCTSAlgorithmEGreedyMod import MCTSAlgorithmMAB
-from amazons.algorithms.MinimaxAlgorithmSimpleOrdering import MinimaxAlgorithm
-from amazons.algorithms.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
-from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
+from amazons.algorithms.mcts.MCTSAlgorithmUCB_cut import MCTSAlgorithm2
+from amazons.algorithms.mcts.MCTSAlgorithmEGreedy import MCTSAlgorithmB
+from amazons.algorithms.mcts.MCTSAlgorithmEGreedyMod import MCTSAlgorithmMAB
 from ui.DropDown import DropDown
 from amazons.players.HumanPlayer import HumanPlayer
 from amazons.players.AIPlayer import AIPlayer
