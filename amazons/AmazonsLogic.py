@@ -20,7 +20,7 @@ class Board:
             if type(args[0]) is bool:
                 if args[0]:  # Small is True
                     self.n = 5  # Dimension of the board
-                    self.board = [0] * self.n  # Board
+                    self.board = [[]] * self.n  # Board
 
                     for i in range(self.n):
                         self.board[i] = [0] * self.n
@@ -39,7 +39,7 @@ class Board:
                     self.white_positions = [(0, 3), (4, 3), (1, 4), (3, 4)]
                 else:  # Big is False
                     self.n = 10  # Dimension of the board
-                    self.board = [0] * self.n  # Board
+                    self.board = [[]] * self.n  # Board
 
                     for i in range(self.n):
                         self.board[i] = [0] * self.n
@@ -59,7 +59,7 @@ class Board:
             else:
                 prev_board = args[0]
                 self.n = len(prev_board.board)  # Dimension of the board
-                self.board = [0] * self.n  # Board
+                self.board = [[]] * self.n  # Board
 
                 for i in range(self.n):
                     self.board[i] = copy(prev_board.board[i])
@@ -71,6 +71,13 @@ class Board:
 
     def __getitem__(self, index):
         return self.board[index]
+
+    def __eq__(self, other):
+        for i in range(self.n):
+            for j in range(self.n):
+                if self.board[i][j] != other.board[i][j]:
+                    return False
+        return True
 
     """
     Get all the legal moves for a player (-1 is black, 1 is white)
