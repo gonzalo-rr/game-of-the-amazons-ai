@@ -1,6 +1,5 @@
 import random
 import time
-import math
 
 from amazons.AmazonsLogic import Board
 from amazons.algorithms.mcts_tree.NodeEpsilon import NodeEpsilon

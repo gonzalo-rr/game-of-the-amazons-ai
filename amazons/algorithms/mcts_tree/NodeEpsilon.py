@@ -1,4 +1,3 @@
-import math
 import random
 
 from amazons.AmazonsLogic import Board
