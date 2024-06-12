@@ -4,7 +4,8 @@ from collections import deque
 from copy import copy
 
 from amazons.AmazonsLogic import Board
-from amazons.assets.HistoryTableMobility import HistoryTableMobility
+from amazons.algorithms.minimax.history_table.HistoryTableRT import HistoryTableRT
+from amazons.assets.UtilityFunctions import weight, sort_moves, evaluate_territory, difference_relative_territory
 
 sys.setrecursionlimit(2_000)
 
@@ -14,36 +15,36 @@ black - min
 """
 
 
-class MinimaxAlgorithmMobility:
+class MinimaxAlgorithmRelativeTerritoryTable:
 
     def __init__(self, max_depth, max_time):
-        self.max_depth = max_depth
-        self.max_time = max_time
-        self.history_table = HistoryTableMobility()
-        self.end = 0
+        self.__max_depth = max_depth
+        self.__max_time = max_time
+        self.__history_table = HistoryTableRT()
+        self.__end = 0
 
     def __str__(self):
-        return 'Minimax Mobility'
+        return 'MinimaxRelTerTab'
 
     def make_move(self, board, player):
         new_board = Board(board)
         best_move = new_board.get_legal_moves(player)[0]
 
-        self.end = time.time() + self.max_time
-        for depth in range(1, self.max_depth + 1):
-            self.max_depth = depth
-            if time.time() >= self.end:
+        self.__end = time.time() + self.__max_time
+        for depth in range(1, self.__max_depth + 1):
+            self.__max_depth = depth
+            if time.time() >= self.__end:
                 break
             _, new_best_move = self.minimax(new_board, player, float('-inf'), float('inf'), 0)
             if new_best_move is not None:
                 best_move = new_best_move
 
-        self.history_table.save_table()
+        self.__history_table.save_table()
         return best_move
 
     def minimax(self, board, player, alpha, beta, depth):
-        if board.is_win(player) or board.is_win(-player) or depth == self.max_depth:
-            return evaluate_mobility(board), None
+        if board.is_win(player) or board.is_win(-player) or depth == self.__max_depth:
+            return evaluate_territory(board, difference_relative_territory, player), None
         else:
             best_score = player * float('-inf')
             best_move = None
@@ -55,7 +56,7 @@ class MinimaxAlgorithmMobility:
             rating = [0 for _ in range(len(moves))]
 
             for i, move in enumerate(moves):  # Rating all moves
-                rating[i] = self.history_table.get_rating(move) / 4  # ??
+                rating[i] = self.__history_table.get_rating(move) / 4
 
             moves = sort_moves(moves, rating)
 
@@ -71,7 +72,7 @@ class MinimaxAlgorithmMobility:
 
                     alpha = max(alpha, score)
                     if beta <= alpha:
-                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
+                        self.__history_table.update_rating(best_move, weight(self.__max_depth - depth))
                         break
                 else:
                     if score < best_score:
@@ -80,33 +81,7 @@ class MinimaxAlgorithmMobility:
 
                     beta = min(beta, score)
                     if beta <= alpha:
-                        self.history_table.update_rating(best_move, weight(self.max_depth - depth))
+                        self.__history_table.update_rating(best_move, weight(self.__max_depth - depth))
                         break
 
             return best_score, best_move
-
-
-def sort_moves(moves, rating):
-    combi = zip(moves, rating)
-    combi = sorted(combi, key=lambda c: c[1], reverse=True)
-    return [item[0] for item in combi]
-
-
-def weight(depth):
-    return depth * depth
-
-
-def evaluate_mobility(board):
-    if board.is_win(1):
-        return float('inf')
-    if board.is_win(-1):
-        return float('-inf')
-
-    white_moves = board.get_legal_moves(1)
-    black_moves = board.get_legal_moves(-1)
-    return len(white_moves) - len(black_moves)
-
-def sort_moves(moves, rating):
-    combi = zip(moves, rating)
-    combi = sorted(combi, key=lambda c: c[1], reverse=True)
-    return [item[0] for item in combi]

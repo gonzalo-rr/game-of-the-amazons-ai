@@ -1,18 +1,12 @@
-import time
-from copy import copy, deepcopy
+from copy import deepcopy
 
 import pygame
 
-from amazons.AmazonsLogic import Board
-from amazons.algorithms.MCTSAlgorithm import MCTSAlgorithm
-from amazons.algorithms.MinimaxAlgorithmTerritoryMobility import *
-from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import *
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
-from amazons.algorithms.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmMultiProcess import MinimaxAlgorithmMultiProcess
-from amazons.algorithms.mcts_tree.Node import Node
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
 import csv
@@ -23,12 +17,9 @@ def main():
     # b = Board(False)
     # mcts.make_move(b, 1)
 
-
     # node = Node(b, 1)
     # node.expand()
     # print(len(node.children))
-
-
 
     # board = Board(False)
     # board.board = [
@@ -87,6 +78,114 @@ def main():
     # print()
     # _, bw, bb = evaluate_territory(b)
     # evaluate_individual_mobility(b, bw, bb)
+
+    # board = Board(False)
+    # b.board = [
+    #     [1, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [2, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 2, 2, 2],
+    #     [0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 2, 0, -1],
+    # ]
+    # board.board = [
+    #     [0, 0, 2, -1, 2, 0, 0, 0, 0, 0],
+    #     [0, 0, 1, 2, 2, 0, 0, 0, 0, 0],
+    #     [0, 0, 2, 2, -1, 2, 2, 2, 2, 0],
+    #     [0, 2, 2, 0, 2, 0, 1, 0, 2, 0],
+    #     [2, 0, 0, 0, 0, 2, 0, 0, 0, 0],
+    #     [0, 2, 2, 0, 0, 2, 2, 2, 0, 0],
+    #     [0, 0, 0, 1, 0, 0, 0, 2, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 1, 0, 2],
+    #     [0, 0, 0, -1, 0, 0, -1, 0, 0, 0],
+    #     [2, 0, 0, 0, 0, 0, 0, 2, 0, 0],
+    # ]
+    # board.white_positions = [(0, 0)]
+    # board.black_positions = [(9, 9)]
+    # board.print_board()
+    #
+    # qbw, qbb = calculate_queen_boards(board)
+    # print(calculate_w_factor(board, qbw, qbb))
+    #
+    # white = GreedyAlgorithmMobility()
+    # black = GreedyAlgorithmMobility()
+    #
+    # playing = True
+    # while playing:
+    #     if board.is_win(1):
+    #         break
+    #     elif board.is_win(-1):
+    #         break
+    #
+    #     white_move = white.make_move(board, 1)
+    #     board.execute_move(white_move, 1)
+    #
+    #     qbw, qbb = calculate_queen_boards(board)
+    #     print(calculate_w_factor(board, qbw, qbb))
+    #
+    #     if board.is_win(1):
+    #         break
+    #     elif board.is_win(-1):
+    #         break
+    #
+    #     black_move = black.make_move(board, -1)
+    #     board.execute_move(black_move, -1)
+    #
+    #     qbw, qbb = calculate_queen_boards(board)
+    #     print(calculate_w_factor(board, qbw, qbb))
+
+    # b = Board(False)
+    # b.board = [
+    #     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 1, -1, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 2, 0, 0, 0, 0, 0, 0, 0, -1],
+    # ]
+    # b.print_board()
+    # b.white_positions = [(0, 0),(4,4)]
+    # b.black_positions = [(9, 9),(4,5)]
+    #
+    # qbw, qbb = calculate_queen_boards(b)
+    # t1 = evaluate_territory(b, qbw, qbb, 1)
+    # print(t1)
+    # m = evaluate_individual_mobility(b, qbw, qbb)
+    # print(m)
+
+    # m1 = MinimaxAlgorithmTerritoryMobility(2, 5)
+    # m2 = MinimaxAlgorithmTerritory(2, 5)
+    #
+    # move1 = m1.make_move(b, 1)
+    # print(move1)
+    # b.execute_move(move1, 1)
+    # b.print_board()
+    # b.undo_move(move1, 1)
+    # move2 = m2.make_move(b, 1)
+    # print(move2)
+    # b.execute_move(move2, 1)
+    # b.print_board()
+    #
+    #
+    # qbw, qbb = calculate_queen_boards(b)
+    # print(evaluate_territory(b, qbw, qbb, -1))
+    # # print(evaluate_individual_mobility(b, qbw, qbb))
+    #
+    #
+    #
+    # move = m.make_move(b, 1)
+    # print(move)
+    # b.execute_move(move, 1)
+    # b.print_board()
+    # print(evaluate_territory(b, qbw, qbb, -1))
 
 
     # match_training()
@@ -292,7 +391,8 @@ def play_game(white, black):
     end = time.time()
     print('Game finished')
 
-    results = [white, black, result, end-start, n_moves_white, n_moves_black, avg_move_time_white, avg_move_time_black]
+    results = [white, black, result, end - start, n_moves_white, n_moves_black, avg_move_time_white,
+               avg_move_time_black]
     return results
 
 

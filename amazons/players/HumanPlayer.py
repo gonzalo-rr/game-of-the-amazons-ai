@@ -6,6 +6,9 @@ class HumanPlayer:
     def __init__(self, game_gui):
         self.__game = game_gui
 
+    def __str__(self):
+        return "Human"
+
     def is_human(self):
         return True
 
