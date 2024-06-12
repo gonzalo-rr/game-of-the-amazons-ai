@@ -29,7 +29,7 @@ def back_propagate(node, reward):
 
 class MCTSAlgorithmMAB:
 
-    def __init__(self, max_simulations, max_time):
+    def __init__(self, max_simulations, max_time, epsilon=0.1):
         self.max_simulations = max_simulations
         self.simulations = 0
         self.max_time = max_time
@@ -38,7 +38,7 @@ class MCTSAlgorithmMAB:
         self.current_state = None
         self.leaf_nodes = []
 
-        self.epsilon = 0.2  # Epsilon value
+        self.epsilon = epsilon  # Epsilon value
 
     def __str__(self):
         return "MCTS_MAB"

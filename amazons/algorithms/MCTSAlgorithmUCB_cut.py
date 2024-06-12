@@ -8,7 +8,7 @@ from amazons.algorithms.mcts_tree.NodeEpsilon import NodeEpsilon
 
 class MCTSAlgorithm2:
 
-    def __init__(self, max_simulations, max_time):
+    def __init__(self, max_simulations, max_time, exploration_parameter=2):
         self.max_simulations = max_simulations
         self.simulations = 0
         self.max_time = max_time
@@ -17,7 +17,7 @@ class MCTSAlgorithm2:
         self.current_state = None
         self.leaf_nodes = []
 
-        self.c = 2  # Exploration parameter
+        self.c = exploration_parameter  # Exploration parameter
 
     def __str__(self):
         return "MCTS2"
