@@ -321,11 +321,8 @@ def calculate_queen_boards(board):
 
 
 """
-Calculates the king moves board (with the information about)
+Calculates a board where each free square contains a number that indicates the number of surrounding free squares
 """
-
-
-# TODO
 
 
 def calculate_king_moves(board):
