@@ -6,7 +6,7 @@ from amazons.AmazonsLogic import Board
 class GreedyAlgorithmMobility:
 
     def __str__(self):
-        return 'Greedy Algorithm Mobility'
+        return 'GreedyMob'
 
     def make_move(self, board, player):
         moves = board.get_legal_moves(player)
@@ -14,7 +14,6 @@ class GreedyAlgorithmMobility:
         best_move = moves[0]
 
         if len(moves) == 1:
-            print("hola")
             best_move = moves[0]
 
         for move in moves:

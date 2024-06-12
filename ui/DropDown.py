@@ -5,9 +5,9 @@ class DropDown:
 
     def __init__(self, x, y, width, height, options, big_font, font):
         self.body = pygame.Rect(x, y, width, height)
-        self.options = options
-        self.big_font = big_font
-        self.font = font
+        self.__options = options
+        self.__big_font = big_font
+        self.__font = font
 
         self.deployed = False
         self.active = False
@@ -15,21 +15,21 @@ class DropDown:
 
     def draw_menu(self, screen):
         # Draw current option
-        self.draw_option(screen, self.options[self.selected_option], self.body.x, self.body.y)
+        self.__draw_option(screen, self.__options[self.selected_option], self.body.x, self.body.y)
 
         # Draw other options
         if self.deployed:
-            for i in range(len(self.options)):
-                self.draw_option(screen, self.options[i], self.body.x, self.body.y + (i + 1) * self.body.height)
+            for i in range(len(self.__options)):
+                self.__draw_option(screen, self.__options[i], self.body.x, self.body.y + (i + 1) * self.body.height)
 
-    def draw_option(self, screen, option, x, y):
-        x_offset = (self.body.width - self.big_font.size(option)[0]) / 2
-        y_offset = self.body.height / 2 - self.big_font.size(option)[1] / 2
+    def __draw_option(self, screen, option, x, y):
+        x_offset = (self.body.width - self.__big_font.size(option)[0]) / 2
+        y_offset = self.body.height / 2 - self.__big_font.size(option)[1] / 2
 
         option_rect = pygame.Rect(x, y, self.body.width, self.body.height)
         screen.fill('gray', option_rect)
         pygame.draw.rect(screen, 'black', option_rect, 3)
-        screen.blit(self.big_font.render(option, True, 'black'), (x + x_offset, y + y_offset))
+        screen.blit(self.__big_font.render(option, True, 'black'), (x + x_offset, y + y_offset))
 
     # True in an option has been selected, False otherwise
     def handle_event(self, event):
@@ -41,7 +41,7 @@ class DropDown:
                     self.deployed = True
             else:  # Menu deployed
                 self.deployed = False
-                for i in range(len(self.options)):
+                for i in range(len(self.__options)):
                     option = self.body.copy()
                     option.y += (i + 1) * self.body.height
                     if option.collidepoint(pos):

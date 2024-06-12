@@ -4,7 +4,7 @@ import random
 class RandomAlgorithm:
 
     def __init__(self):
-        self.name = 'Random Algorithm'
+        self.name = 'Random'
 
     def __str__(self):
         return self.name

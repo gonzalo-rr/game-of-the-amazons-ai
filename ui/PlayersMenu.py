@@ -15,15 +15,18 @@ class PlayersMenu:
         x = location[0]
         y = location[1]
 
-        self.menu_rect1 = pygame.Rect(x, y, unit_size * 4, unit_size)
-        self.menu_rect2 = pygame.Rect(x, unit_size * 3, unit_size * 4, unit_size)
+        self.menu_rect1 = pygame.Rect(x, y, unit_size * 4, unit_size * (3 / 4))
+        self.menu_rect2 = pygame.Rect(x, unit_size * 3, unit_size * 4, unit_size * (3 / 4))
 
         self.screen.blit(font.render('White', True, 'black'),
                          (self.menu_rect1.x, self.menu_rect1.y - unit_size / 2))
         self.screen.blit(font.render('Black', True, 'black'),
                          (self.menu_rect2.x, self.menu_rect2.y - unit_size / 2))
 
-        options = ["Human", "Random", "MinimaxT1", "MinimaxT2"]
+        options = []
+        for player in players:
+            options.append(str(player))
+
         self.dropdown1 = DropDown(self.menu_rect1[0], self.menu_rect1[1], self.menu_rect1[2], self.menu_rect1[3],
                                   options, big_font, font)
         self.dropdown2 = DropDown(self.menu_rect2[0], self.menu_rect2[1], self.menu_rect2[2], self.menu_rect2[3],

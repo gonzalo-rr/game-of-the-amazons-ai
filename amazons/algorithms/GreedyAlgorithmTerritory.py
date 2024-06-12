@@ -6,7 +6,7 @@ from amazons.AmazonsLogic import Board
 class GreedyAlgorithmTerritory:
 
     def __str__(self):
-        return 'Greedy Algorithm Territory'
+        return 'GreedyTer'
 
     def make_move(self, board, player):
         moves = board.get_legal_moves(player)
