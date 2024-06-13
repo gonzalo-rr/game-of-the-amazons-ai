@@ -1,6 +1,5 @@
 from Game import Game
-from AmazonsLogic import Board
-import sys
+from amazons.logic.AmazonsLogic import Board
 import numpy as np
 
 

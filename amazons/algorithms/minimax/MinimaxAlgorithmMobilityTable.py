@@ -1,9 +1,9 @@
 import sys
 import time
 
-from amazons.AmazonsLogic import Board
+from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.minimax.history_table.HistoryTableM import HistoryTableM
-from amazons.assets.UtilityFunctions import weight, sort_moves, evaluate_mobility
+from assets.utilities.UtilityFunctions import weight, sort_moves, evaluate_mobility
 
 sys.setrecursionlimit(2_000)
 

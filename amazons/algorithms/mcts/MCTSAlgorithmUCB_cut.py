@@ -2,7 +2,7 @@ import random
 import time
 import math
 
-from amazons.AmazonsLogic import Board
+from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.mcts.node.NodeEpsilon import NodeEpsilon
 
 

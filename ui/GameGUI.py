@@ -1,4 +1,4 @@
-from amazons.AmazonsLogic import Board
+from amazons.logic.AmazonsLogic import Board
 import pygame
 
 from amazons.players.HumanPlayer import HumanPlayer

@@ -1,11 +1,9 @@
 import sys
 import time
-from collections import deque
-from copy import copy
 
-from amazons.AmazonsLogic import Board
+from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.minimax.history_table.HistoryTableRT import HistoryTableRT
-from amazons.assets.UtilityFunctions import weight, sort_moves, evaluate_territory, difference_relative_territory
+from assets.utilities.UtilityFunctions import weight, sort_moves, evaluate_territory, difference_relative_territory
 
 sys.setrecursionlimit(2_000)
 

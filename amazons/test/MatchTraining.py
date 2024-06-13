@@ -1,19 +1,17 @@
 import csv
 import time
 
-from amazons.AmazonsLogic import Board
+from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
-from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
+from amazons.algorithms.greedy.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
 from amazons.algorithms.mcts.MCTSAlgorithmEGreedy import MCTSAlgorithmE
 from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithm
 from amazons.algorithms.mcts.MCTSAlgorithmUCB_cut import MCTSAlgorithmCut
 from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
-from amazons.algorithms.minimax.MinimaxAlgorithmMobilityTable import MinimaxAlgorithmMobilityTable
 from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
 from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
-from amazons.assets.MatchRecorder import MatchRecorder
+from assets.utilities.MatchRecorder import MatchRecorder
 
 
 def match_training(n_matches):

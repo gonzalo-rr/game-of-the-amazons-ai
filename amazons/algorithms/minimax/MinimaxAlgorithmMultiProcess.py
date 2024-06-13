@@ -1,9 +1,8 @@
 import random
-import sys
 import time
 import multiprocessing as mp
 
-from amazons.AmazonsLogic import Board
+from amazons.logic.AmazonsLogic import Board
 
 """
 white - max

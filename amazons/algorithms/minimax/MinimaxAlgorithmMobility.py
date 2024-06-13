@@ -2,8 +2,8 @@ import random
 import sys
 import time
 
-from amazons.AmazonsLogic import Board
-from amazons.assets.UtilityFunctions import evaluate_mobility
+from amazons.logic.AmazonsLogic import Board
+from assets.utilities.UtilityFunctions import evaluate_mobility
 
 sys.setrecursionlimit(2_000)
 

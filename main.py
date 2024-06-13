@@ -1,17 +1,16 @@
 import time
-from copy import copy, deepcopy
+from copy import deepcopy
 
 import pygame
 
-import MatchTraining
-from amazons.AmazonsLogic import Board
+from amazons.test import MatchTraining
+from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
-from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
+from amazons.algorithms.greedy.GreedyAlgorithmMobility import GreedyAlgorithmMobility
 from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
-import csv
 
 
 def main():

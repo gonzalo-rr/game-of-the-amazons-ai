@@ -1,7 +1,5 @@
-from copy import deepcopy, copy
-
-from amazons.AmazonsLogic import Board
-from amazons.assets.UtilityFunctions import difference_territory, evaluate_territory
+from amazons.logic.AmazonsLogic import Board
+from assets.utilities.UtilityFunctions import difference_territory, evaluate_territory
 
 
 class GreedyAlgorithmTerritory:

@@ -1,7 +1,5 @@
-from copy import deepcopy
-
-from amazons.AmazonsLogic import Board
-from amazons.assets.UtilityFunctions import evaluate_mobility
+from amazons.logic.AmazonsLogic import Board
+from assets.utilities.UtilityFunctions import evaluate_mobility
 
 
 class GreedyAlgorithmMobility:

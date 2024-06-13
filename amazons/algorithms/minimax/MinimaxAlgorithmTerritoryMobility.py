@@ -1,11 +1,9 @@
 import random
 import sys
 import time
-from collections import deque
-from copy import copy
 
-from amazons.AmazonsLogic import Board
-from amazons.assets.UtilityFunctions import evaluate_territory, difference_territory, evaluate_individual_mobility, \
+from amazons.logic.AmazonsLogic import Board
+from assets.utilities.UtilityFunctions import evaluate_territory, difference_territory, evaluate_individual_mobility, \
     calculate_queen_boards
 
 sys.setrecursionlimit(2_000)

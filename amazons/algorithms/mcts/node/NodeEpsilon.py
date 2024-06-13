@@ -1,6 +1,6 @@
 import random
 
-from amazons.AmazonsLogic import Board
+from amazons.logic.AmazonsLogic import Board
 
 
 class NodeEpsilon:
