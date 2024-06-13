@@ -57,7 +57,7 @@ def main():
 
     # calculate_copy_times()
 
-    # run_gui()
+    run_gui()
 
     # calculate_king_moves(Board(False))
     # b = Board(False)
@@ -80,8 +80,8 @@ def main():
     # _, bw, bb = evaluate_territory(b)
     # evaluate_individual_mobility(b, bw, bb)
 
-    n_matches = 100
-    MatchTraining.match_training(n_matches)
+    # n_matches = 100
+    # MatchTraining.match_training(n_matches)
 
     # test_parallelization()
 
