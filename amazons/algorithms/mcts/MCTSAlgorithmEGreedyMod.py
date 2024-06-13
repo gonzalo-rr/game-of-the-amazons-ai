@@ -14,7 +14,7 @@ def calculate_probability(node, nodes):
     return node.Q / s
 
 
-class MCTSAlgorithmMAB:
+class MCTSAlgorithmEMod:
 
     def __init__(self, max_simulations, max_time, epsilon=0.1):
         self.__max_simulations = max_simulations

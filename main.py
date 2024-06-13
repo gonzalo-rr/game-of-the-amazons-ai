@@ -4,10 +4,10 @@ from copy import copy, deepcopy
 import pygame
 
 import MatchTraining
-from amazons.algorithms.MinimaxAlgorithmTerritoryMobility import *
+from amazons.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
 
 from ui.GameGUI import GameGUI
 import multiprocessing as mp
@@ -81,7 +81,7 @@ def main():
     # _, bw, bb = evaluate_territory(b)
     # evaluate_individual_mobility(b, bw, bb)
 
-    n_matches = 2
+    n_matches = 100
     MatchTraining.match_training(n_matches)
 
     # test_parallelization()

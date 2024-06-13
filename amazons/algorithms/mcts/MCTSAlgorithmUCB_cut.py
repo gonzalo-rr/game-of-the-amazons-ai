@@ -6,7 +6,7 @@ from amazons.AmazonsLogic import Board
 from amazons.algorithms.mcts.node.NodeEpsilon import NodeEpsilon
 
 
-class MCTSAlgorithm2:
+class MCTSAlgorithmCut:
 
     def __init__(self, max_simulations, max_time, exploration_parameter=2):
         self.__max_simulations = max_simulations

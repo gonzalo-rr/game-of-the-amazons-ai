@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from amazons.AmazonsLogic import Board
+from amazons.assets.UtilityFunctions import evaluate_mobility
 
 
 class GreedyAlgorithmMobility:
@@ -19,7 +20,7 @@ class GreedyAlgorithmMobility:
         for move in moves:
             new_board = Board(board)
             new_board.execute_move(move, player)
-            score = evaluate(new_board)
+            score = evaluate_mobility(new_board)
 
             if player == 1:
                 if score > best_score:
@@ -31,14 +32,3 @@ class GreedyAlgorithmMobility:
                     best_score = score
 
         return best_move
-
-
-def evaluate(board):
-    if board.is_win(1):
-        return float('inf')
-    if board.is_win(-1):
-        return float('-inf')
-
-    white_moves = board.get_legal_moves(1)
-    black_moves = board.get_legal_moves(-1)
-    return len(white_moves) - len(black_moves)
