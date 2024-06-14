@@ -1,7 +1,9 @@
 import random
 
+from amazons.algorithms.Algorithm import Algorithm
 
-class RandomAlgorithm:
+
+class RandomAlgorithm(Algorithm):
 
     def __init__(self):
         self.name = 'Random'

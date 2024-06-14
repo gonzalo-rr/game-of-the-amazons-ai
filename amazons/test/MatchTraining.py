@@ -5,7 +5,7 @@ from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.greedy.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
 from amazons.algorithms.mcts.MCTSAlgorithmEGreedy import MCTSAlgorithmE
-from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithm
+from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithmUCB
 from amazons.algorithms.mcts.MCTSAlgorithmUCB_cut import MCTSAlgorithmCut
 from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
@@ -126,22 +126,22 @@ def match_training(n_matches):
 
     # Set 5: MCTS sim 1000 & 5000 vs Random & Greedy Territory
 
-    p1 = MCTSAlgorithm(1000, 10)
+    p1 = MCTSAlgorithmUCB(1000, 10)
     p2 = RandomAlgorithm()
     play_n_games(p1, p2, n_matches, 'resMCTS1vR.csv')
     match_recorder.save_results('resMCTS1vR.pkl')
 
-    p1 = MCTSAlgorithm(1000, 10)
+    p1 = MCTSAlgorithmUCB(1000, 10)
     p2 = GreedyAlgorithmTerritory()
     play_n_games(p1, p2, n_matches, 'resMCTS1vGT.csv')
     match_recorder.save_results('resMCTS1vGT.pkl')
 
-    p1 = MCTSAlgorithm(5000, 10)
+    p1 = MCTSAlgorithmUCB(5000, 10)
     p2 = RandomAlgorithm()
     play_n_games(p1, p2, n_matches, 'resMCTS5vR.csv')
     match_recorder.save_results('resMCTS5vR.pkl')
 
-    p1 = MCTSAlgorithm(5000, 10)
+    p1 = MCTSAlgorithmUCB(5000, 10)
     p2 = GreedyAlgorithmTerritory()
     play_n_games(p1, p2, n_matches, 'resMCTS5vGT.csv')
     match_recorder.save_results('resMCTS5vGT.pkl')

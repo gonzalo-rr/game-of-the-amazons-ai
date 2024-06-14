@@ -1,9 +1,9 @@
 import sys
 import time
 
+from amazons.algorithms.minimax.MinimaxAlgorithm import MinimaxAlgorithm, evaluate_mobility, sort_moves, weight
 from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.minimax.history_table.HistoryTableM import HistoryTableM
-from assets.utilities.UtilityFunctions import weight, sort_moves, evaluate_mobility
 
 sys.setrecursionlimit(2_000)
 
@@ -13,13 +13,11 @@ black - min
 """
 
 
-class MinimaxAlgorithmMobilityTable:
+class MinimaxAlgorithmMobilityTable(MinimaxAlgorithm):
 
     def __init__(self, max_depth, max_time):
-        self.__max_depth = max_depth
-        self.__max_time = max_time
+        super().__init__(max_depth, max_time)
         self.__history_table = HistoryTableM()
-        self.__end = 0
 
     def __str__(self):
         return 'MinimaxMobTab'
@@ -28,20 +26,20 @@ class MinimaxAlgorithmMobilityTable:
         new_board = Board(board)
         best_move = new_board.get_legal_moves(player)[0]
 
-        self.__end = time.time() + self.__max_time
-        for depth in range(1, self.__max_depth + 1):
-            self.__max_depth = depth
-            if time.time() >= self.__end:
+        self._end = time.time() + self._max_time
+        for depth in range(1, self._max_depth + 1):
+            self._max_depth = depth
+            if time.time() >= self._end:
                 break
-            _, new_best_move = self.__minimax(new_board, player, float('-inf'), float('inf'), 0)
+            _, new_best_move = self._minimax(new_board, player, float('-inf'), float('inf'), 0)
             if new_best_move is not None:
                 best_move = new_best_move
 
         self.__history_table.save_table()
         return best_move
 
-    def __minimax(self, board, player, alpha, beta, depth):
-        if board.is_win(player) or board.is_win(-player) or depth == self.__max_depth:
+    def _minimax(self, board, player, alpha, beta, depth):
+        if board.is_win(player) or board.is_win(-player) or depth == self._max_depth:
             return evaluate_mobility(board), None
         else:
             best_score = player * float('-inf')
@@ -60,7 +58,7 @@ class MinimaxAlgorithmMobilityTable:
 
             for move in moves:
                 board.execute_move(move, player)
-                score, _ = self.__minimax(board, -player, alpha, beta, depth + 1)
+                score, _ = self._minimax(board, -player, alpha, beta, depth + 1)
                 board.undo_move(move, player)
 
                 if player == 1:
@@ -70,7 +68,7 @@ class MinimaxAlgorithmMobilityTable:
 
                     alpha = max(alpha, score)
                     if beta <= alpha:
-                        self.__history_table.update_rating(best_move, weight(self.__max_depth - depth))
+                        self.__history_table.update_rating(best_move, weight(self._max_depth - depth))
                         break
                 else:
                     if score < best_score:
@@ -79,7 +77,7 @@ class MinimaxAlgorithmMobilityTable:
 
                     beta = min(beta, score)
                     if beta <= alpha:
-                        self.__history_table.update_rating(best_move, weight(self.__max_depth - depth))
+                        self.__history_table.update_rating(best_move, weight(self._max_depth - depth))
                         break
 
             return best_score, best_move

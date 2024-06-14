@@ -2,6 +2,7 @@ import random
 import time
 import multiprocessing as mp
 
+from amazons.algorithms.minimax.MinimaxAlgorithm import MinimaxAlgorithm, evaluate_mobility
 from amazons.logic.AmazonsLogic import Board
 
 """
@@ -10,30 +11,17 @@ black - min
 """
 
 
-def evaluate_mobility(board):
-    if board.is_win(1):
-        return float('inf')
-    if board.is_win(-1):
-        return float('-inf')
-
-    white_moves = board.get_legal_moves(1)
-    black_moves = board.get_legal_moves(-1)
-    return len(white_moves) - len(black_moves)
-
-
-class MinimaxAlgorithmMultiProcess:
+class MinimaxAlgorithmMultiProcess(MinimaxAlgorithm):
     def __init__(self, max_depth, max_time, n_workers):
-        self.max_depth = max_depth
-        self.max_time = max_time
+        super().__init__(max_depth, max_time)
         self.n_workers = n_workers
-        self.end = 0
 
     def make_move(self, board, player):
         best_move = None
-        self.end = time.time() + self.max_time
-        for depth in range(1, self.max_depth + 1):
-            self.max_depth = depth
-            if time.time() >= self.end:
+        self._end = time.time() + self._max_time
+        for depth in range(1, self._max_depth + 1):
+            self._max_depth = depth
+            if time.time() >= self._end:
                 break
             best_move = self.get_best_move(board, player)
         return best_move
@@ -76,7 +64,7 @@ class MinimaxAlgorithmMultiProcess:
     def worker_load(self, board, player, moves, scores, pid):
         for i, move in enumerate(moves):
             board.execute_move(move, player)
-            score = self.minimax(board, player, float('-inf'), float('inf'), 1)
+            score = self._minimax(board, player, float('-inf'), float('inf'), 1)
             board.undo_move(move, player)
 
             if player == 1:
@@ -86,8 +74,8 @@ class MinimaxAlgorithmMultiProcess:
                 if score < scores[i + pid * len(moves)]:
                     scores[i + pid * len(moves)] = score
 
-    def minimax(self, board, player, alpha, beta, depth):
-        if board.is_win(player) or board.is_win(-player) or depth == self.max_depth:
+    def _minimax(self, board, player, alpha, beta, depth):
+        if board.is_win(player) or board.is_win(-player) or depth == self._max_depth:
             return evaluate_mobility(board)
         else:
             best_score = player * float('-inf')
@@ -96,10 +84,10 @@ class MinimaxAlgorithmMultiProcess:
             random.shuffle(moves)
 
             for move in moves:
-                if time.time() >= self.end:
+                if time.time() >= self._end:
                     return best_score
                 board.execute_move(move, player)
-                score = self.minimax(board, -player, alpha, beta, depth + 1)
+                score = self._minimax(board, -player, alpha, beta, depth + 1)
                 board.undo_move(move, player)
 
                 if player == 1:

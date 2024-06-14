@@ -3,6 +3,11 @@ from copy import deepcopy
 
 import pygame
 
+from amazons.algorithms.mcts.MCTSAlgorithmEGreedy import MCTSAlgorithmE
+from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithmUCB
+from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
+from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
+from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
 from amazons.test import MatchTraining
 from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
@@ -175,7 +180,12 @@ def run_gui():
     algorithms = [
         RandomAlgorithm(),
         GreedyAlgorithmMobility(),
-        MinimaxAlgorithmTerritory(2, 5),
+        # MinimaxAlgorithmMobility(2, 5),
+        # MinimaxAlgorithmRelativeTerritory(2, 5),
+        # MinimaxAlgorithmTerritory(2, 5),
+        MinimaxAlgorithmTerritoryMobility(2, 5),
+        MCTSAlgorithmUCB(1000, 20),
+        MCTSAlgorithmE(1000, 20),
     ]
 
     gameGUI = GameGUI(tile_size, algorithms)

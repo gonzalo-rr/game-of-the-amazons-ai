@@ -1,5 +1,5 @@
+from amazons.algorithms.minimax.MinimaxAlgorithm import evaluate_territory, difference_territory
 from amazons.logic.AmazonsLogic import Board
-from assets.utilities.UtilityFunctions import difference_territory, evaluate_territory
 
 
 class GreedyAlgorithmTerritory:

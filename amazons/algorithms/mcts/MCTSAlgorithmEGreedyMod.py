@@ -1,6 +1,7 @@
 import random
 import time
 
+from amazons.algorithms.mcts.MCTSAlgorithm import MCTSAlgorithm
 from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.mcts.node.NodeEpsilon import NodeEpsilon
 
@@ -14,16 +15,17 @@ def calculate_probability(node, nodes):
     return node.Q / s
 
 
-class MCTSAlgorithmEMod:
+def calculate_reward(delta_moves):
+    if delta_moves > 0:
+        return 1 - 1 / (2 + (2 * delta_moves / 3))
+    else:
+        return 1 / (2 + (2 * -delta_moves / 3))
+
+
+class MCTSAlgorithmEMod(MCTSAlgorithm):
 
     def __init__(self, max_simulations, max_time, epsilon=0.1):
-        self.__max_simulations = max_simulations
-        self.__simulations = 0
-        self.__max_time = max_time
-        self.__end = 0
-        self.__root = None
-        self.__current_state = None
-        self.__leaf_nodes = []
+        super().__init__(max_simulations, max_time)
 
         self.epsilon = epsilon  # Epsilon value
 
@@ -37,39 +39,39 @@ class MCTSAlgorithmEMod:
         self.epsilon = 0.2
 
         new_board = Board(board)
-        self.__leaf_nodes = []
-        self.__root = NodeEpsilon(new_board, None, player)
-        self.__leaf_nodes.append(self.__root)
-        self.__expand(self.__root)
-        self.__current_state = self.__root
+        self._leaf_nodes = []
+        self._root = NodeEpsilon(new_board, None, player)
+        self._leaf_nodes.append(self._root)
+        self._expand(self._root)
+        self._current_state = self._root
 
-        if len(self.__root.children) == 1:
-            return self.__root.children[0].action
+        if len(self._root.children) == 1:
+            return self._root.children[0].action
 
-        self.__simulations = 0
-        self.__end = time.time() + self.__max_time
+        self._simulations = 0
+        self._end = time.time() + self._max_time
 
-        while time.time() <= self.__end and self.__simulations < self.__max_simulations:
-            if len(self.__current_state.children) == 0:  # Leaf node
-                if self.__current_state.n == 0:  # Not yet sampled
-                    reward = self.__simulate(self.__current_state)  # SIMULATION
-                    self.__back_propagate(self.__current_state, reward)  # BACKPROPAGATION
+        while time.time() <= self._end and self._simulations < self._max_simulations:
+            if len(self._current_state.children) == 0:  # Leaf node
+                if self._current_state.n == 0:  # Not yet sampled
+                    reward = self._simulate(self._current_state)  # SIMULATION
+                    self._back_propagate(self._current_state, reward)  # BACKPROPAGATION
                 else:  # Already sampled
-                    self.__expand(self.__current_state)  # EXPANSION
-                    if not (self.__current_state.state.is_win(1) or self.__current_state.state.is_win(-1)):
-                        self.__current_state = self.__current_state.children[0]
+                    self._expand(self._current_state)  # EXPANSION
+                    if not (self._current_state.state.is_win(1) or self._current_state.state.is_win(-1)):
+                        self._current_state = self._current_state.children[0]
 
-                    reward = self.__simulate(self.__current_state)  # SIMULATION
-                    self.__back_propagate(self.__current_state, reward)  # BACKPROPAGATION
-                self.__current_state = self.__root  # Always return no root after back-propagation
+                    reward = self._simulate(self._current_state)  # SIMULATION
+                    self._back_propagate(self._current_state, reward)  # BACKPROPAGATION
+                self._current_state = self._root  # Always return no root after back-propagation
             else:  # Not a leaf node
-                self.__current_state = self.__select()  # SELECTION
+                self._current_state = self._select()  # SELECTION
 
-        self.__root.children.sort(key=lambda c: c.n, reverse=True)
-        return self.__root.children[0].action
+        self._root.children.sort(key=lambda c: c.n, reverse=True)
+        return self._root.children[0].action
 
-    def __select(self):
-        sorted_leaf_nodes = sorted(self.__leaf_nodes, key=lambda n: n.Q, reverse=True)
+    def _select(self):
+        sorted_leaf_nodes = sorted(self._leaf_nodes, key=lambda n: n.Q, reverse=True)
 
         r = random.randint(0, 1)
 
@@ -82,13 +84,13 @@ class MCTSAlgorithmEMod:
         # With probability 1 - epsilon, select the node with largest Q value
         return sorted_leaf_nodes[0]
 
-    def __expand(self, node):
-        self.__leaf_nodes.remove(node)
+    def _expand(self, node):
+        self._leaf_nodes.remove(node)
         node.expand()
-        self.__leaf_nodes.extend(node.children)
+        self._leaf_nodes.extend(node.children)
 
-    def __simulate(self, node):
-        self.__simulations += 1
+    def _simulate(self, node):
+        self._simulations += 1
 
         current_state = Board(node.state)
         current_player = node.player
@@ -110,10 +112,10 @@ class MCTSAlgorithmEMod:
             current_player *= -1
 
         # Obtain reward from the difference in moves in range [0, 1)
-        reward = self.__calculate_reward(delta_moves)
+        reward = calculate_reward(delta_moves)
         return reward
 
-    def __back_propagate(self, node, reward):
+    def _back_propagate(self, node, reward):
         node.Q += reward
 
         current_node = node
@@ -123,12 +125,6 @@ class MCTSAlgorithmEMod:
             current_node = current_node.parent
 
             reward = 1 - reward  # Win for node means loss to parent
-
-    def __calculate_reward(self, delta_moves):
-        if delta_moves > 0:
-            return 1 - 1 / (2 + (2 * delta_moves / 3))
-        else:
-            return 1 / (2 + (2 * -delta_moves / 3))
 
 
 def calculate_reward_1_1(delta_moves):

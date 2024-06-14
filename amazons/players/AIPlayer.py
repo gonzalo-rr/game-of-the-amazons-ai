@@ -57,4 +57,4 @@ class AIPlayer:
         pygame.event.post(event2)
         pygame.event.post(event3)
 
-        self.__game.__making_move = False
+        self.__game.making_move = False

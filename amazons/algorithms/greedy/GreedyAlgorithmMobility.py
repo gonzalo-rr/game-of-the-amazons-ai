@@ -1,5 +1,5 @@
+from amazons.algorithms.minimax.MinimaxAlgorithm import evaluate_mobility
 from amazons.logic.AmazonsLogic import Board
-from assets.utilities.UtilityFunctions import evaluate_mobility
 
 
 class GreedyAlgorithmMobility:

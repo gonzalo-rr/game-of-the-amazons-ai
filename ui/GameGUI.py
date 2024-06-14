@@ -32,7 +32,7 @@ class GameGUI:
         self.__playing = False
         self.game_over = False
         self.__waiting = 0
-        self.__making_move = False
+        self.making_move = False
 
         self.width = self.board.n * tile_size
         self.height = self.board.n * tile_size
@@ -50,7 +50,7 @@ class GameGUI:
         self.__fps = 30
 
         # Play game button
-        self.__button_rect = pygame.Rect(self.width + tile_size, tile_size * 8, tile_size * 4, tile_size)
+        self.__button_rect = pygame.Rect(self.width + tile_size, tile_size * 8.5, tile_size * 4, tile_size * 3/4)
 
         # Players
         self.__players = []
@@ -65,13 +65,13 @@ class GameGUI:
                                   self.big_font, self.font)
 
         # Game pieces
-        self.__white_amazon = pygame.image.load('amazons/assets/images/white_amazon.png')
+        self.__white_amazon = pygame.image.load('assets/images/white_amazon.png')
         self.__white_amazon = pygame.transform.scale(self.__white_amazon, (80, 80))
 
-        self.__black_amazon = pygame.image.load('amazons/assets/images/black_amazon.png')
+        self.__black_amazon = pygame.image.load('assets/images/black_amazon.png')
         self.__black_amazon = pygame.transform.scale(self.__black_amazon, (80, 80))
 
-        self.__blocked_tile = pygame.image.load('amazons/assets/images/blocked_tile.png')
+        self.__blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
         self.__blocked_tile = pygame.transform.scale(self.__blocked_tile, (80, 80))
 
         # Event queue
@@ -169,11 +169,11 @@ class GameGUI:
         if player.is_human():
             player.make_move()
         else:
-            if not self.__making_move:
+            if not self.making_move:
                 thread = threading.Thread(target=lambda: player.make_move())
                 thread.daemon = True
                 thread.start()
-                self.__making_move = True
+                self.making_move = True
 
     def make_move(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not self.game_over:
