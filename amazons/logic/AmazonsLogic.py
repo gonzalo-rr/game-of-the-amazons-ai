@@ -1,16 +1,17 @@
-"""
-Board data:
-    1=white, -1=black, 0=empty, 2=blocked
-
-    move = (amazon, place, shoot) where:
-        amazon: the piece that will be moved
-        place: the tile where the piece will be moved
-        shoot: the tile that will be shot by the amazon
-"""
 from copy import copy
 
 
 class Board:
+    """
+    Board data:
+        1=white, -1=black, 0=empty, 2=blocked
+
+        move = (amazon, place, shoot) where:
+            amazon: the piece that will be moved
+            place: the tile where the piece will be moved
+            shoot: the tile that will be shot by the amazon
+    """
+
     __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
     def __init__(self, *args):
@@ -62,11 +63,13 @@ class Board:
                     return False
         return True
 
-    """
-    Get all the legal moves for a player (-1 is black, 1 is white)
-    """
-
     def get_legal_moves(self, player: int) -> list[((int, int), (int, int), (int, int))]:
+        """
+        Get all the legal moves for a player (-1 is black, 1 is white)
+        :param player: int
+        :return: all legal full moves
+        """
+
         moves = []
 
         # Find the positions of the player's amazons
@@ -88,11 +91,14 @@ class Board:
                 moves.append(move)
         return moves
 
-    """
-    Get the full moves for a certain amazon
-    """
-
     def get_moves_amazon(self, amazon: (int, int), player: int) -> list[(int, int)]:
+        """
+        Get the full moves for a certain amazon
+        :param amazon: (int, int)
+        :param player: int
+        :return: full game of the amazons move for a player
+        """
+
         moves = []
 
         for move in self.get_moves_position(amazon):  # Get the 'physical' moves
@@ -103,11 +109,13 @@ class Board:
 
         return moves
 
-    """
-    Get the queen-like moves from a certain position
-    """
-
     def get_moves_position(self, position: (int, int)) -> list[(int, int)]:
+        """
+        Get the queen-like moves from a certain position
+        :param position: (int, int)
+        :return: amazon queen-like moves from the position
+        """
+
         moves = []
 
         for direction in self.__directions:
@@ -121,32 +129,43 @@ class Board:
 
         return moves
 
-    """
-    :returns True is the specified player has legal moves and False otherwise
-    """
-
     def has_legal_moves(self, player: int) -> bool:
+        """
+        Returns True is the specified player has legal moves and False otherwise
+        :param player: int
+        :return: bool
+        """
+
         if len(self.get_legal_moves(player)) > 0:
             return True
         else:
             return False
 
     def is_win(self, player: int) -> bool:
+        """
+        Returns True if the player has won, False otherwise
+        :param player: int
+        :return: bool
+        """
+
         if not (self.has_legal_moves(-player)):
             return True
         else:
             return False
 
-    """
-    Executes a full move on the board
-    
-    A move has the following elements:
-    amazon: the piece that will be moved
-    place: the tile where the piece will be moved
-    shoot: the tile that will be shot by the amazon
-    """
-
     def execute_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> None:
+        """
+        Executes a full move on the board
+
+        A move has the following elements:
+        amazon: the piece that will be moved
+        place: the tile where the piece will be moved
+        shoot: the tile that will be shot by the amazon
+        :param move: move to be executed
+        :param player: player to move
+        :return: None
+        """
+
         if not self.is_valid_move(move):
             return
 
@@ -157,6 +176,13 @@ class Board:
         self.shoot_arrow(shoot)
 
     def undo_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> None:
+        """
+        Undoes a move, that is, leaves the board as if the move was never made
+        :param move: move to undo
+        :param player: player that made the move
+        :return: None
+        """
+
         if not self.is_valid_move(move):
             return
 
@@ -175,20 +201,25 @@ class Board:
             self.black_positions.remove(place)
             self.black_positions.append(amazon)
 
-    """
-    :returns True if the specified move is valid and False otherwise
-    """
-
     def is_valid_move(self, move: ((int, int), (int, int), (int, int))) -> bool:
+        """
+        Returns True if the specified move is valid and False otherwise
+        :param move: move to be verified
+        :return: bool
+        """
         # TODO
         return True
 
-    """
-    Moves a piece from one tile to another
-    (note that this is not a full move, just a piece move without the shot)
-    """
-
     def move_piece(self, amazon: (int, int), place: (int, int), player: int) -> None:
+        """
+        Moves a piece from one tile to another
+        (note that this is not a full move, just a piece move without the shot)
+        :param amazon: amazon to move
+        :param place: square to move the amazon to
+        :param player: player that moves the amazon
+        :return: None
+        """
+
         (x1, y1) = amazon
         (x2, y2) = place
 
@@ -203,20 +234,22 @@ class Board:
             self.black_positions.remove(amazon)
             self.black_positions.append(place)
 
-    """
-    Blocks a tile from the board
-    """
-
     def shoot_arrow(self, shoot: (int, int)) -> None:
+        """
+        Blocks a tile from the board, that is the shooting part of a full move
+        :param shoot: square to shoot
+        :return: None
+        """
+
         (x, y) = shoot
 
         self.board[x][y] = 2
 
-    """
-    Prints the board xd
-    """
-
     def print_board(self) -> None:
+        """
+        Prints the board xd
+        :return: None
+        """
         for i in range(self.n):
             for j in range(self.n):
                 print(self.board[j][i], end="\t")
