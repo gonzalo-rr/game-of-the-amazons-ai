@@ -1,11 +1,9 @@
-import sys
 import time
 
 from amazons.algorithms.minimax.MinimaxAlgorithm import MinimaxAlgorithm, evaluate_mobility, sort_moves, weight
+from amazons.algorithms.minimax.history_table.HistoryTable import HistoryTable
 from amazons.logic.AmazonsLogic import Board
-from amazons.algorithms.minimax.history_table.HistoryTableM import HistoryTableM
 
-sys.setrecursionlimit(2_000)
 
 """
 white - max
@@ -15,14 +13,16 @@ black - min
 
 class MinimaxAlgorithmMobilityTable(MinimaxAlgorithm):
 
-    def __init__(self, max_depth, max_time):
+    def __init__(self, max_depth: int, max_time: int) -> None:
         super().__init__(max_depth, max_time)
-        self.__history_table = HistoryTableM()
+        self.__history_table = HistoryTable("history_table_m")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'MinimaxMobTab'
 
-    def make_move(self, board, player):
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        super().make_move(board, player)
+
         new_board = Board(board)
         best_move = new_board.get_legal_moves(player)[0]
 
@@ -38,7 +38,8 @@ class MinimaxAlgorithmMobilityTable(MinimaxAlgorithm):
         self.__history_table.save_table()
         return best_move
 
-    def _minimax(self, board, player, alpha, beta, depth):
+    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
+            (float, ((int, int), (int, int), (int, int))):
         if board.is_win(player) or board.is_win(-player) or depth == self._max_depth:
             return evaluate_mobility(board), None
         else:

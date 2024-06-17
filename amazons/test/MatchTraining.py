@@ -1,6 +1,7 @@
 import csv
 import time
 
+from amazons.algorithms.Algorithm import Algorithm
 from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.greedy.GreedyAlgorithmTerritory import GreedyAlgorithmTerritory
@@ -14,7 +15,7 @@ from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import Minimax
 from assets.utilities.MatchRecorder import MatchRecorder
 
 
-def match_training(n_matches):
+def match_training(n_matches: int) -> None:
     match_recorder = MatchRecorder()
 
     # # Set 1
@@ -213,7 +214,7 @@ def match_training(n_matches):
     match_recorder.save_results('resMCTSEm5vGT.pkl')
 
 
-def play_n_games(p1, p2, n_matches, name):
+def play_n_games(p1: Algorithm, p2: Algorithm, n_matches: int, name: str) -> None:
     full_results = []  # Each element is the results of a single game
 
     for game in range(n_matches // 2):
@@ -228,7 +229,7 @@ def play_n_games(p1, p2, n_matches, name):
 
 
 # [white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black]
-def play_game(white, black):
+def play_game(white: Algorithm, black: Algorithm) -> []:
     match_recorder = MatchRecorder()
 
     result = 0
@@ -290,7 +291,7 @@ def play_game(white, black):
 
 
 # white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black:
-def update_csv(results, name):
+def update_csv(results: [], name: str) -> None:
     with open(name, 'w', newline='\n') as file:
         w = csv.writer(file, delimiter=';')
         w.writerow(

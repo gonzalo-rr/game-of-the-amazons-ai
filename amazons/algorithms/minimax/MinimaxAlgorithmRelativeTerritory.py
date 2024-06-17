@@ -1,12 +1,10 @@
 import random
-import sys
 import time
 
 from amazons.algorithms.minimax.MinimaxAlgorithm import MinimaxAlgorithm, evaluate_territory, \
     difference_relative_territory
 from amazons.logic.AmazonsLogic import Board
 
-sys.setrecursionlimit(2_000)
 
 """
 white - max
@@ -22,7 +20,9 @@ class MinimaxAlgorithmRelativeTerritory(MinimaxAlgorithm):
     def __str__(self):
         return 'MinimaxRelTer'
 
-    def make_move(self, board, player):
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        super().make_move(board, player)
+
         new_board = Board(board)
         best_move = new_board.get_legal_moves(player)[0]
 
@@ -31,13 +31,14 @@ class MinimaxAlgorithmRelativeTerritory(MinimaxAlgorithm):
             self._max_depth = depth
             if time.time() >= self._end:
                 break
-            _, new_best_move = self.__minimax(new_board, player, float('-inf'), float('inf'), 0)
+            _, new_best_move = self._minimax(new_board, player, float('-inf'), float('inf'), 0)
             if new_best_move is not None:
                 best_move = new_best_move
 
         return best_move
 
-    def _minimax(self, board, player, alpha, beta, depth):
+    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
+            (float, ((int, int), (int, int), (int, int))):
         if board.is_win(player) or board.is_win(-player) or depth == self._max_depth:
             return evaluate_territory(board, difference_relative_territory, player), None
         else:

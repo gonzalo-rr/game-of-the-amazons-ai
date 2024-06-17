@@ -1,18 +1,23 @@
 import pygame
 
+from amazons.players.Player import Player
 
-class HumanPlayer:
+
+class HumanPlayer(Player):
 
     def __init__(self, game_gui):
+        # if not isinstance(game_gui, GameGUI):
+        #     raise TypeError("game_gui must be a game interface")
+
         self.__game = game_gui
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "Human"
 
-    def is_human(self):
+    def is_human(self) -> bool:
         return True
 
-    def make_move(self):
+    def make_move(self) -> None:
         for event in self.__game.event_queue:
             # Quit game
             if event.type == pygame.QUIT:

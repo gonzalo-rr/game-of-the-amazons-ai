@@ -1,27 +1,37 @@
 from collections import deque
 from copy import copy
+from typing import Callable
 
 from amazons.algorithms.Algorithm import Algorithm
 from abc import abstractmethod, ABC
+
+from amazons.logic.AmazonsLogic import Board
 
 # 2D directions in a board
 directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
 
 # Move ordering for the history table
-def sort_moves(moves, rating):
+def sort_moves(moves: [(int, int, int)], rating: [float]) -> [(int, int, int)]:
     combi = zip(moves, rating)
     combi = sorted(combi, key=lambda c: c[1], reverse=True)
     return [item[0] for item in combi]
 
 
 # Weight for the history table
-def weight(depth):
+def weight(depth: int) -> int:
+    if type(depth) is not int:
+        raise TypeError("depth must be an int")
+    if depth < 0:
+        raise ValueError("depth must be greater than or equal to 0")
     return depth * depth
 
 
 # Mobility evaluation
-def evaluate_mobility(board):
+def evaluate_mobility(board: Board) -> int | float:
+    if not isinstance(board, Board):
+        raise TypeError("argument must be a board")
+
     if board.is_win(1):
         return float('inf')
     if board.is_win(-1):
@@ -33,7 +43,7 @@ def evaluate_mobility(board):
 
 
 # Calculate minimal number of moves to reach a square for a player
-def calculate_full_distance(board, square, player):
+def calculate_full_distance(board: Board, square: (int, int), player: int) -> int | float:
     min_distance = float('inf')
     positions = board.white_positions if player == 1 else board.black_positions
     for amazon in positions:  # for each amazon of the player
@@ -44,7 +54,7 @@ def calculate_full_distance(board, square, player):
 
 
 # Calculate minimal number of moves between 2 squares
-def calculate_distance(board, start, end):
+def calculate_distance(board: Board, start: (int, int), end: (int, int)) -> int | float:
     if start == end:
         return 0
     visited = set()
@@ -65,26 +75,26 @@ def calculate_distance(board, start, end):
 
 # Gives value for the difference between number of moves to reach a square by white (D1) and black (D2)
 # with k=5
-def difference_relative_territory(D1, D2, player):
+def difference_relative_territory(d1: int, d2: int, player: int) -> int:
     # 5 if D2 is inf and D1 is not
     # -5 if D1 is inf and D2 is not
     # 0 if both are inf
     # D2 - D1 otherwise
 
     k = 5 * player
-    if D2 > 9999 and D1 < 9999:
+    if d2 > 9999 and d1 < 9999:
         return k
-    if D1 > 9999 and D2 < 9999:
+    if d1 > 9999 and d2 < 9999:
         return -k
-    if D1 > 9999 and D2 > 9999:
+    if d1 > 9999 and d2 > 9999:
         return 0
     else:
-        return D2 - D1
+        return d2 - d1
 
 
 # Gives value for the difference between number of moves to reach a square by white (D1) and black (D2)
 # with k=1/5
-def difference_territory(D1, D2, player):
+def difference_territory(d1: int, d2: int, player: int) -> int | float:
     # 0 if both are inf
     # k if both are equal and not inf (k can be 1/5 or -1/5 depending on the turn)
     # 1 if D1 < D2
@@ -92,19 +102,19 @@ def difference_territory(D1, D2, player):
 
     k = (1 / 5) * player
 
-    if D1 > 9999 and D2 > 9999:
+    if d1 > 9999 and d2 > 9999:
         return 0
-    if D1 == D2 and D1 < 9999 and D2 < 9999:
+    if d1 == d2 and d1 < 9999 and d2 < 9999:
         return k
-    if D1 < D2:
+    if d1 < d2:
         return 1
-    if D1 > D2:
+    if d1 > d2:
         return -1
 
 
 # Deprecated, gives value for the difference between number of moves to reach a square by white (D1) and black (D2)
 # with k=10
-def difference_relative_territory_10(white_moves, black_moves):
+def difference_relative_territory_10(white_moves: int, black_moves: int, player: int) -> int:
     k = 10
     if white_moves > 9999:
         if black_moves > 9999:
@@ -121,7 +131,7 @@ def difference_relative_territory_10(white_moves, black_moves):
 
 # Returns True if all reachable squares have been reached
 # If no unmarked squares are reached, that means that all reachable squares have been reached
-def all_squares_marked(new_squares, reached_squares):
+def all_squares_marked(new_squares: [(int, int)], reached_squares: [(int, int)]) -> bool:
     for square in new_squares:
         if square not in reached_squares:
             return False
@@ -129,7 +139,7 @@ def all_squares_marked(new_squares, reached_squares):
 
 
 # Deprecated, previous relative territory evaluation
-def evaluate_relative_territory_prev(board, player):
+def evaluate_relative_territory_prev(board: Board, player: int) -> int:
     # First: initialize the territory boards of white and black
 
     board_white = [[]] * board.n  # white territory evaluation for queen moves
@@ -158,7 +168,8 @@ def evaluate_relative_territory_prev(board, player):
 
 
 # Evaluate territory based on a difference function, which can be relative or absolute
-def evaluate_territory(board, difference, player, queen_board_white=None, queen_board_black=None):
+def evaluate_territory(board: Board, difference: Callable[[int, int, int], int], player: int,
+                       queen_board_white: list[list[int]] = None, queen_board_black: list[list[int]] = None) -> int:
     if board.is_win(1):
         return 9999
     if board.is_win(-1):
@@ -179,7 +190,8 @@ def evaluate_territory(board, difference, player, queen_board_white=None, queen_
 
 
 # Evaluates the individual mobility of each player and gives an estimate of which has better mobility
-def evaluate_individual_mobility(board, queen_board_white, queen_board_black):
+def evaluate_individual_mobility(board: Board,
+                                 queen_board_white: list[list[int]], queen_board_black: list[list[int]]) -> int:
     # Factor that determines the phase of the game
     w = calculate_w_factor(board, queen_board_white, queen_board_black)
 
@@ -202,7 +214,7 @@ def evaluate_individual_mobility(board, queen_board_white, queen_board_black):
 
 # Calculates and returns the queen-move boards of each player
 # that is, for each free square, the minimal number of moves to be reached by each player
-def calculate_queen_boards(board):
+def calculate_queen_boards(board: Board) -> (list[list[int]], list[list[int]]):
     # First: initialize the territory boards of white and black
 
     board_white = [[]] * board.n  # white territory evaluation for queen moves
@@ -274,7 +286,7 @@ def calculate_queen_boards(board):
 
 
 # Calculates a board where each free square contains a number that indicates the number of surrounding free squares
-def calculate_king_moves(board):
+def calculate_king_moves(board: Board) -> list[int]:
     new_board = [[]] * board.n
     for i in range(board.n):
         new_board[i] = [0] * board.n
@@ -288,7 +300,7 @@ def calculate_king_moves(board):
 
 
 # Returns the list of free squares around a given square
-def get_free_squares_around(board, square):
+def get_free_squares_around(board: Board, square: (int, int)) -> list[(int, int)]:
     free_squares = []
     for direction in directions:
         x = square[0] + direction[0]
@@ -304,7 +316,7 @@ def get_free_squares_around(board, square):
 
 
 # Calculates individual mobility of the amazons of a player
-def calculate_mobility(king_moves_board, board, opponent_board, amazon):
+def calculate_mobility(king_moves_board: list[int], board: Board, opponent_board: Board, amazon: (int, int)) -> float:
     alpha = 0
 
     for direction in directions:
@@ -324,7 +336,7 @@ def calculate_mobility(king_moves_board, board, opponent_board, amazon):
 
 
 # Calculates the w factor (that indicates the phase of the game)
-def calculate_w_factor(board, queen_board_white, queen_board_black):
+def calculate_w_factor(board: Board, queen_board_white: list[list[int]], queen_board_black: list[list[int]]) -> float:
     # For each empty square
     w = 0
     for i in range(board.n):
@@ -340,16 +352,52 @@ def calculate_w_factor(board, queen_board_white, queen_board_black):
 
 # Function to weigh the alpha parameter (that indicates individual amazon mobility of a player)
 # and the w factor (that indicates the phase of the game)
-def f(w, alpha):
+def f(w: float, alpha: float) -> float:
     return w * (alpha / 100)
 
 
 class MinimaxAlgorithm(Algorithm, ABC):
-    def __init__(self, max_depth, max_time):
+    def __init__(self, max_depth: int, max_time: int) -> None:
+        if type(max_depth) is not int:
+            raise TypeError("max_depth must be int")
+        if type(max_time) is not int:
+            raise TypeError("max_time must be int")
+        if max_depth <= 0:
+            raise ValueError("max_depth must be greater than 0")
+        if max_time < 0:
+            raise ValueError("max_time must be greater than or equal to 0")
+
         self._max_depth = max_depth
         self._max_time = max_time
         self._end = 0
 
-    # @abstractmethod
-    # def _minimax(self, board, player, alpha, beta, depth):
-    #     ...
+    @abstractmethod
+    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
+            (float, ((int, int), (int, int), (int, int))):
+
+        # if not isinstance(board, Board):
+        #     raise TypeError("board argument must be of type Board")
+        # if type(player) is not int:
+        #     raise TypeError("player must be an int")
+        # if player != 1 and player != -1:
+        #     raise ValueError(f"player can only be 1 (white) or -1 (black), it cannot be {player}")
+        # if not type(alpha) is float and not type(alpha) is int:
+        #     raise TypeError("alpha must be float or int")
+        # if not type(beta) is float and not type(beta) is int:
+        #     raise TypeError("beta must be float or int")
+        # if type(depth) is not int:
+        #     raise TypeError("depth must be an int")
+        # if depth < 0:
+        #     raise ValueError("depth must be greater than or equal to 0")
+        ...
+
+    @abstractmethod
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        if not isinstance(board, Board):
+            raise TypeError("board argument must be of type Board")
+        if type(player) is not int:
+            raise TypeError("player must be an int")
+        if player != 1 and player != -1:
+            raise ValueError(f"player can only be 1 (white) or -1 (black), it cannot be {player}")
+
+        ...

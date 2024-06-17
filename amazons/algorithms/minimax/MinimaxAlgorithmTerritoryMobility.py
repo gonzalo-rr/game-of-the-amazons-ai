@@ -1,12 +1,10 @@
 import random
-import sys
 import time
 
 from amazons.algorithms.minimax.MinimaxAlgorithm import MinimaxAlgorithm, calculate_queen_boards, evaluate_territory, \
     difference_territory, evaluate_individual_mobility
 from amazons.logic.AmazonsLogic import Board
 
-sys.setrecursionlimit(2_000)
 
 """
 white - max
@@ -22,7 +20,7 @@ class MinimaxAlgorithmTerritoryMobility(MinimaxAlgorithm):
     def __str__(self):
         return 'MinimaxTerMob'
 
-    def make_move(self, board, player):
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
         new_board = Board(board)
         best_move = new_board.get_legal_moves(player)[0]
 
@@ -37,7 +35,8 @@ class MinimaxAlgorithmTerritoryMobility(MinimaxAlgorithm):
 
         return best_move
 
-    def _minimax(self, board, player, alpha, beta, depth):
+    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
+            (float, ((int, int), (int, int), (int, int))):
         if board.is_win(player) or board.is_win(-player) or depth == self._max_depth:
             if board.is_win(1):
                 return 9999, None

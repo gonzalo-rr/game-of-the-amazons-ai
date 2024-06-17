@@ -3,7 +3,7 @@ import time
 
 from amazons.algorithms.mcts.MCTSAlgorithm import MCTSAlgorithm, ucb_score
 from amazons.logic.AmazonsLogic import Board
-from amazons.algorithms.mcts.node.Node import Node
+from amazons.algorithms.mcts.node.NodeUCB import NodeUCB
 
 
 class MCTSAlgorithmUCB(MCTSAlgorithm):
@@ -22,7 +22,7 @@ class MCTSAlgorithmUCB(MCTSAlgorithm):
 
         new_board = Board(board)
 
-        self._root = Node(new_board, None, player)
+        self._root = NodeUCB(new_board, None, player)
         self._expand(self._root)
         self._current_state = self._root
 

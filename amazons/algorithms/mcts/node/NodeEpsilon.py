@@ -1,18 +1,13 @@
 import random
 
+from amazons.algorithms.mcts.node.Node import Node
 from amazons.logic.AmazonsLogic import Board
 
 
-class NodeEpsilon:
+class NodeEpsilon(Node):
 
     def __init__(self, state, action, player):
-        self.state = Board(state)
-        self.action = action
-        self.player = player
-        self.parent = None
-        self.children = []
-
-        self.w = 0
+        super().__init__(state, action, player)
 
         self.n = 0  # number of simulations
         self.Q = 1  # action value estimate

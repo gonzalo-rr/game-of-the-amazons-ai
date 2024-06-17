@@ -1,8 +1,9 @@
+from amazons.algorithms.Algorithm import Algorithm
 from amazons.algorithms.minimax.MinimaxAlgorithm import evaluate_territory, difference_territory
 from amazons.logic.AmazonsLogic import Board
 
 
-class GreedyAlgorithmTerritory:
+class GreedyAlgorithmTerritory(Algorithm):
 
     def __str__(self):
         return 'GreedyTer'

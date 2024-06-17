@@ -14,65 +14,48 @@ class Board:
     __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
     def __init__(self, *args):
-        self.white_positions = []
-        self.black_positions = []
-        if len(args) == 1:
-            if type(args[0]) is bool:
-                if args[0]:  # Small is True
-                    self.n = 5  # Dimension of the board
-                    self.board = [[]] * self.n  # Board
+        if len(args) == 0:
+            self.n = 10  # Dimension of the board
+            self.board = [[]] * self.n  # Board
 
-                    for i in range(self.n):
-                        self.board[i] = [0] * self.n
+            for i in range(self.n):
+                self.board[i] = [0] * self.n
 
-                    self.board[1][0] = -1
-                    self.board[3][0] = -1
-                    self.board[0][1] = -1
-                    self.board[4][1] = -1
+            self.board[3][0] = -1
+            self.board[6][0] = -1
+            self.board[0][3] = -1
+            self.board[9][3] = -1
 
-                    self.board[0][3] = 1
-                    self.board[4][3] = 1
-                    self.board[1][4] = 1
-                    self.board[3][4] = 1
+            self.board[0][6] = 1
+            self.board[9][6] = 1
+            self.board[3][9] = 1
+            self.board[6][9] = 1
 
-                    self.black_positions = [(1, 0), (3, 0), (0, 1), (4, 1)]
-                    self.white_positions = [(0, 3), (4, 3), (1, 4), (3, 4)]
-                else:  # Big is False
-                    self.n = 10  # Dimension of the board
-                    self.board = [[]] * self.n  # Board
+            self.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
+            self.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
+        elif len(args) == 1:
+            if not isinstance(args[0], Board):
+                raise TypeError("argument must be of type Board")  # throw type error
 
-                    for i in range(self.n):
-                        self.board[i] = [0] * self.n
+            prev_board = args[0]
+            self.n = len(prev_board.board)  # Dimension of the board
+            self.board = [[]] * self.n  # Board
 
-                    self.board[3][0] = -1
-                    self.board[6][0] = -1
-                    self.board[0][3] = -1
-                    self.board[9][3] = -1
+            for i in range(self.n):
+                self.board[i] = copy(prev_board.board[i])
 
-                    self.board[0][6] = 1
-                    self.board[9][6] = 1
-                    self.board[3][9] = 1
-                    self.board[6][9] = 1
-
-                    self.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
-                    self.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
-            else:
-                prev_board = args[0]
-                self.n = len(prev_board.board)  # Dimension of the board
-                self.board = [[]] * self.n  # Board
-
-                for i in range(self.n):
-                    self.board[i] = copy(prev_board.board[i])
-
-                self.black_positions = copy(prev_board.black_positions)
-                self.white_positions = copy(prev_board.white_positions)
+            self.black_positions = copy(prev_board.black_positions)
+            self.white_positions = copy(prev_board.white_positions)
         else:
-            return  # Error
+            raise ValueError("invalid number of arguments, only 1 allowed")  # throw value error
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> list[int]:
         return self.board[index]
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Board):
+            return False
+
         for i in range(self.n):
             for j in range(self.n):
                 if self.board[i][j] != other.board[i][j]:
@@ -83,7 +66,7 @@ class Board:
     Get all the legal moves for a player (-1 is black, 1 is white)
     """
 
-    def get_legal_moves(self, player):
+    def get_legal_moves(self, player: int) -> list[((int, int), (int, int), (int, int))]:
         moves = []
 
         # Find the positions of the player's amazons
@@ -109,7 +92,7 @@ class Board:
     Get the full moves for a certain amazon
     """
 
-    def get_moves_amazon(self, amazon, player):
+    def get_moves_amazon(self, amazon: (int, int), player: int) -> list[(int, int)]:
         moves = []
 
         for move in self.get_moves_position(amazon):  # Get the 'physical' moves
@@ -124,7 +107,7 @@ class Board:
     Get the queen-like moves from a certain position
     """
 
-    def get_moves_position(self, position):
+    def get_moves_position(self, position: (int, int)) -> list[(int, int)]:
         moves = []
 
         for direction in self.__directions:
@@ -142,13 +125,13 @@ class Board:
     :returns True is the specified player has legal moves and False otherwise
     """
 
-    def has_legal_moves(self, player):
+    def has_legal_moves(self, player: int) -> bool:
         if len(self.get_legal_moves(player)) > 0:
             return True
         else:
             return False
 
-    def is_win(self, player):
+    def is_win(self, player: int) -> bool:
         if not (self.has_legal_moves(-player)):
             return True
         else:
@@ -163,8 +146,8 @@ class Board:
     shoot: the tile that will be shot by the amazon
     """
 
-    def execute_move(self, move, player):
-        if not self.check_valid_move(move):
+    def execute_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> None:
+        if not self.is_valid_move(move):
             return
 
         (amazon, place, shoot) = move
@@ -173,8 +156,8 @@ class Board:
 
         self.shoot_arrow(shoot)
 
-    def undo_move(self, move, player):
-        if not self.check_valid_move(move):
+    def undo_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> None:
+        if not self.is_valid_move(move):
             return
 
         (amazon, place, shoot) = move
@@ -196,7 +179,8 @@ class Board:
     :returns True if the specified move is valid and False otherwise
     """
 
-    def check_valid_move(self, move):
+    def is_valid_move(self, move: ((int, int), (int, int), (int, int))) -> bool:
+        # TODO
         return True
 
     """
@@ -204,7 +188,7 @@ class Board:
     (note that this is not a full move, just a piece move without the shot)
     """
 
-    def move_piece(self, amazon, place, player):
+    def move_piece(self, amazon: (int, int), place: (int, int), player: int) -> None:
         (x1, y1) = amazon
         (x2, y2) = place
 
@@ -223,7 +207,7 @@ class Board:
     Blocks a tile from the board
     """
 
-    def shoot_arrow(self, shoot):
+    def shoot_arrow(self, shoot: (int, int)) -> None:
         (x, y) = shoot
 
         self.board[x][y] = 2
@@ -232,7 +216,7 @@ class Board:
     Prints the board xd
     """
 
-    def print_board(self):
+    def print_board(self) -> None:
         for i in range(self.n):
             for j in range(self.n):
                 print(self.board[j][i], end="\t")

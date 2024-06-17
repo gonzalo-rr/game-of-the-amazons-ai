@@ -1,3 +1,4 @@
+from amazons.algorithms.Algorithm import Algorithm
 from amazons.logic.AmazonsLogic import Board
 import pygame
 
@@ -8,12 +9,12 @@ import threading
 
 from ui.PlayersMenu import PlayersMenu
 
-wait_time = 0000
+wait_time = 2000
 
 
 class GameGUI:
-    def __init__(self, tile_size, algorithms):
-        self.board = Board(False)
+    def __init__(self, tile_size: int, algorithms: list[Algorithm]) -> None:
+        self.board = Board()
 
         # Game variables
         # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,
@@ -77,7 +78,7 @@ class GameGUI:
         # Event queue
         self.event_queue = None
 
-    def __restart_game(self):
+    def __restart_game(self) -> None:
         # Game board
         self.board = Board(False)
 
@@ -92,14 +93,14 @@ class GameGUI:
         self.__black_positions = self.board.black_positions
         self.__blocked_positions = []
 
-    def __draw_board(self):
+    def __draw_board(self) -> None:
         for i in range(self.board.n + 1):
             pygame.draw.line(self.screen, 'black',
                              (0, i * self.tile_size), (self.height, i * self.tile_size))
             pygame.draw.line(self.screen, 'black',
                              (i * self.tile_size, 0), (i * 100, self.width))
 
-    def __draw_pieces(self):
+    def __draw_pieces(self) -> None:
         for column in range(self.board.n):
             for row in range(self.board.n):
                 if self.board[column][row] == 1:  # White amazon
@@ -113,13 +114,13 @@ class GameGUI:
                     pygame.draw.rect(self.screen, 'red',
                                      [column * self.tile_size + 1, row * self.tile_size + 1, 100, 100], 2)
 
-    def __get_valid_moves(self):
+    def __get_valid_moves(self) -> None:
         if self.__selection is not None:
             # White or black piece selected or moved
             if self.turn_step == 1 or self.turn_step == 2 or self.turn_step == 4 or self.turn_step == 5:
                 self.__valid_moves = self.board.get_moves_position(self.__selection)
 
-    def __draw_valid_moves(self):
+    def __draw_valid_moves(self) -> None:
         self.__get_valid_moves()
         for move in self.__valid_moves:
             pygame.draw.circle(self.screen, 'black',
@@ -127,11 +128,11 @@ class GameGUI:
                                 move[1] * self.tile_size + self.tile_size / 2),
                                10)
 
-    def __draw_win(self, player):
+    def __draw_win(self, player: int) -> None:
         winner = 'WHITE' if player == 1 else 'BLACK'
         self.screen.blit(self.big_font.render(f'{winner} WON', True, 'black'), (420, 420))
 
-    def __draw_play_button(self):
+    def __draw_play_button(self) -> None:
         text = 'Play'
 
         x_offset = (self.__button_rect.width - self.big_font.size(text)[0]) / 2
@@ -141,7 +142,7 @@ class GameGUI:
         self.screen.blit(self.big_font.render(text, True, 'black'),
                          (self.__button_rect.x + x_offset, self.__button_rect.y + y_offset))
 
-    def __draw_restart_button(self):
+    def __draw_restart_button(self) -> None:
         text = 'Restart'
 
         x_offset = (self.__button_rect.width - self.big_font.size(text)[0]) / 2
@@ -152,19 +153,19 @@ class GameGUI:
                          (self.__button_rect.x + x_offset, self.__button_rect.y + y_offset))
 
     # Returns True if the button was pressed with the intention to play
-    def __handle_play_event(self, event):
+    def __handle_play_event(self, event: pygame.event.Event) -> bool | None:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.__button_rect.collidepoint((event.pos[0], event.pos[1])):
                 return True
 
-    def __update_gui(self):
+    def __update_gui(self) -> None:
         self.screen.fill('gray')
         self.__draw_board()
         self.__draw_valid_moves()
         self.__draw_pieces()
         self.__menu.draw()
 
-    def __handle_turn(self, turn):
+    def __handle_turn(self, turn: int) -> None:
         player = self.white_player if turn == 1 else self.black_player
         if player.is_human():
             player.make_move()
@@ -175,7 +176,7 @@ class GameGUI:
                 thread.start()
                 self.making_move = True
 
-    def make_move(self, event):
+    def make_move(self, event: pygame.event.Event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not self.game_over:
             x_coord = event.pos[0] // self.tile_size
             y_coord = event.pos[1] // self.tile_size
@@ -186,7 +187,7 @@ class GameGUI:
             else:
                 self.handle_click(click_coords, -1)
 
-    def handle_click(self, click_coords, player):
+    def handle_click(self, click_coords: (int, int), player: int) -> None:
         positions = self.__white_positions if player == 1 else self.__black_positions
 
         if self.turn_step != 2 and self.turn_step != 5:  # Piece not already selected
@@ -205,7 +206,7 @@ class GameGUI:
                 elif self.turn_step == 5:  # Shoot an arrow
                     self.shoot_arrow(click_coords)
 
-    def select_amazon(self, amazon):
+    def select_amazon(self, amazon: (int, int)) -> None:
         self.__selection = amazon
         if self.turn_step == 0:
             self.turn_step = 1
@@ -215,7 +216,7 @@ class GameGUI:
         self.__update_gui()
         pygame.display.flip()
 
-    def move_piece(self, prev, new, player):
+    def move_piece(self, prev: (int, int), new: (int, int), player: int) -> None:
         self.board.move_piece(prev, new, player)
         self.__selection = new
         self.turn_step += 1
@@ -223,7 +224,7 @@ class GameGUI:
         self.__update_gui()
         pygame.display.flip()
 
-    def shoot_arrow(self, pos):
+    def shoot_arrow(self, pos: (int, int)) -> None:
         self.__blocked_positions.append(pos)
 
         self.board.shoot_arrow(pos)
@@ -234,7 +235,7 @@ class GameGUI:
         self.__update_gui()
         pygame.display.flip()
 
-    def __check_end(self):
+    def __check_end(self) -> None:
         if self.turn_step == 0 or 3:
             if self.board.is_win(-1):  # Black wins
                 self.__draw_win(-1)
@@ -245,7 +246,7 @@ class GameGUI:
                 self.game_over = True
                 self.__playing = False
 
-    def run(self):
+    def run(self) -> None:
         self.__timer.tick(self.__fps)
 
         while self.__running:

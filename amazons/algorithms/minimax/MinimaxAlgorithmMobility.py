@@ -1,11 +1,9 @@
 import random
-import sys
 import time
 
 from amazons.algorithms.minimax.MinimaxAlgorithm import MinimaxAlgorithm, evaluate_mobility
 from amazons.logic.AmazonsLogic import Board
 
-sys.setrecursionlimit(2_000)
 
 """
 white - max
@@ -15,13 +13,15 @@ black - min
 
 class MinimaxAlgorithmMobility(MinimaxAlgorithm):
 
-    def __init__(self, max_depth, max_time):
+    def __init__(self, max_depth: int, max_time: int) -> None:
         super().__init__(max_depth, max_time)
 
     def __str__(self):
         return 'MinimaxMob'
 
-    def make_move(self, board, player):
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        super().make_move(board, player)
+
         new_board = Board(board)
         best_move = new_board.get_legal_moves(player)[0]
 
@@ -36,7 +36,8 @@ class MinimaxAlgorithmMobility(MinimaxAlgorithm):
 
         return best_move
 
-    def _minimax(self, board, player, alpha, beta, depth):
+    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) ->\
+            (float, ((int, int), (int, int), (int, int))):
         if board.is_win(player) or board.is_win(-player) or depth == self._max_depth:
             return evaluate_mobility(board), None
         else:

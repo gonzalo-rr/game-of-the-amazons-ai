@@ -1,5 +1,5 @@
 import time
-from copy import deepcopy
+from copy import deepcopy, copy
 
 import pygame
 
@@ -62,6 +62,8 @@ def main():
 
     # calculate_copy_times()
 
+    # compare_for_tests()
+
     run_gui()
 
     # calculate_king_moves(Board(False))
@@ -108,6 +110,15 @@ def main():
     # MinimaxAlgorithm.evaluate_territory(b)
 
 
+def compare_for_tests():
+    b = Board()
+    p1 = MinimaxAlgorithmMobility(2, 10)
+    start = time.time()
+    p1.make_move(b, 1)
+    end = time.time()
+    print(f"Time taken: {end - start}")
+
+
 def test_parallelization():
     # global x
 
@@ -138,7 +149,7 @@ def calculation(secs, pid, array):
 def calculate_copy_times():
     start = time.time_ns()
 
-    board = Board()
+    board = Board(False)
 
     n_times = 1000
 
@@ -152,7 +163,11 @@ def calculate_copy_times():
     start = time.time_ns()
 
     for i in range(n_times):
-        new_board = Board(board)
+        new_board = [[] for _ in range(board.n)]
+        for col in range(len(board.board)):
+            new_board[col] = copy(board.board[col])
+        b = Board(False)
+        b.board = new_board
 
     end = time.time_ns()
 
@@ -183,8 +198,8 @@ def run_gui():
         # MinimaxAlgorithmMobility(2, 5),
         # MinimaxAlgorithmRelativeTerritory(2, 5),
         # MinimaxAlgorithmTerritory(2, 5),
-        MinimaxAlgorithmTerritoryMobility(2, 5),
-        MCTSAlgorithmUCB(1000, 20),
+        MinimaxAlgorithmMobility(1, 5),
+        MCTSAlgorithmUCB(500, 5),
         MCTSAlgorithmE(1000, 20),
     ]
 

@@ -1,11 +1,13 @@
 import pygame
 
+from amazons.players.Player import Player
 from ui.DropDown import DropDown
 
 
 class PlayersMenu:
 
-    def __init__(self, screen, location, unit_size, players, big_font, font):
+    def __init__(self, screen: pygame.surface.Surface, location: (int, int), unit_size: int, players: list[Player],
+                 big_font: pygame.font.Font, font: pygame.font.Font) -> None:
         self.screen = screen
         self.unit_size = unit_size
         self.players = players
@@ -35,7 +37,7 @@ class PlayersMenu:
         self.white_player = players[0]
         self.black_player = players[0]
 
-    def draw(self):
+    def draw(self) -> None:
         self.screen.blit(self.font.render("White", True, "black"),
                          (self.dropdown1.body.x, self.dropdown1.body.y - self.dropdown1.body.height / 2))
         self.dropdown1.draw_menu(self.screen)
@@ -44,9 +46,9 @@ class PlayersMenu:
                              (self.dropdown2.body.x, self.dropdown2.body.y - self.dropdown2.body.height / 2))
             self.dropdown2.draw_menu(self.screen)
 
-    def handle_menu_event(self, event):
+    def handle_menu_event(self, event: pygame.event.Event) -> None:
         if not self.dropdown1.handle_event(event):
             self.dropdown2.handle_event(event)
 
-    def get_players(self):
+    def get_players(self) -> (Player, Player):
         return self.players[self.dropdown1.selected_option], self.players[self.dropdown2.selected_option]

@@ -21,6 +21,7 @@ class MCTSAlgorithm(Algorithm):
         self._current_state = None
         self._leaf_nodes = []
 
+    @abstractmethod
     def _expand(self, node):
         ...
 
