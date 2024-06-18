@@ -8,7 +8,7 @@ from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithmUCB
 from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
 from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
-from amazons.test import MatchTraining
+from amazons.tests import MatchTraining
 from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
 from amazons.algorithms.greedy.GreedyAlgorithmMobility import GreedyAlgorithmMobility

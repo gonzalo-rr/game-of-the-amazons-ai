@@ -201,13 +201,36 @@ class Board:
             self.black_positions.remove(place)
             self.black_positions.append(amazon)
 
-    def is_valid_move(self, move: ((int, int), (int, int), (int, int))) -> bool:
+    def is_valid_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> bool:
         """
         Returns True if the specified move is valid and False otherwise
         :param move: move to be verified
+        :param player: player that makes the move
         :return: bool
         """
-        # TODO
+        if not isinstance(move, tuple) or len(move) != 3:
+            return False
+        if type(player) is not int:
+            return False
+        if player != 1 and player != -1:
+            return False
+
+        initial_square, final_square, arrow = move
+
+        if initial_square[0] >= self.n or initial_square[1] >= self.n or initial_square[0] < 0 or initial_square[1] < 0:
+            return False
+        if final_square[0] >= self.n or final_square[1] >= self.n or final_square[0] < 0 or final_square[1] < 0:
+            return False
+        if arrow[0] >= self.n or arrow[1] >= self.n or arrow[0] < 0 or arrow[1] < 0:
+            return False
+
+        if self.board[initial_square[0]][initial_square[1]] != player:
+            return False
+        if self.board[final_square[0]][final_square[1]] != 0:
+            return False
+        if self.board[arrow[0]][arrow[1]] != 0:
+            return False
+
         return True
 
     def move_piece(self, amazon: (int, int), place: (int, int), player: int) -> None:

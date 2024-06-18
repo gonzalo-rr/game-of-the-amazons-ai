@@ -80,7 +80,7 @@ class GameGUI:
 
     def __restart_game(self) -> None:
         # Game board
-        self.board = Board(False)
+        self.board = Board()
 
         # Game variables
         # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,
