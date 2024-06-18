@@ -316,7 +316,8 @@ def get_free_squares_around(board: Board, square: (int, int)) -> list[(int, int)
 
 
 # Calculates individual mobility of the amazons of a player
-def calculate_mobility(king_moves_board: list[int], board: Board, opponent_board: Board, amazon: (int, int)) -> float:
+def calculate_mobility(king_moves_board: list[int], board: Board, opponent_board: list[list[int]],
+                       amazon: (int, int)) -> float:
     alpha = 0
 
     for direction in directions:

@@ -9,7 +9,7 @@ import threading
 
 from ui.PlayersMenu import PlayersMenu
 
-wait_time = 2000
+wait_time = 0000
 
 
 class GameGUI:

@@ -7,6 +7,7 @@ from amazons.algorithms.mcts.MCTSAlgorithmEGreedy import MCTSAlgorithmE
 from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithmUCB
 from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
 from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
+from amazons.algorithms.minimax.MinimaxAlgorithmStd import MinimaxAlgorithmStd
 from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
 from amazons.tests import MatchTraining
 from amazons.logic.AmazonsLogic import Board
@@ -19,6 +20,14 @@ import multiprocessing as mp
 
 
 def main():
+    # board = Board()
+    # move = board.get_legal_moves(1)[0]
+    # board.execute_move(move, 1)
+    # board.execute_move(((3, 0), (4, 1), (5, 2)), -1)
+    # board.print_board()
+    # print()
+    # board2 = Board(board)
+    # board2.print_board()
     # mcts = MCTSAlgorithm(10)
     # b = Board(False)
     # mcts.make_move(b, 1)
@@ -198,7 +207,7 @@ def run_gui():
         # MinimaxAlgorithmMobility(2, 5),
         # MinimaxAlgorithmRelativeTerritory(2, 5),
         # MinimaxAlgorithmTerritory(2, 5),
-        MinimaxAlgorithmMobility(1, 5),
+        MinimaxAlgorithmStd(1, 2),
         MCTSAlgorithmUCB(500, 5),
         MCTSAlgorithmE(1000, 20),
     ]

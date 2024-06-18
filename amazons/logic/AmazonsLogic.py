@@ -72,21 +72,8 @@ class Board:
 
         moves = []
 
-        # Find the positions of the player's amazons
-        amazons = []
-
-        for i in range(self.n):
-            for j in range(self.n):
-                if self.board[i][j] == player:
-                    amazons.append((i, j))
-                    if len(amazons) == 4:
-                        break
-            else:
-                continue
-            break
-
         # Find the moves for each amazon
-        for amazon in amazons:
+        for amazon in self.white_positions if player == 1 else self.black_positions:
             for move in self.get_moves_amazon(amazon, player):
                 moves.append(move)
         return moves
@@ -166,8 +153,8 @@ class Board:
         :return: None
         """
 
-        if not self.is_valid_move(move):
-            return
+        if not self.is_valid_move(move, player):
+            raise ValueError("invalid move")
 
         (amazon, place, shoot) = move
 
@@ -183,8 +170,8 @@ class Board:
         :return: None
         """
 
-        if not self.is_valid_move(move):
-            return
+        # if not self.is_valid_move(move, player):
+        #     raise ValueError("invalid move")
 
         (amazon, place, shoot) = move
 
@@ -228,7 +215,7 @@ class Board:
             return False
         if self.board[final_square[0]][final_square[1]] != 0:
             return False
-        if self.board[arrow[0]][arrow[1]] != 0:
+        if self.board[arrow[0]][arrow[1]] != 0 and arrow[0] != initial_square[0] and arrow[1] != initial_square[1]:
             return False
 
         return True
