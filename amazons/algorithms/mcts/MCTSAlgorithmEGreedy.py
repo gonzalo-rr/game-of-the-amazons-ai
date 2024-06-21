@@ -27,7 +27,7 @@ class MCTSAlgorithmE(MCTSAlgorithm):
 
     def make_move(self, board, player):
         if board.is_win(1) or board.is_win(-1):
-            return None
+            raise ValueError("no moves found for the position")
 
         new_board = Board(board)
         self._leaf_nodes = []

@@ -3,7 +3,7 @@ import time
 
 from amazons.algorithms.mcts.MCTSAlgorithm import MCTSAlgorithm, ucb_score
 from amazons.logic.AmazonsLogic import Board
-from amazons.algorithms.mcts.node.NodeEpsilon import NodeEpsilon
+from amazons.algorithms.mcts.node.NodeUCB_cut import NodeUCB
 
 
 class MCTSAlgorithmCut(MCTSAlgorithm):
@@ -18,11 +18,11 @@ class MCTSAlgorithmCut(MCTSAlgorithm):
 
     def make_move(self, board, player):
         if board.is_win(1) or board.is_win(-1):
-            return None
+            raise ValueError("no moves found for the position")
 
         new_board = Board(board)
 
-        self._root = NodeEpsilon(new_board, None, player)
+        self._root = NodeUCB(new_board, None, player)
         self._expand(self._root)
         self._current_state = self._root
 
@@ -34,7 +34,7 @@ class MCTSAlgorithmCut(MCTSAlgorithm):
 
         while time.time() <= self._end and self._simulations < self._max_simulations:
             if len(self._current_state.children) == 0:  # Leaf node
-                if self._current_state.n == 0:  # Not yet sampled
+                if self._current_state.s == 0:  # Not yet sampled
                     result = self._simulate(self._current_state)  # SIMULATION
                     self._back_propagate(self._current_state, result)  # BACKPROPAGATION
                 else:  # Already sampled
@@ -48,7 +48,7 @@ class MCTSAlgorithmCut(MCTSAlgorithm):
             else:  # Not a leaf node
                 self._current_state, _ = self._select(self._root)  # SELECTION
 
-        self._root.children.sort(key=lambda c: c.n, reverse=True)
+        self._root.children.sort(key=lambda c: c.s, reverse=True)
         return self._root.children[0].action
 
     # def make_move(self, board, player):
@@ -136,12 +136,12 @@ class MCTSAlgorithmCut(MCTSAlgorithm):
 
     def _back_propagate(self, node, win):
         node.w += win
-        node.n += 1
+        node.s += 1
 
         current_node = node
         while current_node.parent is not None:
             current_node.parent.w += win
-            current_node.parent.n += 1
+            current_node.parent.s += 1
             current_node = current_node.parent
 
             win = 1 - win  # Win for node means loss to parent

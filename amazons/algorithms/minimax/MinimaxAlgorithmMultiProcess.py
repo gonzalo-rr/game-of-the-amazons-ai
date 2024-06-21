@@ -32,6 +32,9 @@ class MinimaxAlgorithmMultiProcess(MinimaxAlgorithm):
         new_board = Board(board.board)
 
         moves = new_board.get_legal_moves(player)
+        if len(moves) == 0:
+            raise ValueError("no moves found for the position")
+
         random.shuffle(moves)
         scores = mp.Array('f', len(moves))
 

@@ -10,6 +10,9 @@ class GreedyAlgorithmTerritory(Algorithm):
 
     def make_move(self, board, player):
         moves = board.get_legal_moves(player)
+        if len(moves) == 0:
+            raise ValueError("no moves found for the position")
+
         best_score = player * float('-inf')
         best_move = moves[0]
 
