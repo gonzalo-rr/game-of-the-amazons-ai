@@ -207,7 +207,7 @@ def run_gui():
         # MinimaxAlgorithmMobility(2, 5),
         # MinimaxAlgorithmRelativeTerritory(2, 5),
         # MinimaxAlgorithmTerritory(2, 5),
-        MinimaxAlgorithmStd(1, 2),
+        MinimaxAlgorithmTerritoryMobility(2, 5),
         MCTSAlgorithmUCB(500, 5),
         MCTSAlgorithmE(1000, 20),
     ]
