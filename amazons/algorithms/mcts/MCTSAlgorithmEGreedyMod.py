@@ -36,8 +36,6 @@ class MCTSAlgorithmEMod(MCTSAlgorithm):
         if board.is_win(1) or board.is_win(-1):
             return None
 
-        self.epsilon = 0.2
-
         new_board = Board(board)
         self._leaf_nodes = []
         self._root = NodeEpsilon(new_board, None, player)
