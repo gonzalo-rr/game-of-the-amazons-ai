@@ -1,4 +1,5 @@
 import csv
+import math
 import time
 
 from amazons.algorithms.mcts.MCTSAlgorithmEGreedyMod import MCTSAlgorithmEMod
@@ -218,18 +219,23 @@ def match_training(n_matches):
     # match_recorder.save_results('resMCTSEm5vGT.pkl')
 
     # Set 9: MCTS [IMPORTANT]
-    p1 = MCTSAlgorithm(10_000, 25)
-    p2 = MCTSAlgorithmCut(10_000, 25)
-    play_n_games(p1, p2, n_matches, 'resMCTSvMCTSC.csv')
-    match_recorder.save_results('resMCTSvMCTSC.pkl')
+    # p1 = MCTSAlgorithm(2_000, 15)
+    # p2 = MCTSAlgorithmCut(2_000, 15)
+    # play_n_games(p1, p2, n_matches, 'resMCTSvMCTSC2.csv')
+    # match_recorder.save_results('resMCTSvMCTSC2.pkl')
 
-    p1 = MCTSAlgorithmE(10_000, 25)
-    p2 = MCTSAlgorithmEMod(10_000, 25)
+    # p1 = MCTSAlgorithm(2_000, 15, math.sqrt(2))
+    # p2 = MCTSAlgorithmCut(2_000, 15, math.sqrt(2))
+    # play_n_games(p1, p2, n_matches / 2, 'resMCTSvMCTSCs2.csv')
+    # match_recorder.save_results('resMCTSvMCTSCs2.pkl')
+
+    p1 = MCTSAlgorithmE(2_000, 15)
+    p2 = MCTSAlgorithmEMod(2_000, 15)
     play_n_games(p1, p2, n_matches, 'resMCTSEvMCTSEM.csv')
     match_recorder.save_results('resMCTSEvMCTSEM.pkl')
 
-    p1 = MCTSAlgorithmE(10_000, 25)
-    p2 = MCTSAlgorithmCut(10_000, 25)
+    p1 = MCTSAlgorithmE(2_000, 15)
+    p2 = MCTSAlgorithmCut(2_000, 15)
     play_n_games(p1, p2, n_matches, 'resMCTSEvMCTSC.csv')
     match_recorder.save_results('resMCTSEvMCTSC.pkl')
 
@@ -285,19 +291,23 @@ def match_training(n_matches):
 def play_n_games(p1, p2, n_matches, name):
     full_results = []  # Each element is the results of a single game
 
-    for game in range(n_matches // 2):
-        results = play_game(p1, p2)
-        full_results.append(results)
+    n_game = 1
 
     for game in range(n_matches // 2):
-        results = play_game(p2, p1)
+        results = play_game(p1, p2, n_game)
         full_results.append(results)
+        n_game += 1
+
+    for game in range(n_matches // 2):
+        results = play_game(p2, p1, n_game)
+        full_results.append(results)
+        n_game += 1
 
     update_csv(full_results, name)
 
 
 # [white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black]
-def play_game(white, black):
+def play_game(white, black, n_game):
     match_recorder = MatchRecorder()
 
     result = 0
@@ -350,7 +360,7 @@ def play_game(white, black):
         n_moves_black += 1
 
     end = time.time()
-    print('Game finished')
+    print(f'Game {n_game} finished')
     match_recorder.finish_game()
 
     results = [white, black, result, end - start, n_moves_white, n_moves_black, avg_move_time_white,

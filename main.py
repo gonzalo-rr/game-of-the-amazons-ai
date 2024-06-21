@@ -3,6 +3,7 @@ from copy import deepcopy
 
 import pygame
 
+from amazons.algorithms.mcts.MCTSAlgorithmEGreedyMod import MCTSAlgorithmEMod
 from amazons.test import MatchTraining
 from amazons.logic.AmazonsLogic import Board
 from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
@@ -80,7 +81,7 @@ def main():
     # _, bw, bb = evaluate_territory(b)
     # evaluate_individual_mobility(b, bw, bb)
 
-    n_matches = 100
+    n_matches = 2
     MatchTraining.match_training(n_matches)
 
     # test_parallelization()
@@ -174,7 +175,7 @@ def run_gui():
     tile_size = 100
     algorithms = [
         RandomAlgorithm(),
-        GreedyAlgorithmMobility(),
+        MCTSAlgorithmEMod(1000, 10),
         MinimaxAlgorithmTerritory(2, 5),
     ]
 

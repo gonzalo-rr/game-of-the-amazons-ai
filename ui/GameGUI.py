@@ -65,13 +65,13 @@ class GameGUI:
                                   self.big_font, self.font)
 
         # Game pieces
-        self.__white_amazon = pygame.image.load('amazons/assets/images/white_amazon.png')
+        self.__white_amazon = pygame.image.load('assets/images/white_amazon.png')
         self.__white_amazon = pygame.transform.scale(self.__white_amazon, (80, 80))
 
-        self.__black_amazon = pygame.image.load('amazons/assets/images/black_amazon.png')
+        self.__black_amazon = pygame.image.load('assets/images/black_amazon.png')
         self.__black_amazon = pygame.transform.scale(self.__black_amazon, (80, 80))
 
-        self.__blocked_tile = pygame.image.load('amazons/assets/images/blocked_tile.png')
+        self.__blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
         self.__blocked_tile = pygame.transform.scale(self.__blocked_tile, (80, 80))
 
         # Event queue
