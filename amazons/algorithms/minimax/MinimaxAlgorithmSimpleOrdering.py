@@ -20,8 +20,13 @@ class MinimaxAlgorithmSimpleOrdering(MinimaxAlgorithm):
     def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
         super().make_move(board, player)
 
-        new_board = Board(board.board)
-        best_move = None
+        new_board = Board(board)
+        moves = new_board.get_legal_moves(player)
+        if len(moves) == 0:
+            raise ValueError("no moves found for the position")
+
+        best_move = moves[0]
+
         self.ratings = [{} for _ in range(self._max_depth)]
 
         self._end = time.time() + self._max_time

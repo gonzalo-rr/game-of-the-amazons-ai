@@ -57,6 +57,11 @@ class Board:
         if not isinstance(other, Board):
             return False
 
+        if sorted(self.white_positions) != sorted(other.white_positions):
+            return False
+        if sorted(self.black_positions) != sorted(other.black_positions):
+            return False
+
         for i in range(self.n):
             for j in range(self.n):
                 if self.board[i][j] != other.board[i][j]:
@@ -135,6 +140,11 @@ class Board:
         :return: bool
         """
 
+        if type(player) is not int:
+            raise TypeError("player must be an int")
+        if player != 1 and player != -1:
+            raise ValueError("player must be 1 (white) or -1 (black)")
+
         if not (self.has_legal_moves(-player)):
             return True
         else:
@@ -170,10 +180,14 @@ class Board:
         :return: None
         """
 
-        # if not self.is_valid_move(move, player):
-        #     raise ValueError("invalid move")
+        amazon, place, shoot = move
 
-        (amazon, place, shoot) = move
+        if not self.__is_valid_move_types(move, player):
+            raise ValueError("invalid move")
+
+        if not self.__is_valid_move_logic(amazon, place, shoot):
+            raise ValueError("invalid move")
+
 
         self.board[shoot[0]][shoot[1]] = 0
 
@@ -195,6 +209,25 @@ class Board:
         :param player: player that makes the move
         :return: bool
         """
+
+        if not self.__is_valid_move_types(move, player):
+            return False
+
+        initial_square, final_square, arrow = move
+
+        if not self.__is_valid_move_logic(initial_square, final_square, arrow):
+            return False
+
+        return self.__is_valid_move_squares(initial_square, final_square, arrow, player)
+
+    def __is_valid_move_types(self, move: ((int, int), (int, int), (int, int)), player: int) -> bool:
+        """
+        Returns True if the specified move has valid types for the tuples and False otherwise
+        :param move: move
+        :param player: player
+        :return: bool
+        """
+
         if not isinstance(move, tuple) or len(move) != 3:
             return False
         if type(player) is not int:
@@ -204,6 +237,47 @@ class Board:
 
         initial_square, final_square, arrow = move
 
+        if not isinstance(initial_square, tuple) or len(initial_square) != 2 \
+                or not isinstance(initial_square[0], int) or not isinstance(initial_square[1], int):
+            return False
+        if not isinstance(final_square, tuple) or len(final_square) != 2 \
+                or not isinstance(final_square[0], int) or not isinstance(final_square[1], int):
+            return False
+        if not isinstance(arrow, tuple) or len(arrow) != 2 \
+                or not isinstance(arrow[0], int) or not isinstance(arrow[1], int):
+            return False
+
+        return True
+
+    def __is_valid_move_squares(self, initial_square: (int, int), final_square: (int, int), arrow: (int, int),
+                                player) -> bool:
+        """
+        Returns True if the specified move is a correct move given the games of the squares of the board
+        :param initial_square: initial square
+        :param final_square: final square
+        :param arrow: arrow
+        :param player: player that makes the move
+        :return: bool
+        """
+
+        if self.board[initial_square[0]][initial_square[1]] != player:
+            return False
+        if self.board[final_square[0]][final_square[1]] != 0:
+            return False
+        if self.board[arrow[0]][arrow[1]] != 0 and arrow[0] != initial_square[0] and arrow[1] != initial_square[1]:
+            return False
+
+        return True
+
+    def __is_valid_move_logic(self, initial_square: (int, int), final_square: (int, int), arrow: (int, int)) -> bool:
+        """
+        Returns True if the specified move is a correct move given the games of the rules and False otherwise
+        :param initial_square: initial square
+        :param final_square: final square
+        :param arrow: arrow
+        :return: bool
+        """
+
         if initial_square[0] >= self.n or initial_square[1] >= self.n or initial_square[0] < 0 or initial_square[1] < 0:
             return False
         if final_square[0] >= self.n or final_square[1] >= self.n or final_square[0] < 0 or final_square[1] < 0:
@@ -211,11 +285,13 @@ class Board:
         if arrow[0] >= self.n or arrow[1] >= self.n or arrow[0] < 0 or arrow[1] < 0:
             return False
 
-        if self.board[initial_square[0]][initial_square[1]] != player:
+        da = abs(final_square[0] - initial_square[0])
+        db = abs(final_square[1] - initial_square[1])
+        if da != db and da != 0 and db != 0:
             return False
-        if self.board[final_square[0]][final_square[1]] != 0:
-            return False
-        if self.board[arrow[0]][arrow[1]] != 0 and arrow[0] != initial_square[0] and arrow[1] != initial_square[1]:
+        da = abs(final_square[0] - arrow[0])
+        db = abs(final_square[1] - arrow[1])
+        if da != db and da != 0 and db != 0:
             return False
 
         return True

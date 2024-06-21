@@ -25,7 +25,11 @@ class MinimaxAlgorithmTerritoryTable(MinimaxAlgorithm):
         super().make_move(board, player)
 
         new_board = Board(board)
-        best_move = new_board.get_legal_moves(player)[0]
+        moves = new_board.get_legal_moves(player)
+        if len(moves) == 0:
+            raise ValueError("no moves found for the position")
+
+        best_move = moves[0]
 
         self._end = time.time() + self._max_time
         for depth in range(1, self._max_depth + 1):
