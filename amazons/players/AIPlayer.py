@@ -3,6 +3,7 @@ import time
 import pygame
 
 from amazons.algorithms.Algorithm import Algorithm
+from amazons.logic.AmazonsLogic import Board
 from amazons.players.Player import Player
 
 
@@ -44,10 +45,12 @@ class AIPlayer(Player):
         else:  # Black's turn
             player = -1
 
-        if self.__game.board.is_win(player) or self.__game.board.is_win(-player):
+        board = Board(self.__game.board)  # Copy board to avoid altering original UI board
+
+        if board.is_win(player) or board.is_win(-player):
             return
 
-        move = self.__algorithm.make_move(self.__game.board, player)
+        move = self.__algorithm.make_move(board, player)
         if move is None:
             return
 

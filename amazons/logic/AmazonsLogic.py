@@ -306,8 +306,8 @@ class Board:
         :return: None
         """
 
-        (x1, y1) = amazon
-        (x2, y2) = place
+        x1, y1 = amazon
+        x2, y2 = place
 
         self.board[x1][y1] = 0
 
