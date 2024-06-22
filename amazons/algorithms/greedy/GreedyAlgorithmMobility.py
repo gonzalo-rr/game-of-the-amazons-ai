@@ -21,10 +21,12 @@ class GreedyAlgorithmMobility:
         if len(moves) == 1:
             best_move = moves[0]
 
+        new_board = Board(board)
+
         for move in moves:
-            new_board = Board(board)
             new_board.execute_move(move, player)
             score = evaluate_mobility(new_board)
+            new_board.undo_move(move, player)
 
             if player == 1:
                 if score > best_score:
