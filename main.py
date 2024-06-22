@@ -3,19 +3,19 @@ from copy import deepcopy, copy
 
 import pygame
 
-from amazons.algorithms.mcts.MCTSAlgorithmEGreedy import MCTSAlgorithmE
-from amazons.algorithms.mcts.MCTSAlgorithmUCB import MCTSAlgorithmUCB
-from amazons.algorithms.minimax.MinimaxAlgorithmMobility import MinimaxAlgorithmMobility
-from amazons.algorithms.minimax.MinimaxAlgorithmRelativeTerritory import MinimaxAlgorithmRelativeTerritory
+from amazons.algorithms.mcts.mcts_algorithm_e_greedy import MCTSAlgorithmE
+from amazons.algorithms.mcts.mcts_algorithm_ucb import MCTSAlgorithmUCB
+from amazons.algorithms.minimax.minimax_algorithm_mobility import MinimaxAlgorithmMobility
+from amazons.algorithms.minimax.minimax_algorithm_relative_territory import MinimaxAlgorithmRelativeTerritory
 from amazons.algorithms.minimax.MinimaxAlgorithmStd import MinimaxAlgorithmStd
-from amazons.algorithms.minimax.MinimaxAlgorithmTerritoryMobility import MinimaxAlgorithmTerritoryMobility
-from amazons.tests import MatchTraining
-from amazons.logic.AmazonsLogic import Board
-from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
-from amazons.algorithms.greedy.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
+from amazons.tests import match_training
+from amazons.logic.amazons_logic import Board
+from amazons.algorithms.random_algorithm import RandomAlgorithm
+from amazons.algorithms.greedy.greedy_algorithm_mobility import GreedyAlgorithmMobility
+from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
 
-from ui.GameGUI import GameGUI
+from ui.game_gui import GameGUI
 import multiprocessing as mp
 
 

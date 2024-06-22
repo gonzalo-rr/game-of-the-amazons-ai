@@ -1,6 +1,6 @@
 import unittest
 
-from amazons.logic.AmazonsLogic import Board
+from amazons.logic.amazons_logic import Board
 
 
 class BoardTest(unittest.TestCase):
