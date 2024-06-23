@@ -13,15 +13,40 @@ black - min
 
 
 class MinimaxAlgorithmTerritoryTable(MinimaxAlgorithm):
+    """
+    Class for the Minimax algorithm with territory evaluation and history table
 
-    def __init__(self, max_depth, max_time):
+    Attributes:
+        _max_depth: max depth of the search tree
+        _max_time: max time for exploring the tree
+        __history_table: history table to save and recover evaluation of moves
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
+
+    def __init__(self, max_depth: int, max_time: int) -> None:
+        """
+        Constructor of the class
+        :param max_depth: max depth of the search tree
+        :param max_time: max time for exploring the tree
+        """
         super().__init__(max_depth, max_time)
         self.__history_table = HistoryTable("history_table_t")
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Method that returns the string value of the class
+        :return: name of the algorithm
+        """
         return 'MinimaxTerTab'
 
     def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        """
+        Method to get the move chosen by the algorithm in a given position for a given player
+        :param board: position of the game
+        :param player: player to move
+        :return: move chosen by the algorithm
+        """
         super().make_move(board, player)
 
         new_board = Board(board)
@@ -45,6 +70,15 @@ class MinimaxAlgorithmTerritoryTable(MinimaxAlgorithm):
 
     def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
             (float, ((int, int), (int, int), (int, int))):
+        """
+        Minimax recursive search algorithm
+        :param board: board with the current state of the game
+        :param player: player with the turn
+        :param alpha: alpha pruning parameter
+        :param beta: beta pruning parameter
+        :param depth: depth where the minimax algorithm is executed
+        :return: (evaluation, move)
+        """
         if board.is_win(player) or board.is_win(-player) or depth == self._max_depth:
             return evaluate_territory(board, difference_territory, player), None
         else:

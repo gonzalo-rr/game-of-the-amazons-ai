@@ -5,12 +5,18 @@ from amazons.logic.amazons_logic import Board
 
 
 class RandomAlgorithm(Algorithm):
+    """
+    Algorithm that chooses a random action
 
-    def __init__(self) -> None:
-        self.name = 'Random'
+    Author: Gonzalo Rodríguez Rodríguez
+    """
 
     def __str__(self) -> str:
-        return self.name
+        """
+        Method that returns the string value of the class
+        :return: name of the algorithm
+        """
+        return 'Random'
 
     def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
         moves = board.get_legal_moves(player)

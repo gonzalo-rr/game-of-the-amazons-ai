@@ -6,14 +6,11 @@ import pygame
 from amazons.algorithms.mcts.mcts_algorithm_e_greedy import MCTSAlgorithmE
 from amazons.algorithms.mcts.mcts_algorithm_ucb import MCTSAlgorithmUCB
 from amazons.algorithms.minimax.minimax_algorithm_mobility import MinimaxAlgorithmMobility
-from amazons.algorithms.minimax.minimax_algorithm_relative_territory import MinimaxAlgorithmRelativeTerritory
-from amazons.algorithms.minimax.MinimaxAlgorithmStd import MinimaxAlgorithmStd
+from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
 from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
-from amazons.tests import match_training
 from amazons.logic.amazons_logic import Board
 from amazons.algorithms.random_algorithm import RandomAlgorithm
 from amazons.algorithms.greedy.greedy_algorithm_mobility import GreedyAlgorithmMobility
-from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
 
 from ui.game_gui import GameGUI
 import multiprocessing as mp
@@ -203,7 +200,7 @@ def run_gui():
     tile_size = 100
     algorithms = [
         RandomAlgorithm(),
-        GreedyAlgorithmMobility(),
+        MinimaxAlgorithmTerritory(2, 5),
         # MinimaxAlgorithmMobility(2, 5),
         # MinimaxAlgorithmRelativeTerritory(2, 5),
         # MinimaxAlgorithmTerritory(2, 5),

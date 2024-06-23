@@ -8,8 +8,25 @@ from amazons.players.player import Player
 
 
 class AIPlayer(Player):
+    """
+    Class that represents an artificial intelligence player
+
+    Attributes:
+        __game: game graphic user interface
+        __current_move: move chosen
+        __algorithm: intelligent algorithm to make the move
+        __wait_time: time to wait to simulate the time to move
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
 
     def __init__(self, game_gui, algorithm: Algorithm, wait_time: int) -> None:
+        """
+        Constructor of the class
+        :param game_gui: game graphic user interface
+        :param algorithm: intelligent algorithm to make the move
+        :param wait_time: time to wait to simulate the time to move
+        """
         # if not isinstance(game_gui, GameGUI):
         #     raise TypeError("game_gui must be a game interface")
         # if not isinstance(algorithm, Algorithm):
@@ -25,12 +42,25 @@ class AIPlayer(Player):
         self.__wait_time = wait_time
 
     def __str__(self) -> str:
+        """
+        Returns the string value of the class
+        :return: the name of the algorithm
+        """
         return str(self.__algorithm)
 
     def is_human(self) -> bool:
+        """
+        Returns if the player is human
+        :return: False
+        """
         return False
 
     def __wait(self, millis: int) -> None:
+        """
+        Method to execute the wait time
+        :param millis: milliseconds to wait
+        :return: None
+        """
         end = round(time.time() * 1000) + millis
         while round(time.time() * 1000) < end:
             self.__game.event_queue = pygame.event.get()
@@ -40,6 +70,10 @@ class AIPlayer(Player):
                     self.__game.__running = False
 
     def make_move(self) -> None:
+        """
+        Method to execute a move
+        :return: None
+        """
         if self.__game.turn_step <= 2:  # White's turn
             player = 1
         else:  # Black's turn

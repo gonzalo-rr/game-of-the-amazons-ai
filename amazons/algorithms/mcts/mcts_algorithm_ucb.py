@@ -7,16 +7,43 @@ from amazons.algorithms.mcts.node.node_ucb import NodeUCB
 
 
 class MCTSAlgorithmUCB(MCTSAlgorithm):
+    """
+    Class for the MCTS Epsilon-Greedy algorithm
 
-    def __init__(self, max_simulations, max_time):
+    Attributes:
+        exploration_parameter: exploration parameter, by default 2
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
+
+    def __init__(self, max_simulations: int, max_time: int, exploration_parameter: int = 2) -> None:
+        """
+        Constructor for the class
+        :param max_simulations: max number of simulations
+        :param max_time: max time allowed to choose a move
+        :param exploration_parameter: exploration parameter 2 by default
+        """
         super().__init__(max_simulations, max_time)
 
-        self.c = 2  # Exploration parameter
+        self.exploration_parameter = exploration_parameter  # Exploration parameter
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Method that returns the string value of the class
+        :return: name of the algorithm
+        """
         return "MCTS"
 
-    def make_move(self, board, player):
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        """
+        Method to get the move chosen by the algorithm in a given position for a given player
+        :param board: position of the game
+        :param player: player to move
+        :return: move chosen by the algorithm
+        :raises ValueError if a valid move is not found
+        """
+        super().make_move(board, player)
+
         if board.is_win(1) or board.is_win(-1):
             raise ValueError("no moves found for the position")
 
@@ -94,13 +121,17 @@ class MCTSAlgorithmUCB(MCTSAlgorithm):
     #     # print(self.root.children[0].action)
     #     return self.root.children[0].action
 
-    def _select(self, node):
+    def _select(self, node: NodeUCB) -> (NodeUCB, float):
+        """
+        Method to select which node is going to be the current node from the descendants of a given node
+        :return: None
+        """
         best_node = None
         best_ucb = 0
 
         for child in node.children:
             if len(child.children) == 0:  # Not yet expanded (leaf node)
-                ucb = ucb_score(child, self.c)
+                ucb = ucb_score(child, self.exploration_parameter)
                 if ucb > best_ucb:
                     best_ucb = ucb
                     best_node = child
@@ -113,10 +144,20 @@ class MCTSAlgorithmUCB(MCTSAlgorithm):
         # print(best_ucb)
         return best_node, best_ucb
 
-    def _expand(self, node):
+    def _expand(self, node: NodeUCB):
+        """
+        Method to expand a given node
+        :param node: node to expand
+        :return: None
+        """
         node.expand()
 
-    def _simulate(self, node):
+    def _simulate(self, node: NodeUCB):
+        """
+        Simulate a game from the specified node
+        :param node: node to simulate from
+        :return: the result of the simulation
+        """
         self._simulations += 1
 
         current_state = Board(node.state)
@@ -135,7 +176,13 @@ class MCTSAlgorithmUCB(MCTSAlgorithm):
             current_state.execute_move(move, current_player)
             current_player *= -1
 
-    def _back_propagate(self, node, win):
+    def _back_propagate(self, node: NodeUCB, win: int):
+        """
+        Propagate backwards the reward of a simulation
+        :param node: Node to propagate backwards from
+        :param win: result to propagate backwards
+        :return: None
+        """
         node.w += win
         node.s += 1
 

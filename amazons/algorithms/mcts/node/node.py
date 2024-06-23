@@ -4,7 +4,26 @@ from amazons.logic.amazons_logic import Board
 
 
 class Node(ABC):
-    def __init__(self, state, action, player):
+    """
+    Abstract class to represent a Node for the MCTS algorithms
+
+    Attributes:
+        state: board state of the node
+        action: action that the node represents
+        player: player for the state of the node
+        parent: parent node
+        children: list of child nodes
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
+
+    def __init__(self, state: Board, action: ((int, int), (int, int), (int, int)), player: int) -> None:
+        """
+        Constructor for the subclasses
+        :param state: board state
+        :param action: move
+        :param player: int that represents the player
+        """
         self.state = Board(state)
         self.action = action
         self.player = player
@@ -12,5 +31,9 @@ class Node(ABC):
         self.children = []
 
     @abstractmethod
-    def expand(self):
+    def expand(self) -> None:
+        """
+        Expands the node, obtaining the child nodes of the current node
+        :return: None
+        """
         ...

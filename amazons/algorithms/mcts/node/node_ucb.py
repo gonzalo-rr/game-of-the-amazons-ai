@@ -5,14 +5,33 @@ from amazons.logic.amazons_logic import Board
 
 
 class NodeUCB(Node):
+    """
+    Class to represent a Node for the MCTS UCB algorithm
 
-    def __init__(self, state, action, player):
+    Attributes:
+        w: number of simulations resulting in a win
+        s: number of simulations
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
+
+    def __init__(self, state: Board, action: ((int, int), (int, int), (int, int)), player: int) -> None:
+        """
+        Constructor for the class
+        :param state: board state
+        :param action: move
+        :param player: int that represents the player
+        """
         super().__init__(state, action, player)
 
         self.w = 0  # number of simulations resulting in a win
         self.s = 0  # number of simulations
 
-    def expand(self):
+    def expand(self) -> None:
+        """
+        Expands the node, obtaining the child nodes of the current node
+        :return: None
+        """
         moves = self.state.get_legal_moves(self.player)
         random.shuffle(moves)
         for move in moves:

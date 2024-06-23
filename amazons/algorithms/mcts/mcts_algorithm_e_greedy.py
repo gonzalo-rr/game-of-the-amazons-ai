@@ -6,7 +6,13 @@ from amazons.algorithms.mcts.node.node_epsilon import NodeEpsilon
 from amazons.algorithms.mcts.mcts_algorithm import MCTSAlgorithm
 
 
-def calculate_probability(node, nodes):
+def calculate_probability(node: NodeEpsilon, nodes: list[NodeEpsilon]) -> float:
+    """
+    Function to calculate probability of selecting a node given the rest of the nodes
+    :param node: node to calculate the probability
+    :param nodes: rest of the nodes
+    :return: probability of the node
+    """
     s = 0
     for n in nodes:
         s += n.Q * (1 - (1 if node.__eq__(n) else 0))
@@ -16,16 +22,43 @@ def calculate_probability(node, nodes):
 
 
 class MCTSAlgorithmE(MCTSAlgorithm):
+    """
+    Class for the MCTS Epsilon-Greedy algorithm
 
-    def __init__(self, max_simulations, max_time, epsilon=0.1):
+    Attributes:
+        epsilon: epsilon probability value, by default 0.1
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
+
+    def __init__(self, max_simulations: int, max_time: int, epsilon: float = 0.1) -> None:
+        """
+        Constructor for the class
+        :param max_simulations: max number of simulations
+        :param max_time: max time allowed to choose a move
+        :param epsilon: epsilon probability value, by default 0.1
+        """
         super().__init__(max_simulations, max_time)
 
         self.epsilon = epsilon  # Epsilon value
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Method that returns the string value of the class
+        :return: name of the algorithm
+        """
         return "MCTS_EGreedy"
 
-    def make_move(self, board, player):
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        """
+        Method to get the move chosen by the algorithm in a given position for a given player
+        :param board: position of the game
+        :param player: player to move
+        :return: move chosen by the algorithm
+        :raises ValueError if a valid move is not found
+        """
+        super().make_move(board, player)
+
         if board.is_win(1) or board.is_win(-1):
             raise ValueError("no moves found for the position")
 
@@ -61,7 +94,11 @@ class MCTSAlgorithmE(MCTSAlgorithm):
         self._root.children.sort(key=lambda c: c.n, reverse=True)
         return self._root.children[0].action
 
-    def _select(self):
+    def _select(self) -> NodeEpsilon:
+        """
+        Method to select which node is going to be the current node
+        :return: None
+        """
         sorted_leaf_nodes = sorted(self._leaf_nodes, key=lambda n: n.Q, reverse=True)
 
         r = random.randint(0, 1)
@@ -75,12 +112,22 @@ class MCTSAlgorithmE(MCTSAlgorithm):
         # With probability 1 - epsilon, select the node with largest Q value
         return sorted_leaf_nodes[0]
 
-    def _expand(self, node):
+    def _expand(self, node: NodeEpsilon) -> None:
+        """
+        Method to expand a given node
+        :param node: node to expand
+        :return: None
+        """
         self._leaf_nodes.remove(node)
         node.expand()
         self._leaf_nodes.extend(node.children)
 
-    def _simulate(self, node):
+    def _simulate(self, node: NodeEpsilon) -> int:
+        """
+        Simulate a game from the specified node
+        :param node: node to simulate from
+        :return: the result of the simulation
+        """
         self._simulations += 1
 
         current_state = Board(node.state)
@@ -99,7 +146,13 @@ class MCTSAlgorithmE(MCTSAlgorithm):
             current_state.execute_move(move, current_player)
             current_player *= -1
 
-    def _back_propagate(self, node, win):
+    def _back_propagate(self, node: NodeEpsilon, win: int) -> None:
+        """
+        Propagate backwards the reward of a simulation
+        :param node: Node to propagate backwards from
+        :param win: result to propagate backwards
+        :return: None
+        """
         node.Q += win
 
         current_node = node

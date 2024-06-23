@@ -12,14 +12,27 @@ directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 
 
 
 # Move ordering for the history table
-def sort_moves(moves: [(int, int, int)], rating: [float]) -> [(int, int, int)]:
-    combi = zip(moves, rating)
+def sort_moves(moves: list[(int, int, int)], ratings: list[float]) -> [(int, int, int)]:
+    """
+    Function to sort moves by rating
+    :param moves: moves to sort
+    :param ratings: ratings of the moves
+    :return: sorted moves
+    """
+    combi = zip(moves, ratings)
     combi = sorted(combi, key=lambda c: c[1], reverse=True)
     return [item[0] for item in combi]
 
 
 # Weight for the history table
 def weight(depth: int) -> int:
+    """
+    Calculate weight for the history table
+    :param depth: depth given for the calculation
+    :return: weight
+    :raise TypeError: if the depth is not int
+    :raise ValueError: if depth is not greater than or equal to 0
+    """
     if type(depth) is not int:
         raise TypeError("depth must be an int")
     if depth < 0:
@@ -29,6 +42,12 @@ def weight(depth: int) -> int:
 
 # Mobility evaluation
 def evaluate_mobility(board: Board) -> int | float:
+    """
+    Function to evaluate mobility of the board
+    :param board: board to calculate its mobility evaluation
+    :return: evaluation of mobility
+    :raise TypeError: if argument is not a board
+    """
     if not isinstance(board, Board):
         raise TypeError("argument must be a board")
 
@@ -44,6 +63,13 @@ def evaluate_mobility(board: Board) -> int | float:
 
 # Calculate minimal number of moves to reach a square for a player
 def calculate_full_distance(board: Board, square: (int, int), player: int) -> int | float:
+    """
+    Function to calculate minimal number of moves to reach a square for a player
+    :param board: board to calculate distance
+    :param square: square to reach
+    :param player: player to calculate distance
+    :return: distance, inf if not reachable
+    """
     min_distance = float('inf')
     positions = board.white_positions if player == 1 else board.black_positions
     for amazon in positions:  # for each amazon of the player
@@ -55,6 +81,13 @@ def calculate_full_distance(board: Board, square: (int, int), player: int) -> in
 
 # Calculate minimal number of moves between 2 squares
 def calculate_distance(board: Board, start: (int, int), end: (int, int)) -> int | float:
+    """
+    Function to calculate the minimal number of queen moves between 2 squares
+    :param board: board to use in the calculations
+    :param start: start square
+    :param end: end square
+    :return: distance, inf if not reachable
+    """
     if start == end:
         return 0
     visited = set()
@@ -76,6 +109,14 @@ def calculate_distance(board: Board, start: (int, int), end: (int, int)) -> int 
 # Gives value for the difference between number of moves to reach a square by white (D1) and black (D2)
 # with k=5
 def difference_relative_territory(d1: int, d2: int, player: int) -> int:
+    """
+    Function to compare the distance between number of moves to reach a square by white (D1) and black (D2)
+    for the relative territory evaluation
+    :param d1: number of moves to reach a square by white
+    :param d2: number of moves to reach a square by black
+    :param player: player with the turn
+    :return: difference calculation
+    """
     # 5 if D2 is inf and D1 is not
     # -5 if D1 is inf and D2 is not
     # 0 if both are inf
@@ -95,6 +136,14 @@ def difference_relative_territory(d1: int, d2: int, player: int) -> int:
 # Gives value for the difference between number of moves to reach a square by white (D1) and black (D2)
 # with k=1/5
 def difference_territory(d1: int, d2: int, player: int) -> int | float:
+    """
+    Function to compare the distance between number of moves to reach a square by white (D1) and black (D2)
+    for the territory evaluation
+    :param d1: number of moves to reach a square by white
+    :param d2: number of moves to reach a square by black
+    :param player: player with the turn
+    :return: difference calculation
+    """
     # 0 if both are inf
     # k if both are equal and not inf (k can be 1/5 or -1/5 depending on the turn)
     # 1 if D1 < D2
@@ -115,6 +164,14 @@ def difference_territory(d1: int, d2: int, player: int) -> int | float:
 # Deprecated, gives value for the difference between number of moves to reach a square by white (D1) and black (D2)
 # with k=10
 def difference_relative_territory_10(white_moves: int, black_moves: int, player: int) -> int:
+    """
+    Deprecated function to compare the distance between number of moves to reach a square by white (D1) and black (D2)
+    for the relative territory evaluation
+    :param white_moves: number of moves to reach a square by white
+    :param black_moves: number of moves to reach a square by black
+    :param player: player with the turn
+    :return: difference calculation
+    """
     k = 10
     if white_moves > 9999:
         if black_moves > 9999:
@@ -132,6 +189,12 @@ def difference_relative_territory_10(white_moves: int, black_moves: int, player:
 # Returns True if all reachable squares have been reached
 # If no unmarked squares are reached, that means that all reachable squares have been reached
 def all_squares_marked(new_squares: [(int, int)], reached_squares: [(int, int)]) -> bool:
+    """
+    Function to check if all reachable squares have been reached
+    :param new_squares: new squares reached
+    :param reached_squares: already reached squares
+    :return: True if all reached, False otherwise
+    """
     for square in new_squares:
         if square not in reached_squares:
             return False
@@ -140,6 +203,12 @@ def all_squares_marked(new_squares: [(int, int)], reached_squares: [(int, int)])
 
 # Deprecated, previous relative territory evaluation
 def evaluate_relative_territory_prev(board: Board, player: int) -> int:
+    """
+    Deprecated function to evaluate relative territory
+    :param board: board to evaluate
+    :param player: player with the turn
+    :return: evaluation
+    """
     # First: initialize the territory boards of white and black
 
     board_white = [[]] * board.n  # white territory evaluation for queen moves
@@ -170,6 +239,15 @@ def evaluate_relative_territory_prev(board: Board, player: int) -> int:
 # Evaluate territory based on a difference function, which can be relative or absolute
 def evaluate_territory(board: Board, difference: Callable[[int, int, int], int], player: int,
                        queen_board_white: list[list[int]] = None, queen_board_black: list[list[int]] = None) -> int:
+    """
+    Function to evaluate territory
+    :param board: board to evaluate
+    :param difference: function that calculates the difference in number of moves from white and black
+    :param player: player with the turn
+    :param queen_board_white: board with number of moves to reach each square for white
+    :param queen_board_black: board with number of moves to reach each square for black
+    :return: evaluation
+    """
     if board.is_win(1):
         return 9999
     if board.is_win(-1):
@@ -192,6 +270,13 @@ def evaluate_territory(board: Board, difference: Callable[[int, int, int], int],
 # Evaluates the individual mobility of each player and gives an estimate of which has better mobility
 def evaluate_individual_mobility(board: Board,
                                  queen_board_white: list[list[int]], queen_board_black: list[list[int]]) -> int:
+    """
+    Function to evaluate mobility
+    :param board: board to evaluate
+    :param queen_board_white: board with number of moves to reach each square for white
+    :param queen_board_black: board with number of moves to reach each square for black
+    :return: evaluation
+    """
     # Factor that determines the phase of the game
     w = calculate_w_factor(board, queen_board_white, queen_board_black)
 
@@ -215,6 +300,11 @@ def evaluate_individual_mobility(board: Board,
 # Calculates and returns the queen-move boards of each player
 # that is, for each free square, the minimal number of moves to be reached by each player
 def calculate_queen_boards(board: Board) -> (list[list[int]], list[list[int]]):
+    """
+    Function to calculate the board with the number of moves to reach each square for a player
+    :param board: board as base to calculate new board
+    :return: board with the number of moves to reach each square for a player
+    """
     # First: initialize the territory boards of white and black
 
     board_white = [[]] * board.n  # white territory evaluation for queen moves
@@ -287,6 +377,12 @@ def calculate_queen_boards(board: Board) -> (list[list[int]], list[list[int]]):
 
 # Calculates a board where each free square contains a number that indicates the number of surrounding free squares
 def calculate_king_moves(board: Board) -> list[int]:
+    """
+    Function to calculate a board where each free square contains a number that indicates the number of surrounding free
+    squares
+    :param board: board as base to calculate the new board
+    :return: the new board
+    """
     new_board = [[]] * board.n
     for i in range(board.n):
         new_board[i] = [0] * board.n
@@ -301,6 +397,12 @@ def calculate_king_moves(board: Board) -> list[int]:
 
 # Returns the list of free squares around a given square
 def get_free_squares_around(board: Board, square: (int, int)) -> list[(int, int)]:
+    """
+    Function that calculates the number of free squares around a given square
+    :param board: board as base
+    :param square: base square
+    :return: number of free squares around the square
+    """
     free_squares = []
     for direction in directions:
         x = square[0] + direction[0]
@@ -315,9 +417,17 @@ def get_free_squares_around(board: Board, square: (int, int)) -> list[(int, int)
     return free_squares
 
 
-# Calculates individual mobility of the amazons of a player
+# Calculates individual mobility of the amazons of a player TODO
 def calculate_mobility(king_moves_board: list[int], board: Board, opponent_board: list[list[int]],
                        amazon: (int, int)) -> float:
+    """
+    Calculate individual mobility of the amazons of a player
+    :param king_moves_board: board with the number of free squares around each square
+    :param board: base board
+    :param opponent_board:
+    :param amazon: amazon to calculate its mobility
+    :return:
+    """
     alpha = 0
 
     for direction in directions:
@@ -338,6 +448,13 @@ def calculate_mobility(king_moves_board: list[int], board: Board, opponent_board
 
 # Calculates the w factor (that indicates the phase of the game)
 def calculate_w_factor(board: Board, queen_board_white: list[list[int]], queen_board_black: list[list[int]]) -> float:
+    """
+    Function to calculate the w factor which indicates the phase of the game
+    :param board: base board
+    :param queen_board_white: board with the queen moves for white
+    :param queen_board_black: board with the queen moves for white
+    :return: queen board
+    """
     # For each empty square
     w = 0
     for i in range(board.n):
@@ -358,7 +475,22 @@ def f(w: float, alpha: float) -> float:
 
 
 class MinimaxAlgorithm(Algorithm, ABC):
+    """
+    Abstract class for the Minimax algorithm
+
+    Attributes:
+        _max_depth: max depth of the search tree
+        _max_time: max time for exploring the tree
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
+
     def __init__(self, max_depth: int, max_time: int) -> None:
+        """
+        Constructor of the class
+        :param max_depth: max depth of the search tree
+        :param max_time: max time for exploring the tree
+        """
         if type(max_depth) is not int:
             raise TypeError("max_depth must be int")
         if type(max_time) is not int:
@@ -375,6 +507,15 @@ class MinimaxAlgorithm(Algorithm, ABC):
     @abstractmethod
     def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
             (float, ((int, int), (int, int), (int, int))):
+        """
+        Minimax recursive search algorithm
+        :param board: board with the current state of the game
+        :param player: player with the turn
+        :param alpha: alpha pruning parameter
+        :param beta: beta pruning parameter
+        :param depth: depth where the minimax algorithm is executed
+        :return: (evaluation, move)
+        """
 
         # if not isinstance(board, Board):
         #     raise TypeError("board argument must be of type Board")
@@ -394,6 +535,12 @@ class MinimaxAlgorithm(Algorithm, ABC):
 
     @abstractmethod
     def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        """
+        Method to get the move chosen by the algorithm in a given position for a given player
+        :param board: position of the game
+        :param player: player to move
+        :return: move chosen by the algorithm
+        """
         if not isinstance(board, Board):
             raise TypeError("board argument must be of type Board")
         if type(player) is not int:

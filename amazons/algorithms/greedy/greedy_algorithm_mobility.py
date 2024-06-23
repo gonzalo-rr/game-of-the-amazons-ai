@@ -3,11 +3,27 @@ from amazons.logic.amazons_logic import Board
 
 
 class GreedyAlgorithmMobility:
+    """
+    Algorithm based on a greedy approach that uses a mobility heuristic function
 
-    def __str__(self):
+    Author: Gonzalo Rodríguez Rodríguez
+    """
+
+    def __str__(self) -> str:
+        """
+        Returns the name of the algorithm
+        :return: name of the algorithm
+        """
         return 'GreedyMob'
 
-    def make_move(self, board, player):
+    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+        """
+        Returns the move that the algorithm chooses
+        :param board: state of the board
+        :param player: int that represents the player
+        :return: chosen move
+        """
+
         moves = board.get_legal_moves(player)
         if len(moves) == 0:
             raise ValueError("no moves found for the position")

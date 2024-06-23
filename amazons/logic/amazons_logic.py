@@ -3,6 +3,9 @@ from copy import copy
 
 class Board:
     """
+    Class that represents the board (and state) of the game
+    and also presents methods to get, do, undo and validate moves
+
     Board data:
         1=white, -1=black, 0=empty, 2=blocked
 
@@ -10,11 +13,25 @@ class Board:
             amazon: the piece that will be moved
             place: the tile where the piece will be moved
             shoot: the tile that will be shot by the amazon
+
+    Attributes:
+        n: dimension of the board
+        board: matrix representing the board
+        black_positions: positions of black pieces
+        white_positions: positions of white pieces
+
+    Author: Gonzalo Rodríguez Rodríguez
     """
 
     __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
-    def __init__(self, *args):
+    def __init__(self, *args: []) -> None:
+        """
+        Constructor of the class
+        :param args: args that may contain a board to copy
+        :raises TypeError: if the arg is not a board
+        :raises ValueError: if the board to copy is invalid
+        """
         if len(args) == 0:
             self.n = 10  # Dimension of the board
             self.board = [[]] * self.n  # Board
@@ -51,9 +68,19 @@ class Board:
             raise ValueError("invalid number of arguments, only 1 allowed")  # throw value error
 
     def __getitem__(self, index: int) -> list[int]:
+        """
+        Returns a row from an index
+        :param index: index of row
+        :return: row at position
+        """
         return self.board[index]
 
     def __eq__(self, other) -> bool:
+        """
+        Method that determines the equality of another board
+        :param other: other board
+        :return: True if they are equal, False otherwise
+        """
         if not isinstance(other, Board):
             return False
 
