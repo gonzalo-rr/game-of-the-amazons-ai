@@ -10,13 +10,20 @@ from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgori
 from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
 from amazons.logic.amazons_logic import Board
 from amazons.algorithms.random_algorithm import RandomAlgorithm
-from amazons.algorithms.greedy.greedy_algorithm_mobility import GreedyAlgorithmMobility
 
 from ui.game_gui import GameGUI
 import multiprocessing as mp
 
+"""
+File that contains the main function of the system
+
+Author: Gonzalo Rodríguez Rodríguez
+"""
+
 
 def main():
+    run_gui()
+
     # board = Board()
     # move = board.get_legal_moves(1)[0]
     # board.execute_move(move, 1)
@@ -69,8 +76,6 @@ def main():
     # calculate_copy_times()
 
     # compare_for_tests()
-
-    run_gui()
 
     # calculate_king_moves(Board(False))
     # b = Board(False)
@@ -153,6 +158,10 @@ def calculation(secs, pid, array):
 
 
 def calculate_copy_times():
+    """
+    Function to compare copy times of the board
+    :return: None
+    """
     start = time.time_ns()
 
     board = Board(False)
@@ -194,6 +203,10 @@ def calculate_copy_times():
 
 
 def run_gui():
+    """
+    Function to run the interface
+    :return: None
+    """
     # Basic configuration
     pygame.init()
 
@@ -209,7 +222,7 @@ def run_gui():
         MCTSAlgorithmE(1000, 20),
     ]
 
-    gameGUI = GameGUI(tile_size, algorithms)
+    gameGUI = GameGUI(tile_size, algorithms, 1000)
 
     gameGUI.run()
 

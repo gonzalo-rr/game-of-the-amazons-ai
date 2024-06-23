@@ -215,7 +215,6 @@ class Board:
         if not self.__is_valid_move_logic(amazon, place, shoot):
             raise ValueError("invalid move")
 
-
         self.board[shoot[0]][shoot[1]] = 0
 
         self.board[place[0]][place[1]] = 0

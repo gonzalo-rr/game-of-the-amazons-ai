@@ -15,8 +15,17 @@ from amazons.logic.amazons_logic import Board
 
 
 class AlgorithmsTest(unittest.TestCase):
+    """
+    Class to test the algorithms
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
 
     def test_make_move(self):
+        """
+        Tests for the make_move method
+        :return: None
+        """
         algorithms = [
             RandomAlgorithm(),
             GreedyAlgorithmMobility(),

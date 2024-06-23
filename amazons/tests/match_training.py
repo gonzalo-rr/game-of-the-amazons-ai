@@ -14,8 +14,19 @@ from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgori
 from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
 from assets.utilities.match_recorder import MatchRecorder
 
+"""
+Script to train the algorithms by comparing them with simulated matches between them
+
+Author: Gonzalo Rodríguez Rodríguez
+"""
+
 
 def match_training(n_matches: int) -> None:
+    """
+    Main function to start the training
+    :param n_matches: number of matches for each set, each set consists of 2 algorithms playing against each other
+    :return: None
+    """
     match_recorder = MatchRecorder()
 
     # # Set 1
@@ -215,6 +226,14 @@ def match_training(n_matches: int) -> None:
 
 
 def play_n_games(p1: Algorithm, p2: Algorithm, n_matches: int, name: str) -> None:
+    """
+    Function to play a number of moces
+    :param p1: first player
+    :param p2: second player
+    :param n_matches: number of matches
+    :param name: name to save the results
+    :return: None
+    """
     full_results = []  # Each element is the results of a single game
 
     for game in range(n_matches // 2):
@@ -228,8 +247,14 @@ def play_n_games(p1: Algorithm, p2: Algorithm, n_matches: int, name: str) -> Non
     update_csv(full_results, name)
 
 
-# [white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black]
 def play_game(white: Algorithm, black: Algorithm) -> []:
+    """
+    Function to simulate one single match
+    :param white: white player
+    :param black: black player
+    :return: results with the following format:
+        [white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black]
+    """
     match_recorder = MatchRecorder()
 
     result = 0
@@ -292,6 +317,12 @@ def play_game(white: Algorithm, black: Algorithm) -> []:
 
 # white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black:
 def update_csv(results: [], name: str) -> None:
+    """
+    Function to update the csv where the results are registered
+    :param results: results of the matches
+    :param name: name of the csv file
+    :return: None
+    """
     with open(name, 'w', newline='\n') as file:
         w = csv.writer(file, delimiter=';')
         w.writerow(

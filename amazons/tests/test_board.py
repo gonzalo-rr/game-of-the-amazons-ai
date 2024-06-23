@@ -4,8 +4,17 @@ from amazons.logic.amazons_logic import Board
 
 
 class BoardTest(unittest.TestCase):
+    """
+    Class to test the board logic
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
 
     def test_init(self):
+        """
+        Tests for the constructor
+        :return: None
+        """
         coords_white = [(0, 6), (9, 6), (3, 9), (6, 9)]
         coords_black = [(3, 0), (6, 0), (0, 3), (9, 3)]
 
@@ -36,6 +45,10 @@ class BoardTest(unittest.TestCase):
         self.assertEqual(sorted(coords_black), sorted(board_copy.black_positions))
 
     def test_is_valid_move(self):
+        """
+        Tests for the is_valid_move method
+        :return: None
+        """
         board = Board()
         move = ((0, 6), (1, 7), (2, 8))  # Valid move for white player
         self.assertTrue(board.is_valid_move(move, 1))
@@ -69,6 +82,10 @@ class BoardTest(unittest.TestCase):
         self.assertFalse(board.is_valid_move(move, -1))
 
     def test_execute_move(self):
+        """
+        Tests for the execute_move method
+        :return: None
+        """
         board = Board()
         move = ((0, 6), (1, 7), (2, 8))  # Valid move for white player
         board.execute_move(move, 1)
@@ -110,6 +127,10 @@ class BoardTest(unittest.TestCase):
         self.assertRaises(ValueError, board.execute_move, move, -1)
 
     def test_undo_move(self):
+        """
+        Tests for the undo_move method
+        :return: None
+        """
         board = Board()
         move = ((0, 6), (1, 7), (2, 8))  # Valid move for white player
         board.execute_move(move, 1)
@@ -153,6 +174,10 @@ class BoardTest(unittest.TestCase):
         self.assertRaises(ValueError, board.undo_move, move, -1)
 
     def test_eq(self):
+        """
+        Tests for the __eq__ method
+        :return: None
+        """
         mod_board1 = Board()
         mod_board1.board = [[i for i in range(10)] for _ in range(10)]
 
@@ -173,6 +198,10 @@ class BoardTest(unittest.TestCase):
         self.assertTrue(std_board.__eq__(Board()))  # Equal boards
 
     def test_get_legal_moves(self):
+        """
+        Tests for the get_legal_moves method
+        :return: None
+        """
         # 0 legal moves
         board = Board()
         board.board = [
@@ -229,6 +258,10 @@ class BoardTest(unittest.TestCase):
                                                                     ((9, 0), (9, 1), (9, 0))]))
 
     def test_is_win(self):
+        """
+        Tests for the is_win method
+        :return: None
+        """
         board = Board()
         self.assertRaises(TypeError, board.is_win, "str")  # Error type player
 

@@ -5,9 +5,36 @@ from ui.drop_down import DropDown
 
 
 class PlayersMenu:
+    """
+    Class for the full menu with 2 dropdowns to choose the players
+
+    Attributes:
+        screen: surface to draw the menu on
+        unit_size: unit of size to use
+        players: list of players to show
+        big_font: big font to write
+        font: normal font to write
+        menu_rect1: surface containing the first dropdown
+        menu_rect2: surface containing the second dropdown
+        dropdown1: first dropdown
+        dropdown2: second dropdown
+        white_player: current white player
+        black_player: current black player
+
+    Author: Gonzalo Rodríguez Rodríguez
+    """
 
     def __init__(self, screen: pygame.surface.Surface, location: (int, int), unit_size: int, players: list[Player],
                  big_font: pygame.font.Font, font: pygame.font.Font) -> None:
+        """
+        Constructor for the class
+        :param screen: surface to draw the menu on
+        :param location: position of the menu
+        :param unit_size: unit of size to use
+        :param players: list of players to show
+        :param big_font: big font to write
+        :param font: normal font to write
+        """
         self.screen = screen
         self.unit_size = unit_size
         self.players = players
@@ -38,6 +65,10 @@ class PlayersMenu:
         self.black_player = players[0]
 
     def draw(self) -> None:
+        """
+        Method to draw the menu
+        :return: None
+        """
         self.screen.blit(self.font.render("White", True, "black"),
                          (self.dropdown1.body.x, self.dropdown1.body.y - self.dropdown1.body.height / 2))
         self.dropdown1.draw_menu(self.screen)
@@ -47,8 +78,17 @@ class PlayersMenu:
             self.dropdown2.draw_menu(self.screen)
 
     def handle_menu_event(self, event: pygame.event.Event) -> None:
+        """
+        Method to handle menu event
+        :param event: event to handle
+        :return: None
+        """
         if not self.dropdown1.handle_event(event):
             self.dropdown2.handle_event(event)
 
     def get_players(self) -> (Player, Player):
+        """
+        Method to get the current selected players
+        :return: selected players in a tuple, first is white player, second is black player
+        """
         return self.players[self.dropdown1.selected_option], self.players[self.dropdown2.selected_option]
