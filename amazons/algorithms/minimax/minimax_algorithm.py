@@ -282,16 +282,19 @@ def evaluate_individual_mobility(board: Board,
 
     king_moves_board = calculate_king_moves(board)
 
+    print("hola")
     # Player 1 (white)
     result_white = 0
     for amazon in board.white_positions:
-        alpha_white = calculate_mobility(king_moves_board, board, queen_board_white, amazon)
+        alpha_white = calculate_mobility(king_moves_board, board, queen_board_black, amazon)
+        print(alpha_white)
         result_white += f(w, alpha_white)
 
     # Player 2 (black)
     result_black = 0
     for amazon in board.black_positions:
-        alpha_black = calculate_mobility(king_moves_board, board, queen_board_black, amazon)
+        alpha_black = calculate_mobility(king_moves_board, board, queen_board_white, amazon)
+        print(alpha_black)
         result_black += f(w, alpha_black)
 
     return result_white - result_black
@@ -417,16 +420,16 @@ def get_free_squares_around(board: Board, square: (int, int)) -> list[(int, int)
     return free_squares
 
 
-# Calculates individual mobility of the amazons of a player TODO
+# Calculates individual mobility of the amazons of a player
 def calculate_mobility(king_moves_board: list[int], board: Board, opponent_board: list[list[int]],
                        amazon: (int, int)) -> float:
     """
     Calculate individual mobility of the amazons of a player
     :param king_moves_board: board with the number of free squares around each square
     :param board: base board
-    :param opponent_board:
+    :param opponent_board: queen-moves board of the opponent
     :param amazon: amazon to calculate its mobility
-    :return:
+    :return: alpha (floating point number that determines how trapped an amazon is)
     """
     alpha = 0
 

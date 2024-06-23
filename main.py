@@ -5,6 +5,7 @@ import pygame
 
 from amazons.algorithms.mcts.mcts_algorithm_e_greedy import MCTSAlgorithmE
 from amazons.algorithms.mcts.mcts_algorithm_ucb import MCTSAlgorithmUCB
+from amazons.algorithms.minimax.minimax_algorithm import *
 from amazons.algorithms.minimax.minimax_algorithm_mobility import MinimaxAlgorithmMobility
 from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
 from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
@@ -22,7 +23,7 @@ Author: Gonzalo Rodríguez Rodríguez
 
 
 def main():
-    run_gui()
+    # run_gui()
 
     # board = Board()
     # move = board.get_legal_moves(1)[0]
@@ -40,7 +41,7 @@ def main():
     # node.expand()
     # print(len(node.children))
 
-    # board = Board(False)
+    board = Board()
     # board.board = [
     #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0],
     #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
