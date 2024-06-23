@@ -23,7 +23,7 @@ Author: Gonzalo Rodríguez Rodríguez
 
 
 def main():
-    # run_gui()
+    run_gui()
 
     # board = Board()
     # move = board.get_legal_moves(1)[0]
@@ -41,7 +41,7 @@ def main():
     # node.expand()
     # print(len(node.children))
 
-    board = Board()
+    # board = Board()
     # board.board = [
     #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0],
     #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
