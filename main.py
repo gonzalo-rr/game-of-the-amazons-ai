@@ -223,7 +223,7 @@ def run_gui():
         MCTSAlgorithmE(1000, 20),
     ]
 
-    gameGUI = GameGUI(tile_size, algorithms, 1000)
+    gameGUI = GameGUI(tile_size, algorithms, 2000)
 
     gameGUI.run()
 
