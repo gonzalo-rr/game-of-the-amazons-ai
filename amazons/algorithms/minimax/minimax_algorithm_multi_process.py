@@ -39,7 +39,7 @@ class MinimaxAlgorithmMultiProcess(MinimaxAlgorithm):
         """
         return 'MinimaxMultiProcess'
 
-    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+    def make_move(self, board: Board, player: int) -> tuple:
         """
         Method to get the move chosen by the algorithm in a given position for a given player
         :param board: position of the game
@@ -57,7 +57,7 @@ class MinimaxAlgorithmMultiProcess(MinimaxAlgorithm):
             best_move = self.get_best_move(board, player)
         return best_move
 
-    def get_best_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+    def get_best_move(self, board: Board, player: int) -> tuple:
         """
         Method to get the best move, dividing load for a number of workers
         :param board: board state
@@ -101,8 +101,7 @@ class MinimaxAlgorithmMultiProcess(MinimaxAlgorithm):
 
         return moves[best_score_index]
 
-    def worker_load(self, board: Board, player: int, moves: list[(int, int), (int, int), (int, int)],
-                    scores: list[float], pid: int) -> None:
+    def worker_load(self, board: Board, player: int, moves: list, scores: list, pid: int) -> None:
         """
         Method to contain the worker load
         :param board: board state
@@ -124,8 +123,7 @@ class MinimaxAlgorithmMultiProcess(MinimaxAlgorithm):
                 if score < scores[i + pid * len(moves)]:
                     scores[i + pid * len(moves)] = score
 
-    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
-            (float, ((int, int), (int, int), (int, int))):
+    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> float:
         """
         Minimax recursive search algorithm
         :param board: board with the current state of the game

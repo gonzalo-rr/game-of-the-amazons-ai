@@ -4,11 +4,10 @@ from abc import abstractmethod
 from amazons.algorithms.algorithm import Algorithm
 from amazons.algorithms.mcts.node.node import Node
 from amazons.algorithms.mcts.node.node_ucb import NodeUCB as NodeUCB
-from amazons.algorithms.mcts.node.node_ucb_cut import NodeUCB as NodeUCBCut
 from amazons.logic.amazons_logic import Board
 
 
-def ucb_score(node: NodeUCB | NodeUCBCut, c: int | float) -> float:
+def ucb_score(node: NodeUCB, c: float) -> float:
     """
     Function to calculate the standard ucb score
     :param node: node to calculate ucb score
@@ -51,7 +50,7 @@ class MCTSAlgorithm(Algorithm):
         self._leaf_nodes = []
 
     @abstractmethod
-    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+    def make_move(self, board: Board, player: int):
         """
         Method to get the move chosen by the algorithm in a given position for a given player
         :param board: position of the game
@@ -77,7 +76,7 @@ class MCTSAlgorithm(Algorithm):
         ...
 
     @abstractmethod
-    def _simulate(self, node: Node) -> int | float:
+    def _simulate(self, node: Node) -> float:
         """
         Simulate a game from the specified node
         :param node: node to simulate from
@@ -86,7 +85,7 @@ class MCTSAlgorithm(Algorithm):
         ...
 
     @abstractmethod
-    def _back_propagate(self, node: Node, reward: int | float) -> None:
+    def _back_propagate(self, node: Node, reward: float) -> None:
         """
         Propagate backwards the reward of a simulation
         :param node: Node to propagate backwards from

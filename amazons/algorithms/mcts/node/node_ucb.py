@@ -15,7 +15,7 @@ class NodeUCB(Node):
     Author: Gonzalo Rodríguez Rodríguez
     """
 
-    def __init__(self, state: Board, action: ((int, int), (int, int), (int, int)), player: int) -> None:
+    def __init__(self, state: Board, action: tuple, player: int) -> None:
         """
         Constructor for the class
         :param state: board state

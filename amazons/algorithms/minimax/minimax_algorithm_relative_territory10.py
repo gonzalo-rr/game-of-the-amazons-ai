@@ -39,7 +39,7 @@ class MinimaxAlgorithmRelativeTerritory(MinimaxAlgorithm):
         """
         return 'MinimaxRTerritory10'
 
-    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+    def make_move(self, board: Board, player: int) -> tuple:
         """
         Method to get the move chosen by the algorithm in a given position for a given player
         :param board: position of the game
@@ -67,8 +67,7 @@ class MinimaxAlgorithmRelativeTerritory(MinimaxAlgorithm):
         self.history_table.save_table()
         return best_move
 
-    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> \
-            (float, ((int, int), (int, int), (int, int))):
+    def _minimax(self, board: Board, player: int, alpha: float, beta: float, depth: int) -> tuple:
         """
         Minimax recursive search algorithm
         :param board: board with the current state of the game

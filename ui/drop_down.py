@@ -19,7 +19,7 @@ class DropDown:
     Author: Gonzalo Rodríguez Rodríguez
     """
 
-    def __init__(self, x: (int, int), y: (int, int), width: int, height: int, options: list[str],
+    def __init__(self, x: tuple, y: tuple, width: int, height: int, options: list,
                  big_font: pygame.font.Font, font: pygame.font.Font) -> None:
         """
         Constructor of the class
@@ -55,7 +55,7 @@ class DropDown:
             for i in range(len(self.__options)):
                 self.__draw_option(screen, self.__options[i], self.body.x, self.body.y + (i + 1) * self.body.height)
 
-    def __draw_option(self, screen: pygame.surface.Surface, option: str, x: (int, int), y: (int, int)) -> None:
+    def __draw_option(self, screen: pygame.surface.Surface, option: str, x: int, y: int) -> None:
         """
         Method to draw an option
         :param screen: surface to draw the menu on

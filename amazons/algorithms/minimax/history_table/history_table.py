@@ -25,7 +25,7 @@ class HistoryTable:
             self.moves_table = [[[[0 for _ in range(10)] for _ in range(10)] for _ in range(10)] for _ in range(10)]
             self.arrows_table = [[0 for _ in range(10)] for _ in range(10)]
 
-    def get_rating(self, move: ((int, int), (int, int), (int, int))) -> int | float:
+    def get_rating(self, move: tuple) -> float:
         """
         Method to recover the rating of a move
         :param move: move to recover its evaluation
@@ -37,7 +37,7 @@ class HistoryTable:
 
         return self.moves_table[amazon[0]][amazon[1]][place[0]][place[1]] + self.arrows_table[shoot[0]][shoot[1]]
 
-    def update_rating(self, move: ((int, int), (int, int), (int, int)), weight: int) -> None:
+    def update_rating(self, move: tuple, weight: int) -> None:
         """
         Method to update the rating of a move
         :param move:

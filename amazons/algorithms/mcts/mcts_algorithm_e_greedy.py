@@ -6,7 +6,7 @@ from amazons.algorithms.mcts.node.node_epsilon import NodeEpsilon
 from amazons.algorithms.mcts.mcts_algorithm import MCTSAlgorithm
 
 
-def calculate_probability(node: NodeEpsilon, nodes: list[NodeEpsilon]) -> float:
+def calculate_probability(node: NodeEpsilon, nodes: list) -> float:
     """
     Function to calculate probability of selecting a node given the rest of the nodes
     :param node: node to calculate the probability
@@ -49,7 +49,7 @@ class MCTSAlgorithmE(MCTSAlgorithm):
         """
         return "MCTS_EGreedy"
 
-    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+    def make_move(self, board: Board, player: int) -> tuple:
         """
         Method to get the move chosen by the algorithm in a given position for a given player
         :param board: position of the game
@@ -64,7 +64,7 @@ class MCTSAlgorithmE(MCTSAlgorithm):
 
         new_board = Board(board)
         self._leaf_nodes = []
-        self._root = NodeEpsilon(new_board, None, player)
+        self._root = NodeEpsilon(new_board, (), player)
         self._leaf_nodes.append(self._root)
         self._expand(self._root)
         self._current_state = self._root

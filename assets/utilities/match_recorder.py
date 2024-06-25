@@ -30,7 +30,7 @@ class MatchRecorder(metaclass=Recorder):
         self.__match_moves = []
         self.__games = []
 
-    def register_move(self, move: ((int, int, int), (int, int, int), (int, int, int))) -> None:
+    def register_move(self, move: tuple) -> None:
         """
         Method to register a move
         :param move: move to be registered

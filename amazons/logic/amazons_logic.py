@@ -67,7 +67,7 @@ class Board:
         else:
             raise ValueError("invalid number of arguments, only 1 allowed")  # throw value error
 
-    def __getitem__(self, index: int) -> list[int]:
+    def __getitem__(self, index: int) -> list:
         """
         Returns a row from an index
         :param index: index of row
@@ -95,7 +95,7 @@ class Board:
                     return False
         return True
 
-    def get_legal_moves(self, player: int) -> list[((int, int), (int, int), (int, int))]:
+    def get_legal_moves(self, player: int) -> list:
         """
         Get all the legal moves for a player (-1 is black, 1 is white)
         :param player: int
@@ -110,7 +110,7 @@ class Board:
                 moves.append(move)
         return moves
 
-    def get_moves_amazon(self, amazon: (int, int), player: int) -> list[(int, int)]:
+    def get_moves_amazon(self, amazon: (int, int), player: int) -> list:
         """
         Get the full moves for a certain amazon
         :param amazon: (int, int)
@@ -128,7 +128,7 @@ class Board:
 
         return moves
 
-    def get_moves_position(self, position: (int, int)) -> list[(int, int)]:
+    def get_moves_position(self, position: (int, int)) -> list:
         """
         Get the queen-like moves from a certain position
         :param position: (int, int)
@@ -177,7 +177,7 @@ class Board:
         else:
             return False
 
-    def execute_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> None:
+    def execute_move(self, move: tuple, player: int) -> None:
         """
         Executes a full move on the board
 
@@ -199,7 +199,7 @@ class Board:
 
         self.shoot_arrow(shoot)
 
-    def undo_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> None:
+    def undo_move(self, move: tuple, player: int) -> None:
         """
         Undoes a move, that is, leaves the board as if the move was never made
         :param move: move to undo
@@ -228,7 +228,7 @@ class Board:
             self.black_positions.remove(place)
             self.black_positions.append(amazon)
 
-    def is_valid_move(self, move: ((int, int), (int, int), (int, int)), player: int) -> bool:
+    def is_valid_move(self, move: tuple, player: int) -> bool:
         """
         Returns True if the specified move is valid and False otherwise
         :param move: move to be verified
@@ -246,7 +246,7 @@ class Board:
 
         return self.__is_valid_move_squares(initial_square, final_square, arrow, player)
 
-    def __is_valid_move_types(self, move: ((int, int), (int, int), (int, int)), player: int) -> bool:
+    def __is_valid_move_types(self, move: tuple, player: int) -> bool:
         """
         Returns True if the specified move has valid types for the tuples and False otherwise
         :param move: move
@@ -275,8 +275,7 @@ class Board:
 
         return True
 
-    def __is_valid_move_squares(self, initial_square: (int, int), final_square: (int, int), arrow: (int, int),
-                                player) -> bool:
+    def __is_valid_move_squares(self, initial_square: tuple, final_square: tuple, arrow: tuple, player) -> bool:
         """
         Returns True if the specified move is a correct move given the games of the squares of the board
         :param initial_square: initial square
@@ -295,7 +294,7 @@ class Board:
 
         return True
 
-    def __is_valid_move_logic(self, initial_square: (int, int), final_square: (int, int), arrow: (int, int)) -> bool:
+    def __is_valid_move_logic(self, initial_square: tuple, final_square: tuple, arrow: tuple) -> bool:
         """
         Returns True if the specified move is a correct move given the games of the rules and False otherwise
         :param initial_square: initial square
@@ -322,7 +321,7 @@ class Board:
 
         return True
 
-    def move_piece(self, amazon: (int, int), place: (int, int), player: int) -> None:
+    def move_piece(self, amazon: tuple, place: tuple, player: int) -> None:
         """
         Moves a piece from one tile to another
         (note that this is not a full move, just a piece move without the shot)
@@ -346,7 +345,7 @@ class Board:
             self.black_positions.remove(amazon)
             self.black_positions.append(place)
 
-    def shoot_arrow(self, shoot: (int, int)) -> None:
+    def shoot_arrow(self, shoot: tuple) -> None:
         """
         Blocks a tile from the board, that is the shooting part of a full move
         :param shoot: square to shoot

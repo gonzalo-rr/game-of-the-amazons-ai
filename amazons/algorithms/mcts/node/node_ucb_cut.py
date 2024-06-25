@@ -15,7 +15,7 @@ class NodeUCB(Node):
     Author: Gonzalo Rodríguez Rodríguez
     """
 
-    def __init__(self, state: Board, action: ((int, int), (int, int), (int, int)), player: int) -> None:
+    def __init__(self, state: Board, action: tuple, player: int) -> None:
         """
         Constructor for the class
         :param state: board state
@@ -46,7 +46,7 @@ class NodeUCB(Node):
             new_node.parent = self
             self.children.append(new_node)
 
-    def __sort_moves(self, moves: list[(int, int), (int, int), (int, int)]) -> list:
+    def __sort_moves(self, moves: list) -> list:
         """
         Sort the moves
         :param moves: moves to be sorted
@@ -62,7 +62,7 @@ class NodeUCB(Node):
         combi = sorted(combi, key=lambda c: c[1], reverse=self.player == 1)
         return [item[0] for item in combi]
 
-    def __evaluate_mobility(self, board: Board) -> int | float:
+    def __evaluate_mobility(self, board: Board) -> float:
         """
         Evaluate the mobility of the board
         :param board: board to evaluate

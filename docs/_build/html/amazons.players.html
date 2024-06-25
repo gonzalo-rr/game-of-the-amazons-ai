@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>amazons.players package &#8212; Game of the Amazons AI 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="amazons.tests package" href="amazons.tests.html" />
+    <link rel="prev" title="amazons.logic package" href="amazons.logic.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="amazons-players-package">
+<h1>amazons.players package<a class="headerlink" href="#amazons-players-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-amazons.players.ai_player">
+<span id="amazons-players-ai-player-module"></span><h2>amazons.players.ai_player module<a class="headerlink" href="#module-amazons.players.ai_player" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="amazons.players.ai_player.AIPlayer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">amazons.players.ai_player.</span></span><span class="sig-name descname"><span class="pre">AIPlayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_gui</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.ai_player.AIPlayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#amazons.players.player.Player" title="amazons.players.player.Player"><code class="xref py py-class docutils literal notranslate"><span class="pre">Player</span></code></a></p>
+<p>Class that represents an artificial intelligence player</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>__game: game graphic user interface
+__current_move: move chosen
+__algorithm: intelligent algorithm to make the move
+__wait_time: time to wait to simulate the time to move</p>
+</dd>
+</dl>
+<p>Author: Gonzalo Rodríguez Rodríguez</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.players.ai_player.AIPlayer.is_human">
+<span class="sig-name descname"><span class="pre">is_human</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.ai_player.AIPlayer.is_human" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the player is human
+:return: False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.players.ai_player.AIPlayer.make_move">
+<span class="sig-name descname"><span class="pre">make_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.ai_player.AIPlayer.make_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to execute a move
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-amazons.players.human_player">
+<span id="amazons-players-human-player-module"></span><h2>amazons.players.human_player module<a class="headerlink" href="#module-amazons.players.human_player" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="amazons.players.human_player.HumanPlayer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">amazons.players.human_player.</span></span><span class="sig-name descname"><span class="pre">HumanPlayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_gui</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.human_player.HumanPlayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#amazons.players.player.Player" title="amazons.players.player.Player"><code class="xref py py-class docutils literal notranslate"><span class="pre">Player</span></code></a></p>
+<p>Class that represents a human player</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>__game: game graphic user interface</p>
+</dd>
+</dl>
+<p>Author: Gonzalo Rodríguez Rodríguez</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.players.human_player.HumanPlayer.is_human">
+<span class="sig-name descname"><span class="pre">is_human</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.human_player.HumanPlayer.is_human" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the player is human
+:return: True</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.players.human_player.HumanPlayer.make_move">
+<span class="sig-name descname"><span class="pre">make_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.human_player.HumanPlayer.make_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to execute the wait time
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-amazons.players.player">
+<span id="amazons-players-player-module"></span><h2>amazons.players.player module<a class="headerlink" href="#module-amazons.players.player" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="amazons.players.player.Player">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">amazons.players.player.</span></span><span class="sig-name descname"><span class="pre">Player</span></span><a class="headerlink" href="#amazons.players.player.Player" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Interface for the players</p>
+<p>Author: Gonzalo Rodríguez Rodríguez</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.players.player.Player.is_human">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_human</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.player.Player.is_human" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the player is human
+:return: True if is human, False otherwise</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.players.player.Player.make_move">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.players.player.Player.make_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to execute a move
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-amazons.players">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-amazons.players" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Game of the Amazons AI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">game_of_the_amazons_ai</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="amazons.html">amazons package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assets.html">assets package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html">ui package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">game_of_the_amazons_ai</a><ul>
+  <li><a href="amazons.html">amazons package</a><ul>
+      <li>Previous: <a href="amazons.logic.html" title="previous chapter">amazons.logic package</a></li>
+      <li>Next: <a href="amazons.tests.html" title="next chapter">amazons.tests package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Gonzalo Rodríguez Rodríguez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/amazons.players.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

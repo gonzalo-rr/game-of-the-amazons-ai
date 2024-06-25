@@ -1,4 +1,3 @@
-from amazons.algorithms.algorithm import Algorithm
 from amazons.logic.amazons_logic import Board
 import pygame
 
@@ -52,7 +51,7 @@ class GameGUI:
     Author: Gonzalo Rodríguez Rodríguez
     """
 
-    def __init__(self, tile_size: int, algorithms: list[Algorithm], wait_time: int) -> None:
+    def __init__(self, tile_size: int, algorithms: list, wait_time: int) -> None:
         """
         Constructor of the class
         :param tile_size: unit size used for the tiles in the graphical board
@@ -230,7 +229,7 @@ class GameGUI:
                          (self.__button_rect.x + x_offset, self.__button_rect.y + y_offset))
 
     # Returns True if the button was pressed with the intention to play
-    def __handle_play_event(self, event: pygame.event.Event) -> bool | None:
+    def __handle_play_event(self, event: pygame.event.Event) -> bool:
         """
         Method to handle play event and start a match if it can be started
         :param event: event to handle
@@ -239,6 +238,7 @@ class GameGUI:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.__button_rect.collidepoint((event.pos[0], event.pos[1])):
                 return True
+        return False
 
     def __update_gui(self) -> None:
         """
@@ -283,7 +283,7 @@ class GameGUI:
             else:
                 self.handle_click(click_coords, -1)
 
-    def handle_click(self, click_coords: (int, int), player: int) -> None:
+    def handle_click(self, click_coords: tuple, player: int) -> None:
         """
         Method to handle a click
         :param click_coords: position of the click
@@ -308,7 +308,7 @@ class GameGUI:
                 elif self.turn_step == 5:  # Shoot an arrow
                     self.shoot_arrow(click_coords)
 
-    def select_amazon(self, amazon: (int, int)) -> None:
+    def select_amazon(self, amazon: tuple) -> None:
         """
         Method to select an amazon and show it on the interface
         :param amazon: amazon position
@@ -323,7 +323,7 @@ class GameGUI:
         self.__update_gui()
         pygame.display.flip()
 
-    def move_piece(self, prev: (int, int), new: (int, int), player: int) -> None:
+    def move_piece(self, prev: tuple, new: tuple, player: int) -> None:
         """
         Method to move a piece from a square to another
         :param prev: initial square
@@ -338,7 +338,7 @@ class GameGUI:
         self.__update_gui()
         pygame.display.flip()
 
-    def shoot_arrow(self, pos: (int, int)) -> None:
+    def shoot_arrow(self, pos: tuple) -> None:
         """
         Method to shoot an arrow
         :param pos: position shot by the arrow that has to be blocked

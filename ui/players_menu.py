@@ -24,7 +24,7 @@ class PlayersMenu:
     Author: Gonzalo Rodríguez Rodríguez
     """
 
-    def __init__(self, screen: pygame.surface.Surface, location: (int, int), unit_size: int, players: list[Player],
+    def __init__(self, screen: pygame.surface.Surface, location: tuple, unit_size: int, players: list,
                  big_font: pygame.font.Font, font: pygame.font.Font) -> None:
         """
         Constructor for the class
@@ -86,7 +86,7 @@ class PlayersMenu:
         if not self.dropdown1.handle_event(event):
             self.dropdown2.handle_event(event)
 
-    def get_players(self) -> (Player, Player):
+    def get_players(self) -> tuple:
         """
         Method to get the current selected players
         :return: selected players in a tuple, first is white player, second is black player
