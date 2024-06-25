@@ -24,7 +24,7 @@ Author: Gonzalo Rodríguez Rodríguez
 def match_training(n_matches: int) -> None:
     """
     Main function to start the training
-    :param n_matches: number of matches for each set, each set consists of 2 algorithms playing against each other
+    :param file: file containing the parameters for training
     :return: None
     """
     match_recorder = MatchRecorder()

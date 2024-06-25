@@ -51,7 +51,7 @@ class GameGUI:
     Author: Gonzalo Rodríguez Rodríguez
     """
 
-    def __init__(self, tile_size: int, algorithms: list, wait_time: int) -> None:
+    def __init__(self, tile_size: int, algorithms: list, wait_time: int = 2000) -> None:
         """
         Constructor of the class
         :param tile_size: unit size used for the tiles in the graphical board
@@ -98,9 +98,11 @@ class GameGUI:
 
         # Players
         self.__players = []
-        self.__players.append(HumanPlayer(self))
         for algorithm in algorithms:
-            self.__players.append(AIPlayer(self, algorithm, wait_time))
+            if algorithm is None:
+                self.__players.append(HumanPlayer(self))
+            else:
+                self.__players.append(AIPlayer(self, algorithm, wait_time))
         self.white_player = self.__players[0]
         self.black_player = self.__players[0]
 

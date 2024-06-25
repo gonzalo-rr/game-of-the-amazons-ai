@@ -16,7 +16,7 @@ class MCTSAlgorithmUCB(MCTSAlgorithm):
     Author: Gonzalo Rodríguez Rodríguez
     """
 
-    def __init__(self, max_simulations: int, max_time: int, exploration_parameter: int = 2) -> None:
+    def __init__(self, max_simulations: int, max_time: int, exploration_parameter: float = 2) -> None:
         """
         Constructor for the class
         :param max_simulations: max number of simulations

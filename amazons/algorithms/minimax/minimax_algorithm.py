@@ -237,7 +237,7 @@ def evaluate_relative_territory_prev(board: Board, player: int) -> int:
 
 
 # Evaluate territory based on a difference function, which can be relative or absolute
-def evaluate_territory(board: Board, difference: Callable[[int, int, int], int],
+def evaluate_territory(board: Board, difference: Callable[[int, int, int], float],
                        player: int, queen_board_white: list = None, queen_board_black: list = None) -> int:
     """
     Function to evaluate territory
@@ -281,19 +281,16 @@ def evaluate_individual_mobility(board: Board, queen_board_white: list, queen_bo
 
     king_moves_board = calculate_king_moves(board)
 
-    print("hola")
     # Player 1 (white)
     result_white = 0
     for amazon in board.white_positions:
         alpha_white = calculate_mobility(king_moves_board, board, queen_board_black, amazon)
-        print(alpha_white)
         result_white += f(w, alpha_white)
 
     # Player 2 (black)
     result_black = 0
     for amazon in board.black_positions:
         alpha_black = calculate_mobility(king_moves_board, board, queen_board_white, amazon)
-        print(alpha_black)
         result_black += f(w, alpha_black)
 
     return result_white - result_black

@@ -1,0 +1,6 @@
+human
+random
+minimax_territory 2 5
+minimax_territory_mobility 2 5
+mcts_ucb 1000 10
+mcts_epsilon 1000 10

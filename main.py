@@ -1,16 +1,29 @@
+import os.path
+import sys
 import time
-from copy import deepcopy, copy
+from copy import deepcopy
 
 import pygame
 
+from amazons.algorithms.greedy.greedy_algorithm_mobility import GreedyAlgorithmMobility
+from amazons.algorithms.greedy.greedy_algorithm_territory import GreedyAlgorithmTerritory
 from amazons.algorithms.mcts.mcts_algorithm_e_greedy import MCTSAlgorithmE
+from amazons.algorithms.mcts.mcts_algorithm_e_greedy_mod import MCTSAlgorithmEMod
 from amazons.algorithms.mcts.mcts_algorithm_ucb import MCTSAlgorithmUCB
+from amazons.algorithms.mcts.mcts_algorithm_ucb_cut import MCTSAlgorithmCut
 from amazons.algorithms.minimax.minimax_algorithm import *
 from amazons.algorithms.minimax.minimax_algorithm_mobility import MinimaxAlgorithmMobility
+from amazons.algorithms.minimax.minimax_algorithm_mobility_table import MinimaxAlgorithmMobilityTable
+from amazons.algorithms.minimax.minimax_algorithm_relative_territory import MinimaxAlgorithmRelativeTerritory
+from amazons.algorithms.minimax.minimax_algorithm_relative_territory_table import MinimaxAlgorithmRelativeTerritoryTable
 from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
 from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
+from amazons.algorithms.minimax.minimax_algorithm_territory_mobility_table import MinimaxAlgorithmTerritoryMobilityTable
+from amazons.algorithms.minimax.minimax_algorithm_territory_table import MinimaxAlgorithmTerritoryTable
 from amazons.logic.amazons_logic import Board
 from amazons.algorithms.random_algorithm import RandomAlgorithm
+from amazons.tests.match_training import match_training
+from assets.utilities import conf_file_reader
 
 from ui.game_gui import GameGUI
 import multiprocessing as mp
@@ -23,7 +36,54 @@ Author: Gonzalo Rodríguez Rodríguez
 
 
 def main():
-    run_gui()
+    # Check if arguments are correct
+    args = sys.argv[1:]
+    if len(args) == 0:
+        raise ValueError("no mode provided, possible modes: -g, -t")
+    if len(args) > 2:
+        raise ValueError("too many arguments")
+
+    # Check mode
+    mode = args[0]
+    if mode == '-t' or mode == '--training':
+        mode = 'training'
+    elif mode == '-g' or mode == '--graphic':
+        mode = 'graphic'
+    else:
+        raise ValueError(f"unsupported mode {mode}, possible modes: -g, -t")
+
+    # Check additional file
+    file = ''
+    if len(args) == 2:
+        file = args[1]
+        if not os.path.isfile(file):
+            raise ValueError(f"file {file} does not exist")
+
+    # Execute
+    if mode == 'training':
+        match_training(file)
+    elif mode == 'graphic':
+        run_gui(file)
+    # if len(sys.argv) == 1:
+    #     run_gui()
+    # else:
+    #     if len(sys.argv) != 3:
+    #         raise ValueError('for training mode a file must be given')
+    #     mode = sys.argv[1]
+    #     if mode != '-t':
+    #         raise ValueError(f'no mode {mode} supported')
+    #     file = sys.argv[2]
+    #     if file
+
+
+
+    # mode = args[0]
+    #
+    # if mode == '-t'
+    #
+    # file_training = args[1]
+    #
+    # run_gui()
 
     # board = Board()
     # move = board.get_legal_moves(1)[0]
@@ -98,9 +158,6 @@ def main():
     # print()
     # _, bw, bb = evaluate_territory(b)
     # evaluate_individual_mobility(b, bw, bb)
-
-    # n_matches = 100
-    # MatchTraining.match_training(n_matches)
 
     # test_parallelization()
 
@@ -203,29 +260,32 @@ def calculate_copy_times():
     print("Undo move = " + str(end - start) + " ns")
 
 
-def run_gui():
+def run_gui(file: str) -> None: # 5
     """
     Function to run the interface
+    :param file: file with the algorithms
     :return: None
     """
+    if file == '':
+        file = './gui_conf.txt'
+    algorithms = read_gui_file(file)
+
     # Basic configuration
     pygame.init()
 
-    tile_size = 100
-    algorithms = [
-        RandomAlgorithm(),
-        MinimaxAlgorithmTerritory(2, 5),
-        # MinimaxAlgorithmMobility(2, 5),
-        # MinimaxAlgorithmRelativeTerritory(2, 5),
-        # MinimaxAlgorithmTerritory(2, 5),
-        MinimaxAlgorithmTerritoryMobility(2, 5),
-        MCTSAlgorithmUCB(500, 5),
-        MCTSAlgorithmE(1000, 20),
-    ]
-
-    gameGUI = GameGUI(tile_size, algorithms, 2000)
+    gameGUI = GameGUI(100, algorithms)
 
     gameGUI.run()
+
+
+def read_gui_file(file: str) -> list:
+    algorithms = []
+    with open(file, 'r') as inp:
+        lines = inp.readlines()
+        for line in lines:
+            algorithms.append(conf_file_reader.get_algorithm_from_line(line))
+
+    return algorithms
 
 
 if __name__ == "__main__":
