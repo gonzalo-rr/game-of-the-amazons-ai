@@ -1,20 +1,38 @@
 import time
-from copy import deepcopy
+from copy import deepcopy, copy
 
 import pygame
 
-from amazons.algorithms.mcts.MCTSAlgorithmEGreedyMod import MCTSAlgorithmEMod
-from amazons.test import MatchTraining
-from amazons.logic.AmazonsLogic import Board
-from amazons.algorithms.RandomAlgorithm import RandomAlgorithm
-from amazons.algorithms.greedy.GreedyAlgorithmMobility import GreedyAlgorithmMobility
-from amazons.algorithms.minimax.MinimaxAlgorithmTerritory import MinimaxAlgorithmTerritory
+from amazons.algorithms.mcts.mcts_algorithm_e_greedy import MCTSAlgorithmE
+from amazons.algorithms.mcts.mcts_algorithm_ucb import MCTSAlgorithmUCB
+from amazons.algorithms.minimax.minimax_algorithm import *
+from amazons.algorithms.minimax.minimax_algorithm_mobility import MinimaxAlgorithmMobility
+from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
+from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
+from amazons.logic.amazons_logic import Board
+from amazons.algorithms.random_algorithm import RandomAlgorithm
 
-from ui.GameGUI import GameGUI
+from ui.game_gui import GameGUI
 import multiprocessing as mp
+
+"""
+File that contains the main function of the system
+
+Author: Gonzalo Rodríguez Rodríguez
+"""
 
 
 def main():
+    run_gui()
+
+    # board = Board()
+    # move = board.get_legal_moves(1)[0]
+    # board.execute_move(move, 1)
+    # board.execute_move(((3, 0), (4, 1), (5, 2)), -1)
+    # board.print_board()
+    # print()
+    # board2 = Board(board)
+    # board2.print_board()
     # mcts = MCTSAlgorithm(10)
     # b = Board(False)
     # mcts.make_move(b, 1)
@@ -23,7 +41,7 @@ def main():
     # node.expand()
     # print(len(node.children))
 
-    # board = Board(False)
+    # board = Board()
     # board.board = [
     #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0],
     #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -58,7 +76,7 @@ def main():
 
     # calculate_copy_times()
 
-    # run_gui()
+    # compare_for_tests()
 
     # calculate_king_moves(Board(False))
     # b = Board(False)
@@ -81,8 +99,8 @@ def main():
     # _, bw, bb = evaluate_territory(b)
     # evaluate_individual_mobility(b, bw, bb)
 
-    n_matches = 2
-    MatchTraining.match_training(n_matches)
+    # n_matches = 100
+    # MatchTraining.match_training(n_matches)
 
     # test_parallelization()
 
@@ -102,6 +120,15 @@ def main():
     # b.print_board()
     # print()
     # MinimaxAlgorithm.evaluate_territory(b)
+
+
+def compare_for_tests():
+    b = Board()
+    p1 = MinimaxAlgorithmMobility(2, 10)
+    start = time.time()
+    p1.make_move(b, 1)
+    end = time.time()
+    print(f"Time taken: {end - start}")
 
 
 def test_parallelization():
@@ -132,9 +159,13 @@ def calculation(secs, pid, array):
 
 
 def calculate_copy_times():
+    """
+    Function to compare copy times of the board
+    :return: None
+    """
     start = time.time_ns()
 
-    board = Board()
+    board = Board(False)
 
     n_times = 1000
 
@@ -148,7 +179,11 @@ def calculate_copy_times():
     start = time.time_ns()
 
     for i in range(n_times):
-        new_board = Board(board)
+        new_board = [[] for _ in range(board.n)]
+        for col in range(len(board.board)):
+            new_board[col] = copy(board.board[col])
+        b = Board(False)
+        b.board = new_board
 
     end = time.time_ns()
 
@@ -169,17 +204,26 @@ def calculate_copy_times():
 
 
 def run_gui():
+    """
+    Function to run the interface
+    :return: None
+    """
     # Basic configuration
     pygame.init()
 
     tile_size = 100
     algorithms = [
         RandomAlgorithm(),
-        MCTSAlgorithmEMod(1000, 10),
         MinimaxAlgorithmTerritory(2, 5),
+        # MinimaxAlgorithmMobility(2, 5),
+        # MinimaxAlgorithmRelativeTerritory(2, 5),
+        # MinimaxAlgorithmTerritory(2, 5),
+        MinimaxAlgorithmTerritoryMobility(2, 5),
+        MCTSAlgorithmUCB(500, 5),
+        MCTSAlgorithmE(1000, 20),
     ]
 
-    gameGUI = GameGUI(tile_size, algorithms)
+    gameGUI = GameGUI(tile_size, algorithms, 2000)
 
     gameGUI.run()
 

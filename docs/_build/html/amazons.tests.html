@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>amazons.tests package &#8212; Game of the Amazons AI 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="assets package" href="assets.html" />
+    <link rel="prev" title="amazons.players package" href="amazons.players.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="amazons-tests-package">
+<h1>amazons.tests package<a class="headerlink" href="#amazons-tests-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-amazons.tests.match_training">
+<span id="amazons-tests-match-training-module"></span><h2>amazons.tests.match_training module<a class="headerlink" href="#module-amazons.tests.match_training" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="amazons.tests.match_training.match_training">
+<span class="sig-prename descclassname"><span class="pre">amazons.tests.match_training.</span></span><span class="sig-name descname"><span class="pre">match_training</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_matches</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.match_training.match_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main function to start the training
+:param n_matches: number of matches for each set, each set consists of 2 algorithms playing against each other
+:return: None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amazons.tests.match_training.play_game">
+<span class="sig-prename descclassname"><span class="pre">amazons.tests.match_training.</span></span><span class="sig-name descname"><span class="pre">play_game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">white</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">black</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.match_training.play_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to simulate one single match
+:param white: white player
+:param black: black player
+:return: results with the following format:</p>
+<blockquote>
+<div><p>[white, black, result, total_time, n_moves_w, n_moves_b, avg_move_time_white, avg_move_time_black]</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amazons.tests.match_training.play_n_games">
+<span class="sig-prename descclassname"><span class="pre">amazons.tests.match_training.</span></span><span class="sig-name descname"><span class="pre">play_n_games</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_matches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.match_training.play_n_games" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to play a number of moces
+:param p1: first player
+:param p2: second player
+:param n_matches: number of matches
+:param name: name to save the results
+:return: None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amazons.tests.match_training.update_csv">
+<span class="sig-prename descclassname"><span class="pre">amazons.tests.match_training.</span></span><span class="sig-name descname"><span class="pre">update_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.match_training.update_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to update the csv where the results are registered
+:param results: results of the matches
+:param name: name of the csv file
+:return: None</p>
+</dd></dl>
+
+</section>
+<section id="module-amazons.tests.test_algorithm">
+<span id="amazons-tests-test-algorithm-module"></span><h2>amazons.tests.test_algorithm module<a class="headerlink" href="#module-amazons.tests.test_algorithm" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="amazons.tests.test_algorithm.AlgorithmsTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">amazons.tests.test_algorithm.</span></span><span class="sig-name descname"><span class="pre">AlgorithmsTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_algorithm.AlgorithmsTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>Class to test the algorithms</p>
+<p>Author: Gonzalo Rodríguez Rodríguez</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_algorithm.AlgorithmsTest.test_make_move">
+<span class="sig-name descname"><span class="pre">test_make_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_algorithm.AlgorithmsTest.test_make_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the make_move method
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-amazons.tests.test_board">
+<span id="amazons-tests-test-board-module"></span><h2>amazons.tests.test_board module<a class="headerlink" href="#module-amazons.tests.test_board" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">amazons.tests.test_board.</span></span><span class="sig-name descname"><span class="pre">BoardTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>Class to test the board logic</p>
+<p>Author: Gonzalo Rodríguez Rodríguez</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest.test_eq">
+<span class="sig-name descname"><span class="pre">test_eq</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest.test_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the __eq__ method
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest.test_execute_move">
+<span class="sig-name descname"><span class="pre">test_execute_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest.test_execute_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the execute_move method
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest.test_get_legal_moves">
+<span class="sig-name descname"><span class="pre">test_get_legal_moves</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest.test_get_legal_moves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the get_legal_moves method
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest.test_init">
+<span class="sig-name descname"><span class="pre">test_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest.test_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the constructor
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest.test_is_valid_move">
+<span class="sig-name descname"><span class="pre">test_is_valid_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest.test_is_valid_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the is_valid_move method
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest.test_is_win">
+<span class="sig-name descname"><span class="pre">test_is_win</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest.test_is_win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the is_win method
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.tests.test_board.BoardTest.test_undo_move">
+<span class="sig-name descname"><span class="pre">test_undo_move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.tests.test_board.BoardTest.test_undo_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests for the undo_move method
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-amazons.tests">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-amazons.tests" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Game of the Amazons AI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">game_of_the_amazons_ai</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="amazons.html">amazons package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assets.html">assets package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html">ui package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">game_of_the_amazons_ai</a><ul>
+  <li><a href="amazons.html">amazons package</a><ul>
+      <li>Previous: <a href="amazons.players.html" title="previous chapter">amazons.players package</a></li>
+      <li>Next: <a href="assets.html" title="next chapter">assets package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Gonzalo Rodríguez Rodríguez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/amazons.tests.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

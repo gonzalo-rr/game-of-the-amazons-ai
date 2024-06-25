@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>amazons.logic package &#8212; Game of the Amazons AI 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=af2ce170"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="amazons.players package" href="amazons.players.html" />
+    <link rel="prev" title="amazons.algorithms.minimax.history_table package" href="amazons.algorithms.minimax.history_table.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="amazons-logic-package">
+<h1>amazons.logic package<a class="headerlink" href="#amazons-logic-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-amazons.logic.amazons_logic">
+<span id="amazons-logic-amazons-logic-module"></span><h2>amazons.logic.amazons_logic module<a class="headerlink" href="#module-amazons.logic.amazons_logic" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">amazons.logic.amazons_logic.</span></span><span class="sig-name descname"><span class="pre">Board</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that represents the board (and state) of the game
+and also presents methods to get, do, undo and validate moves</p>
+<dl>
+<dt>Board data:</dt><dd><p>1=white, -1=black, 0=empty, 2=blocked</p>
+<dl class="simple">
+<dt>move = (amazon, place, shoot) where:</dt><dd><p>amazon: the piece that will be moved
+place: the tile where the piece will be moved
+shoot: the tile that will be shot by the amazon</p>
+</dd>
+</dl>
+</dd>
+<dt>Attributes:</dt><dd><p>n: dimension of the board
+board: matrix representing the board
+black_positions: positions of black pieces
+white_positions: positions of white pieces</p>
+</dd>
+</dl>
+<p>Author: Gonzalo Rodríguez Rodríguez</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.execute_move">
+<span class="sig-name descname"><span class="pre">execute_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.execute_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes a full move on the board</p>
+<p>A move has the following elements:
+amazon: the piece that will be moved
+place: the tile where the piece will be moved
+shoot: the tile that will be shot by the amazon
+:param move: move to be executed
+:param player: player to move
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.get_legal_moves">
+<span class="sig-name descname"><span class="pre">get_legal_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.get_legal_moves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the legal moves for a player (-1 is black, 1 is white)
+:param player: int
+:return: all legal full moves</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.get_moves_amazon">
+<span class="sig-name descname"><span class="pre">get_moves_amazon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amazon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.get_moves_amazon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the full moves for a certain amazon
+:param amazon: (int, int)
+:param player: int
+:return: full game of the amazons move for a player</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.get_moves_position">
+<span class="sig-name descname"><span class="pre">get_moves_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.get_moves_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the queen-like moves from a certain position
+:param position: (int, int)
+:return: amazon queen-like moves from the position</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.has_legal_moves">
+<span class="sig-name descname"><span class="pre">has_legal_moves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.has_legal_moves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True is the specified player has legal moves and False otherwise
+:param player: int
+:return: bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.is_valid_move">
+<span class="sig-name descname"><span class="pre">is_valid_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.is_valid_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the specified move is valid and False otherwise
+:param move: move to be verified
+:param player: player that makes the move
+:return: bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.is_win">
+<span class="sig-name descname"><span class="pre">is_win</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.is_win" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the player has won, False otherwise
+:param player: int
+:return: bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.move_piece">
+<span class="sig-name descname"><span class="pre">move_piece</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amazon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">place</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.move_piece" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves a piece from one tile to another
+(note that this is not a full move, just a piece move without the shot)
+:param amazon: amazon to move
+:param place: square to move the amazon to
+:param player: player that moves the amazon
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.print_board">
+<span class="sig-name descname"><span class="pre">print_board</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.print_board" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the board xd
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.shoot_arrow">
+<span class="sig-name descname"><span class="pre">shoot_arrow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shoot</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.shoot_arrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blocks a tile from the board, that is the shooting part of a full move
+:param shoot: square to shoot
+:return: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="amazons.logic.amazons_logic.Board.undo_move">
+<span class="sig-name descname"><span class="pre">undo_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">move</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#amazons.logic.amazons_logic.Board.undo_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undoes a move, that is, leaves the board as if the move was never made
+:param move: move to undo
+:param player: player that made the move
+:return: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-amazons.logic">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-amazons.logic" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Game of the Amazons AI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">game_of_the_amazons_ai</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="amazons.html">amazons package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="assets.html">assets package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html">ui package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">game_of_the_amazons_ai</a><ul>
+  <li><a href="amazons.html">amazons package</a><ul>
+      <li>Previous: <a href="amazons.algorithms.minimax.history_table.html" title="previous chapter">amazons.algorithms.minimax.history_table package</a></li>
+      <li>Next: <a href="amazons.players.html" title="next chapter">amazons.players package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Gonzalo Rodríguez Rodríguez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/amazons.logic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
