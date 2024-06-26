@@ -222,7 +222,14 @@ def read_training_file(file: str) -> list:
     return matches
 
 
-def get_matchup_from_line(line):
+def get_matchup_from_line(line: str) -> tuple:
+    """
+    Receives a line and return the match up indicated in said line
+    Args:
+        line: string to get the match up from
+
+    Returns: tuple containing both players and number of matches
+    """
     line = line.split(":")
     match_up = line[0]
     players = match_up.split(" v ")
