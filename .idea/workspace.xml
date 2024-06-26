@@ -4,32 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Configuración para entrenamiento">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_mobility.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_mobility.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_territory.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_territory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amazons/tests/match_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/tests/match_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/amazons.algorithms.greedy.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/amazons.algorithms.greedy.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/amazons.logic.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/amazons.logic.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/amazons.tests.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/amazons.tests.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/main.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/main.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/ui.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/ui.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/sphinx_highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/sphinx_highlight.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.algorithms.greedy.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.algorithms.greedy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.logic.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.logic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.tests.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.tests.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/modules.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/ui.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/ui.html" afterDir="false" />
-    </list>
+    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Docs para conf_file_reader.py &gt; get_matchup_from_line" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,7 +62,7 @@
     "Python.main_training.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "test",
     "last_opened_file_path": "C:/Users/srgon/Desktop/TFG/game_of_the_amazons_ai",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable",
     "two.files.diff.last.used.file": "C:/Users/srgon/Desktop/TFG/pythonProject/amazons/algorithms/MCTSAlgorithm2.py"
@@ -696,7 +671,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Creación directorio para IAs MCTS" />
     <MESSAGE value="Cambios menores preparando entrenamiento" />
     <MESSAGE value="Eliminación de una salida por consola" />
     <MESSAGE value="Adición MatchRecorder y pruebas" />
@@ -721,6 +695,7 @@
     <MESSAGE value="Generación de docs" />
     <MESSAGE value="Configuración para gui" />
     <MESSAGE value="Configuración para entrenamiento" />
-    <option name="LAST_COMMIT_MESSAGE" value="Configuración para entrenamiento" />
+    <MESSAGE value="Docs para conf_file_reader.py &gt; get_matchup_from_line" />
+    <option name="LAST_COMMIT_MESSAGE" value="Docs para conf_file_reader.py &gt; get_matchup_from_line" />
   </component>
 </project>

@@ -24,7 +24,9 @@ class BoardTest(unittest.TestCase):
         self.assertEqual(sorted(coords_white), sorted(board.white_positions))
         self.assertEqual(sorted(coords_black), sorted(board.black_positions))
 
-        # Copied un-modified board
+        self.assertEqual('graphic', board.get_mode())
+
+        # Copied un-modified board, un-modified mode
         board = Board()
 
         board_copy = Board(board)
@@ -32,17 +34,55 @@ class BoardTest(unittest.TestCase):
         self.assertEqual(sorted(coords_white), sorted(board_copy.white_positions))
         self.assertEqual(sorted(coords_black), sorted(board_copy.black_positions))
 
-        # Copied modified board
+        self.assertEqual(board.get_mode(), board_copy.get_mode())
+
+        # Copied un-modified board, modified mode
+        board = Board()
+        board.set_mode('training')
+
+        board_copy = Board(board)
+
+        self.assertEqual(sorted(coords_white), sorted(board_copy.white_positions))
+        self.assertEqual(sorted(coords_black), sorted(board_copy.black_positions))
+
+        self.assertEqual('training', board_copy.get_mode())
+        self.assertEqual(board.get_mode(), board_copy.get_mode())
+
+        # Copied modified board, un-modified mode
         board = Board()
 
         board_copy = Board(board)
         board_copy.execute_move(((0, 6), (1, 7), (2, 8)), 1)
+
+        coords_white = [(0, 6), (9, 6), (3, 9), (6, 9)]
+        coords_black = [(3, 0), (6, 0), (0, 3), (9, 3)]
 
         coords_white.remove((0, 6))
         coords_white.append((1, 7))
 
         self.assertEqual(sorted(coords_white), sorted(board_copy.white_positions))
         self.assertEqual(sorted(coords_black), sorted(board_copy.black_positions))
+
+        self.assertEqual('graphic', board.get_mode())
+
+        # Copied modified board, modified mode
+        board = Board()
+        board.set_mode('training')
+
+        board_copy = Board(board)
+        board_copy.execute_move(((0, 6), (1, 7), (2, 8)), 1)
+
+        coords_white = [(0, 6), (9, 6), (3, 9), (6, 9)]
+        coords_black = [(3, 0), (6, 0), (0, 3), (9, 3)]
+
+        coords_white.remove((0, 6))
+        coords_white.append((1, 7))
+
+        self.assertEqual(sorted(coords_white), sorted(board_copy.white_positions))
+        self.assertEqual(sorted(coords_black), sorted(board_copy.black_positions))
+
+        self.assertEqual('training', board_copy.get_mode())
+        self.assertEqual(board.get_mode(), board_copy.get_mode())
 
     def test_is_valid_move(self):
         """
