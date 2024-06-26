@@ -31,7 +31,9 @@ def match_training(matches: list) -> None:
 
     for match, i in enumerate(matches):
         p1, p2, n_matches = match
-        play_n_games(p1, p2, n_matches, "set" + i + p1 + "v" + p2 + ".csv")
+        name = "set" + i + p1 + "v" + p2
+        play_n_games(p1, p2, n_matches, name + ".csv")
+        match_recorder.save_results(name + ".pkl")
 
     # # Set 1
     # p1 = GreedyAlgorithmMobility()
@@ -270,7 +272,8 @@ def play_game(white: Algorithm, black: Algorithm) -> []:
     n_moves_white = 0
     n_moves_black = 0
 
-    board = Board(False)
+    board = Board()
+    board.set_mode('training')
     playing = True
     start = time.time()
     while playing:

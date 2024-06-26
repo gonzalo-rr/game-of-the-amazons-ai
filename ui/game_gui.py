@@ -59,6 +59,7 @@ class GameGUI:
         :param wait_time: millis to wait during an AI move
         """
         self.board = Board()
+        self.board.set_mode('graphic')
 
         # Game variables
         # 0 - whites turn no selection, 1 - whites turn selection, 2 - whites turn half move,

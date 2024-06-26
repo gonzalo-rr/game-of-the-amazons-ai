@@ -35,6 +35,7 @@ class Board:
         if len(args) == 0:
             self.n = 10  # Dimension of the board
             self.board = [[]] * self.n  # Board
+            self.__mode = 'graphic'  # Default mode
 
             for i in range(self.n):
                 self.board[i] = [0] * self.n
@@ -58,6 +59,7 @@ class Board:
             prev_board = args[0]
             self.n = len(prev_board.board)  # Dimension of the board
             self.board = [[]] * self.n  # Board
+            self.set_mode(prev_board.get_mode())
 
             for i in range(self.n):
                 self.board[i] = copy(prev_board.board[i])
@@ -94,6 +96,25 @@ class Board:
                 if self.board[i][j] != other.board[i][j]:
                     return False
         return True
+
+    def get_mode(self):
+        """
+        Method that returns the mode of the board
+        :return: mode of the board
+        """
+        return self.__mode
+
+    def set_mode(self, mode):
+        """
+        Method that sets the mode of the board
+        :param mode: new mode
+        :return: None
+        :raises ValueError: if the specified mode does not exist
+        """
+        if mode == 'graphic' or mode == 'training':
+            self.__mode = mode
+        else:
+            raise ValueError("invalid mode, only available modes are 'graphic' and 'training'")
 
     def get_legal_moves(self, player: int) -> list:
         """
@@ -190,8 +211,9 @@ class Board:
         :return: None
         """
 
-        if not self.is_valid_move(move, player):
-            raise ValueError("invalid move")
+        if self.get_mode() == 'graphic':
+            if not self.is_valid_move(move, player):
+                raise ValueError("invalid move")
 
         (amazon, place, shoot) = move
 
@@ -209,11 +231,12 @@ class Board:
 
         amazon, place, shoot = move
 
-        if not self.__is_valid_move_types(move, player):
-            raise ValueError("invalid move")
+        if self.get_mode() == 'graphic':
+            if not self.__is_valid_move_types(move, player):
+                raise ValueError("invalid move")
 
-        if not self.__is_valid_move_logic(amazon, place, shoot):
-            raise ValueError("invalid move")
+            if not self.__is_valid_move_logic(amazon, place, shoot):
+                raise ValueError("invalid move")
 
         self.board[shoot[0]][shoot[1]] = 0
 
