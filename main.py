@@ -5,23 +5,9 @@ from copy import deepcopy
 
 import pygame
 
-from amazons.algorithms.greedy.greedy_algorithm_mobility import GreedyAlgorithmMobility
-from amazons.algorithms.greedy.greedy_algorithm_territory import GreedyAlgorithmTerritory
-from amazons.algorithms.mcts.mcts_algorithm_e_greedy import MCTSAlgorithmE
-from amazons.algorithms.mcts.mcts_algorithm_e_greedy_mod import MCTSAlgorithmEMod
-from amazons.algorithms.mcts.mcts_algorithm_ucb import MCTSAlgorithmUCB
-from amazons.algorithms.mcts.mcts_algorithm_ucb_cut import MCTSAlgorithmCut
 from amazons.algorithms.minimax.minimax_algorithm import *
 from amazons.algorithms.minimax.minimax_algorithm_mobility import MinimaxAlgorithmMobility
-from amazons.algorithms.minimax.minimax_algorithm_mobility_table import MinimaxAlgorithmMobilityTable
-from amazons.algorithms.minimax.minimax_algorithm_relative_territory import MinimaxAlgorithmRelativeTerritory
-from amazons.algorithms.minimax.minimax_algorithm_relative_territory_table import MinimaxAlgorithmRelativeTerritoryTable
-from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
-from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
-from amazons.algorithms.minimax.minimax_algorithm_territory_mobility_table import MinimaxAlgorithmTerritoryMobilityTable
-from amazons.algorithms.minimax.minimax_algorithm_territory_table import MinimaxAlgorithmTerritoryTable
 from amazons.logic.amazons_logic import Board
-from amazons.algorithms.random_algorithm import RandomAlgorithm
 from amazons.tests.match_training import match_training
 from assets.utilities import conf_file_reader
 
@@ -61,7 +47,7 @@ def main():
 
     # Execute
     if mode == 'training':
-        match_training(file)
+        train_ais(file)
     elif mode == 'graphic':
         run_gui(file)
     # if len(sys.argv) == 1:
@@ -74,8 +60,6 @@ def main():
     #         raise ValueError(f'no mode {mode} supported')
     #     file = sys.argv[2]
     #     if file
-
-
 
     # mode = args[0]
     #
@@ -260,7 +244,7 @@ def calculate_copy_times():
     print("Undo move = " + str(end - start) + " ns")
 
 
-def run_gui(file: str) -> None: # 5
+def run_gui(file: str) -> None:  # 5
     """
     Function to run the interface
     :param file: file with the algorithms
@@ -268,7 +252,7 @@ def run_gui(file: str) -> None: # 5
     """
     if file == '':
         file = './gui_conf.txt'
-    algorithms = read_gui_file(file)
+    algorithms = conf_file_reader.read_gui_file(file)
 
     # Basic configuration
     pygame.init()
@@ -278,14 +262,18 @@ def run_gui(file: str) -> None: # 5
     gameGUI.run()
 
 
-def read_gui_file(file: str) -> list:
-    algorithms = []
-    with open(file, 'r') as inp:
-        lines = inp.readlines()
-        for line in lines:
-            algorithms.append(conf_file_reader.get_algorithm_from_line(line))
+def train_ais(file: str) -> None:
+    """
+    Function to run the training
+    :param file: file with the parameters of training
+    :return: None
+    """
+    if file == '':
+        file = './training_conf.txt'
+    matches = conf_file_reader.read_training_file(file)
 
-    return algorithms
+    match_training(matches)
+
 
 
 if __name__ == "__main__":

@@ -1,0 +1,3 @@
+random v random : 2
+minimax_territory_mobility 2 5 v random : 10
+mcts_ucb 1000 10 v mcts_epsilon 1000 10 : 10

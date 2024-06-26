@@ -21,13 +21,17 @@ Author: Gonzalo Rodríguez Rodríguez
 """
 
 
-def match_training(n_matches: int) -> None:
+def match_training(matches: list) -> None:
     """
     Main function to start the training
-    :param file: file containing the parameters for training
+    :param matches: list containing the matches that are to be played
     :return: None
     """
     match_recorder = MatchRecorder()
+
+    for match, i in enumerate(matches):
+        p1, p2, n_matches = match
+        play_n_games(p1, p2, n_matches, "set" + i + p1 + "v" + p2 + ".csv")
 
     # # Set 1
     # p1 = GreedyAlgorithmMobility()
@@ -50,179 +54,179 @@ def match_training(n_matches: int) -> None:
 
     # Set 1: Minimax Mobility rec 2 & 3 vs Random & Greedy Territory
 
-    p1 = MinimaxAlgorithmMobility(2, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMM2vR.csv')
-    match_recorder.save_results('resMM2vR.pkl')
-
-    p1 = MinimaxAlgorithmMobility(3, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMM3vR.csv')
-    match_recorder.save_results('resMM3vR.pkl')
-
-    p1 = MinimaxAlgorithmMobility(2, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMM2vGT.csv')
-    match_recorder.save_results('resMM2vGT.pkl')
-
-    p1 = MinimaxAlgorithmMobility(3, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMM3vGT.csv')
-    match_recorder.save_results('resMM3vGT.pkl')
-
-    # Set 2: Minimax Territory rec 2 & 3 vs Random & Greedy Territory
-
-    p1 = MinimaxAlgorithmTerritory(2, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMT2vR.csv')
-    match_recorder.save_results('resMT2vR.pkl')
-
-    p1 = MinimaxAlgorithmTerritory(3, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMT3vR.csv')
-    match_recorder.save_results('resMT3vR.pkl')
-
-    p1 = MinimaxAlgorithmTerritory(2, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMT2vGT.csv')
-    match_recorder.save_results('resMT2vGT.pkl')
-
-    p1 = MinimaxAlgorithmTerritory(3, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMT3vGT.csv')
-    match_recorder.save_results('resMT3vGT.pkl')
-
-    # Set 3: Minimax Relative Territory rec 2 & 3 vs Random & Greedy Territory
-
-    p1 = MinimaxAlgorithmRelativeTerritory(2, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMRT2vR.csv')
-    match_recorder.save_results('resMRT2vR.pkl')
-
-    p1 = MinimaxAlgorithmRelativeTerritory(3, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMRT3vR.csv')
-    match_recorder.save_results('resMRT3vR.pkl')
-
-    p1 = MinimaxAlgorithmRelativeTerritory(2, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMRT2vGT.csv')
-    match_recorder.save_results('resMT2vGT.pkl')
-
-    p1 = MinimaxAlgorithmRelativeTerritory(3, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMRT3vGT.csv')
-    match_recorder.save_results('resMT3vGT.pkl')
-
-    # Set 4: Minimax Territory Mobility rec 2 & 3 vs Random & Greedy Territory
-
-    p1 = MinimaxAlgorithmTerritoryMobility(2, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMTM2vR.csv')
-    match_recorder.save_results('resMTM2vR.pkl')
-
-    p1 = MinimaxAlgorithmTerritoryMobility(3, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMTM3vR.csv')
-    match_recorder.save_results('resMTM3vR.pkl')
-
-    p1 = MinimaxAlgorithmTerritoryMobility(2, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMTM2vGT.csv')
-    match_recorder.save_results('resMTM2vGT.pkl')
-
-    p1 = MinimaxAlgorithmTerritoryMobility(3, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMTM3vGT.csv')
-    match_recorder.save_results('resMTM3vGT.pkl')
-
-    # Set 5: MCTS sim 1000 & 5000 vs Random & Greedy Territory
-
-    p1 = MCTSAlgorithmUCB(1000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTS1vR.csv')
-    match_recorder.save_results('resMCTS1vR.pkl')
-
-    p1 = MCTSAlgorithmUCB(1000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTS1vGT.csv')
-    match_recorder.save_results('resMCTS1vGT.pkl')
-
-    p1 = MCTSAlgorithmUCB(5000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTS5vR.csv')
-    match_recorder.save_results('resMCTS5vR.pkl')
-
-    p1 = MCTSAlgorithmUCB(5000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTS5vGT.csv')
-    match_recorder.save_results('resMCTS5vGT.pkl')
-
-    # Set 6: MCTS_cut sim 1000, 5000 vs Random & Greedy Territory
-
-    p1 = MCTSAlgorithmCut(1000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTSC1vR.csv')
-    match_recorder.save_results('resMCTSC1vR.pkl')
-
-    p1 = MCTSAlgorithmCut(1000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTSC1vGT.csv')
-    match_recorder.save_results('resMCTSC1vGT.pkl')
-
-    p1 = MCTSAlgorithmCut(5000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTSC5vR.csv')
-    match_recorder.save_results('resMCTSC5vR.pkl')
-
-    p1 = MCTSAlgorithmCut(5000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTSC5vGT.csv')
-    match_recorder.save_results('resMCTSC5vGT.pkl')
-
-    # Set 7: MCTS-E sim 1000, 5000 vs Random & Greedy Territory
-
-    p1 = MCTSAlgorithmE(1000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTSE1vR.csv')
-    match_recorder.save_results('resMCTSE1vR.pkl')
-
-    p1 = MCTSAlgorithmE(1000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTSE1vGT.csv')
-    match_recorder.save_results('resMCTSE1vGT.pkl')
-
-    p1 = MCTSAlgorithmE(5000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTSE5vR.csv')
-    match_recorder.save_results('resMCTSE5vR.pkl')
-
-    p1 = MCTSAlgorithmE(5000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTSE5vGT.csv')
-    match_recorder.save_results('resMCTSE5vGT.pkl')
-
-    # Set 7: MCTS-E' sim 100, 1000, 10000 vs Random & Greedy Territory
-
-    p1 = MCTSAlgorithmE(1000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTSEm1vR.csv')
-    match_recorder.save_results('resMCTSEm1vR.pkl')
-
-    p1 = MCTSAlgorithmE(1000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTSEm1vGT.csv')
-    match_recorder.save_results('resMCTSEm1vGT.pkl')
-
-    p1 = MCTSAlgorithmE(5000, 10)
-    p2 = RandomAlgorithm()
-    play_n_games(p1, p2, n_matches, 'resMCTSEm5vR.csv')
-    match_recorder.save_results('resMCTSEm5vR.pkl')
-
-    p1 = MCTSAlgorithmE(5000, 10)
-    p2 = GreedyAlgorithmTerritory()
-    play_n_games(p1, p2, n_matches, 'resMCTSEm5vGT.csv')
-    match_recorder.save_results('resMCTSEm5vGT.pkl')
+    # p1 = MinimaxAlgorithmMobility(2, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMM2vR.csv')
+    # match_recorder.save_results('resMM2vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmMobility(3, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMM3vR.csv')
+    # match_recorder.save_results('resMM3vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmMobility(2, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMM2vGT.csv')
+    # match_recorder.save_results('resMM2vGT.pkl')
+    #
+    # p1 = MinimaxAlgorithmMobility(3, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMM3vGT.csv')
+    # match_recorder.save_results('resMM3vGT.pkl')
+    #
+    # # Set 2: Minimax Territory rec 2 & 3 vs Random & Greedy Territory
+    #
+    # p1 = MinimaxAlgorithmTerritory(2, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMT2vR.csv')
+    # match_recorder.save_results('resMT2vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmTerritory(3, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMT3vR.csv')
+    # match_recorder.save_results('resMT3vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmTerritory(2, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMT2vGT.csv')
+    # match_recorder.save_results('resMT2vGT.pkl')
+    #
+    # p1 = MinimaxAlgorithmTerritory(3, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMT3vGT.csv')
+    # match_recorder.save_results('resMT3vGT.pkl')
+    #
+    # # Set 3: Minimax Relative Territory rec 2 & 3 vs Random & Greedy Territory
+    #
+    # p1 = MinimaxAlgorithmRelativeTerritory(2, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMRT2vR.csv')
+    # match_recorder.save_results('resMRT2vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmRelativeTerritory(3, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMRT3vR.csv')
+    # match_recorder.save_results('resMRT3vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmRelativeTerritory(2, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMRT2vGT.csv')
+    # match_recorder.save_results('resMT2vGT.pkl')
+    #
+    # p1 = MinimaxAlgorithmRelativeTerritory(3, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMRT3vGT.csv')
+    # match_recorder.save_results('resMT3vGT.pkl')
+    #
+    # # Set 4: Minimax Territory Mobility rec 2 & 3 vs Random & Greedy Territory
+    #
+    # p1 = MinimaxAlgorithmTerritoryMobility(2, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMTM2vR.csv')
+    # match_recorder.save_results('resMTM2vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmTerritoryMobility(3, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMTM3vR.csv')
+    # match_recorder.save_results('resMTM3vR.pkl')
+    #
+    # p1 = MinimaxAlgorithmTerritoryMobility(2, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMTM2vGT.csv')
+    # match_recorder.save_results('resMTM2vGT.pkl')
+    #
+    # p1 = MinimaxAlgorithmTerritoryMobility(3, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMTM3vGT.csv')
+    # match_recorder.save_results('resMTM3vGT.pkl')
+    #
+    # # Set 5: MCTS sim 1000 & 5000 vs Random & Greedy Territory
+    #
+    # p1 = MCTSAlgorithmUCB(1000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTS1vR.csv')
+    # match_recorder.save_results('resMCTS1vR.pkl')
+    #
+    # p1 = MCTSAlgorithmUCB(1000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTS1vGT.csv')
+    # match_recorder.save_results('resMCTS1vGT.pkl')
+    #
+    # p1 = MCTSAlgorithmUCB(5000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTS5vR.csv')
+    # match_recorder.save_results('resMCTS5vR.pkl')
+    #
+    # p1 = MCTSAlgorithmUCB(5000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTS5vGT.csv')
+    # match_recorder.save_results('resMCTS5vGT.pkl')
+    #
+    # # Set 6: MCTS_cut sim 1000, 5000 vs Random & Greedy Territory
+    #
+    # p1 = MCTSAlgorithmCut(1000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTSC1vR.csv')
+    # match_recorder.save_results('resMCTSC1vR.pkl')
+    #
+    # p1 = MCTSAlgorithmCut(1000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTSC1vGT.csv')
+    # match_recorder.save_results('resMCTSC1vGT.pkl')
+    #
+    # p1 = MCTSAlgorithmCut(5000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTSC5vR.csv')
+    # match_recorder.save_results('resMCTSC5vR.pkl')
+    #
+    # p1 = MCTSAlgorithmCut(5000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTSC5vGT.csv')
+    # match_recorder.save_results('resMCTSC5vGT.pkl')
+    #
+    # # Set 7: MCTS-E sim 1000, 5000 vs Random & Greedy Territory
+    #
+    # p1 = MCTSAlgorithmE(1000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTSE1vR.csv')
+    # match_recorder.save_results('resMCTSE1vR.pkl')
+    #
+    # p1 = MCTSAlgorithmE(1000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTSE1vGT.csv')
+    # match_recorder.save_results('resMCTSE1vGT.pkl')
+    #
+    # p1 = MCTSAlgorithmE(5000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTSE5vR.csv')
+    # match_recorder.save_results('resMCTSE5vR.pkl')
+    #
+    # p1 = MCTSAlgorithmE(5000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTSE5vGT.csv')
+    # match_recorder.save_results('resMCTSE5vGT.pkl')
+    #
+    # # Set 7: MCTS-E' sim 100, 1000, 10000 vs Random & Greedy Territory
+    #
+    # p1 = MCTSAlgorithmE(1000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTSEm1vR.csv')
+    # match_recorder.save_results('resMCTSEm1vR.pkl')
+    #
+    # p1 = MCTSAlgorithmE(1000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTSEm1vGT.csv')
+    # match_recorder.save_results('resMCTSEm1vGT.pkl')
+    #
+    # p1 = MCTSAlgorithmE(5000, 10)
+    # p2 = RandomAlgorithm()
+    # play_n_games(p1, p2, n_matches, 'resMCTSEm5vR.csv')
+    # match_recorder.save_results('resMCTSEm5vR.pkl')
+    #
+    # p1 = MCTSAlgorithmE(5000, 10)
+    # p2 = GreedyAlgorithmTerritory()
+    # play_n_games(p1, p2, n_matches, 'resMCTSEm5vGT.csv')
+    # match_recorder.save_results('resMCTSEm5vGT.pkl')
 
 
 def play_n_games(p1: Algorithm, p2: Algorithm, n_matches: int, name: str) -> None:
