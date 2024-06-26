@@ -6,9 +6,29 @@
   <component name="ChangeListManager">
     <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Configuración para entrenamiento">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amazons/logic/amazons_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/logic/amazons_logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_mobility.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_mobility.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_territory.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/greedy/greedy_algorithm_territory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/amazons/tests/match_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/tests/match_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/game_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/game_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/amazons.algorithms.greedy.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/amazons.algorithms.greedy.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/amazons.logic.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/amazons.logic.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/amazons.tests.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/amazons.tests.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/main.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/main.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/ui.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/ui.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/sphinx_highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/sphinx_highlight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.algorithms.greedy.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.algorithms.greedy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.logic.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.logic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.tests.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.tests.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/modules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/ui.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/ui.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,25 +74,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for test_board.MyTestCase.test_is_valid_move.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_algorithm.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_board.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python.MCTSAlgorithm.executor&quot;: &quot;Run&quot;,
-    &quot;Python.conf_file_reader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main_gui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main_training.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;match__training&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/srgon/Desktop/TFG/game_of_the_amazons_ai&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PythonContentEntriesConfigurable&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/srgon/Desktop/TFG/pythonProject/amazons/algorithms/MCTSAlgorithm2.py&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for test_board.MyTestCase.test_is_valid_move.executor": "Run",
+    "Python tests.Python tests in test_algorithm.py.executor": "Run",
+    "Python tests.Python tests in test_board.py.executor": "Run",
+    "Python.MCTSAlgorithm.executor": "Run",
+    "Python.conf_file_reader.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.main_gui.executor": "Run",
+    "Python.main_training.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "C:/Users/srgon/Desktop/TFG/game_of_the_amazons_ai",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable",
+    "two.files.diff.last.used.file": "C:/Users/srgon/Desktop/TFG/pythonProject/amazons/algorithms/MCTSAlgorithm2.py"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\srgon\Desktop\TFG\pythonProject\amazons\algorithms\mcts\node" />

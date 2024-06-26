@@ -1,8 +1,9 @@
+from amazons.algorithms.algorithm import Algorithm
 from amazons.algorithms.minimax.minimax_algorithm import evaluate_mobility
 from amazons.logic.amazons_logic import Board
 
 
-class GreedyAlgorithmMobility:
+class GreedyAlgorithmMobility(Algorithm):
     """
     Algorithm based on a greedy approach that uses a mobility heuristic function
 
@@ -16,7 +17,7 @@ class GreedyAlgorithmMobility:
         """
         return 'GreedyMob'
 
-    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+    def make_move(self, board: Board, player: int) -> tuple:
         """
         Returns the move that the algorithm chooses
         :param board: state of the board

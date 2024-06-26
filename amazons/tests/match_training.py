@@ -3,15 +3,6 @@ import time
 
 from amazons.algorithms.algorithm import Algorithm
 from amazons.logic.amazons_logic import Board
-from amazons.algorithms.random_algorithm import RandomAlgorithm
-from amazons.algorithms.greedy.greedy_algorithm_territory import GreedyAlgorithmTerritory
-from amazons.algorithms.mcts.mcts_algorithm_e_greedy import MCTSAlgorithmE
-from amazons.algorithms.mcts.mcts_algorithm_ucb import MCTSAlgorithmUCB
-from amazons.algorithms.mcts.mcts_algorithm_ucb_cut import MCTSAlgorithmCut
-from amazons.algorithms.minimax.minimax_algorithm_mobility import MinimaxAlgorithmMobility
-from amazons.algorithms.minimax.minimax_algorithm_relative_territory import MinimaxAlgorithmRelativeTerritory
-from amazons.algorithms.minimax.minimax_algorithm_territory import MinimaxAlgorithmTerritory
-from amazons.algorithms.minimax.minimax_algorithm_territory_mobility import MinimaxAlgorithmTerritoryMobility
 from assets.utilities.match_recorder import MatchRecorder
 
 """

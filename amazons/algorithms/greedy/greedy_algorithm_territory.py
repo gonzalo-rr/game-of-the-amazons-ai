@@ -17,7 +17,7 @@ class GreedyAlgorithmTerritory(Algorithm):
         """
         return 'GreedyTer'
 
-    def make_move(self, board: Board, player: int) -> ((int, int), (int, int), (int, int)):
+    def make_move(self, board: Board, player: int) -> tuple:
         """
         Returns the move that the algorithm chooses
         :param board: state of the board
