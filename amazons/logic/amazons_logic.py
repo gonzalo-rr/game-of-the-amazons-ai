@@ -188,15 +188,30 @@ class Board:
         :return: bool
         """
 
-        if type(player) is not int:
-            raise TypeError("player must be an int")
-        if player != 1 and player != -1:
-            raise ValueError("player must be 1 (white) or -1 (black)")
+        if self.get_mode() == 'graphic':
+            if type(player) is not int:
+                raise TypeError("player must be an int")
+            if player != 1 and player != -1:
+                raise ValueError("player must be 1 (white) or -1 (black)")
 
-        if not (self.has_legal_moves(-player)):
-            return True
-        else:
-            return False
+        # Previous way: too slow
+        # if not (self.has_legal_moves(-player)):
+        #     return True
+        # else:
+        #     return False
+
+        # New way: faster
+        for amazon in (self.black_positions if player == 1 else self.white_positions):
+            for direction in self.__directions:
+                x, y = amazon[0] + direction[0], amazon[1] + direction[1]
+                if self.n > x >= 0 and self.n > y >= 0 and self.board[x][y] == 0:
+                    return False
+        return True
+
+        # if board[x][y] == 0:
+        #     free_squares.append((x, y))
+        # x += direction[0]
+        # y += direction[1]
 
     def execute_move(self, move: tuple, player: int) -> None:
         """

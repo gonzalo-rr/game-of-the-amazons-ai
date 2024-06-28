@@ -1,3 +1,5 @@
+import sys
+
 from amazons.logic.amazons_logic import Board
 import pygame
 
@@ -407,7 +409,7 @@ class GameGUI:
                 # Quit game
                 if event.type == pygame.QUIT:
                     self.__running = False
-                    exit(-1)
+                    sys.exit(-1)
 
                 # Menu options and Game start
                 if not self.__playing:

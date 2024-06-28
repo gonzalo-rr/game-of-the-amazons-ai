@@ -20,9 +20,9 @@ def match_training(matches: list) -> None:
     """
     match_recorder = MatchRecorder()
 
-    for match, i in enumerate(matches):
+    for i, match in enumerate(matches):
         p1, p2, n_matches = match
-        name = "set" + i + p1 + "v" + p2
+        name = "set" + str(i) + str(p1) + "v" + str(p2)
         play_n_games(p1, p2, n_matches, name + ".csv")
         match_recorder.save_results(name + ".pkl")
 

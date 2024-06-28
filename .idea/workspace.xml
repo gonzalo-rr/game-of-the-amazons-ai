@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Docs para conf_file_reader.py &gt; get_matchup_from_line" />
+    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Actualización docs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amazons/logic/amazons_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/logic/amazons_logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amazons/tests/match_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/tests/match_training.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/utilities/conf_file_reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/assets/utilities/conf_file_reader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training_conf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/training_conf.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/game_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/game_gui.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="match_training" />
+        <entry key="$PROJECT_DIR$" value="test" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -62,7 +70,7 @@
     &quot;Python.main_training.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;test&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/srgon/Desktop/TFG/game_of_the_amazons_ai&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PythonContentEntriesConfigurable&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/srgon/Desktop/TFG/pythonProject/amazons/algorithms/MCTSAlgorithm2.py&quot;
@@ -84,7 +92,7 @@
       <recent name="C:\Users\srgon\Desktop\TFG\pythonProject\amazons\assets\utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_training">
+  <component name="RunManager" selected="Python.main_gui">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="game_of_the_amazons_ai" />
       <option name="ENV_FILES" value="" />
@@ -251,14 +259,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1705163119634</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Algoritmo minimax multiproceso">
-      <option name="closed" value="true" />
-      <created>1710406768315</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1710406768315</updated>
     </task>
     <task id="LOCAL-00008" summary="Implementación básica HistoryTable">
       <option name="closed" value="true" />
@@ -644,7 +644,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719389170540</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Actualización docs">
+      <option name="closed" value="true" />
+      <created>1719396473531</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1719396473531</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -671,7 +679,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Cambios menores preparando entrenamiento" />
     <MESSAGE value="Eliminación de una salida por consola" />
     <MESSAGE value="Adición MatchRecorder y pruebas" />
     <MESSAGE value="Refactorización de clases y paquetes" />
@@ -696,6 +703,7 @@
     <MESSAGE value="Configuración para gui" />
     <MESSAGE value="Configuración para entrenamiento" />
     <MESSAGE value="Docs para conf_file_reader.py &gt; get_matchup_from_line" />
-    <option name="LAST_COMMIT_MESSAGE" value="Docs para conf_file_reader.py &gt; get_matchup_from_line" />
+    <MESSAGE value="Actualización docs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Actualización docs" />
   </component>
 </project>

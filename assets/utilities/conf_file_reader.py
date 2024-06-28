@@ -236,6 +236,9 @@ def get_matchup_from_line(line: str) -> tuple:
     player1 = players[0].strip()
     player2 = players[1].strip()
     n_matches = line[1].strip()
+    if not n_matches.isdigit():
+        raise TypeError("number of matches must be a number")
+    n_matches = int(n_matches)
     if n_matches % 2 != 0:
         raise ValueError("number of matches must always be even")
 
