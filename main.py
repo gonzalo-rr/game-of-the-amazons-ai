@@ -256,8 +256,10 @@ def run_gui(file: str) -> None:  # 5
 
     # Basic configuration
     pygame.init()
+    info = pygame.display.Info()
+    tile_size = info.current_w // 25
 
-    gameGUI = GameGUI(100, algorithms)
+    gameGUI = GameGUI(tile_size, algorithms)
 
     gameGUI.run()
 

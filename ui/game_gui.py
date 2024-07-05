@@ -90,8 +90,8 @@ class GameGUI:
 
         self.size = (self.total_width, self.total_height)
         self.screen = pygame.display.set_mode(self.size)
-        self.font = pygame.font.Font('freesansbold.ttf', 30)
-        self.big_font = pygame.font.Font('freesansbold.ttf', 40)
+        self.font = pygame.font.Font('freesansbold.ttf', int(self.tile_size * .3))
+        self.big_font = pygame.font.Font('freesansbold.ttf', int(self.tile_size * .4))
 
         self.__timer = pygame.time.Clock()
         self.__fps = 30
@@ -115,13 +115,16 @@ class GameGUI:
 
         # Game pieces
         self.__white_amazon = pygame.image.load('assets/images/white_amazon.png')
-        self.__white_amazon = pygame.transform.scale(self.__white_amazon, (80, 80))
+        self.__white_amazon = pygame.transform.scale(self.__white_amazon,
+                                                     (.8 * self.tile_size, .8 * self.tile_size))
 
         self.__black_amazon = pygame.image.load('assets/images/black_amazon.png')
-        self.__black_amazon = pygame.transform.scale(self.__black_amazon, (80, 80))
+        self.__black_amazon = pygame.transform.scale(self.__black_amazon,
+                                                     (.8 * self.tile_size, .8 * self.tile_size))
 
         self.__blocked_tile = pygame.image.load('assets/images/blocked_tile.png')
-        self.__blocked_tile = pygame.transform.scale(self.__blocked_tile, (80, 80))
+        self.__blocked_tile = pygame.transform.scale(self.__blocked_tile,
+                                                     (.8 * self.tile_size, .8 * self.tile_size))
 
         # Event queue
         self.event_queue = None
@@ -154,7 +157,7 @@ class GameGUI:
             pygame.draw.line(self.screen, 'black',
                              (0, i * self.tile_size), (self.height, i * self.tile_size))
             pygame.draw.line(self.screen, 'black',
-                             (i * self.tile_size, 0), (i * 100, self.width))
+                             (i * self.tile_size, 0), (i * self.tile_size, self.width))
 
     def __draw_pieces(self) -> None:
         """
@@ -164,15 +167,22 @@ class GameGUI:
         for column in range(self.board.n):
             for row in range(self.board.n):
                 if self.board[column][row] == 1:  # White amazon
-                    self.screen.blit(self.__white_amazon, (self.tile_size * column + 10, self.tile_size * row + 10))
+                    self.screen.blit(self.__white_amazon, (self.tile_size * column + self.tile_size / 10,
+                                                           self.tile_size * row + self.tile_size / 10))
+
                 elif self.board[column][row] == -1:  # Black amazon
-                    self.screen.blit(self.__black_amazon, (self.tile_size * column + 10, self.tile_size * row + 10))
+                    self.screen.blit(self.__black_amazon, (self.tile_size * column + self.tile_size / 10,
+                                                           self.tile_size * row + self.tile_size / 10))
+
                 elif self.board[column][row] == 2:  # Arrow
-                    self.screen.blit(self.__blocked_tile, (self.tile_size * column + 10, self.tile_size * row + 10))
+                    self.screen.blit(self.__blocked_tile, (self.tile_size * column + self.tile_size / 10,
+                                                           self.tile_size * row + self.tile_size / 10))
 
                 if self.__selection == (column, row):
                     pygame.draw.rect(self.screen, 'red',
-                                     [column * self.tile_size + 1, row * self.tile_size + 1, 100, 100], 2)
+                                     [column * self.tile_size + 1,
+                                      row * self.tile_size + 1, self.tile_size, self.tile_size],
+                                     self.tile_size // 50)
 
     def __get_valid_moves(self) -> None:
         """
@@ -194,7 +204,7 @@ class GameGUI:
             pygame.draw.circle(self.screen, 'black',
                                (move[0] * self.tile_size + self.tile_size / 2,
                                 move[1] * self.tile_size + self.tile_size / 2),
-                               10)
+                               self.tile_size / 10)
 
     def __draw_win(self, player: int) -> None:
         """
@@ -203,7 +213,8 @@ class GameGUI:
         :return: None
         """
         winner = 'WHITE' if player == 1 else 'BLACK'
-        self.screen.blit(self.big_font.render(f'{winner} WON', True, 'black'), (420, 420))
+        self.screen.blit(self.big_font.render(f'{winner} WON', True, 'black'),
+                         (self.width / 2 - self.tile_size * 1.1, self.height / 2 - self.tile_size * .4))
 
     def __draw_play_button(self) -> None:
         """
@@ -319,7 +330,7 @@ class GameGUI:
         :param amazon: amazon position
         :return: None
         """
-        self.__selection = amazon
+        self.__selection = (int(amazon[0]), int(amazon[1]))
         if self.turn_step == 0:
             self.turn_step = 1
         elif self.turn_step == 3:
@@ -336,6 +347,9 @@ class GameGUI:
         :param player: player that has made the move
         :return: None
         """
+        prev = (int(prev[0]), int(prev[1]))
+        new = (int(new[0]), int(new[1]))
+
         self.board.move_piece(prev, new, player)
         self.__selection = new
         self.turn_step += 1
@@ -349,6 +363,8 @@ class GameGUI:
         :param pos: position shot by the arrow that has to be blocked
         :return: None
         """
+        pos = (int(pos[0]), int(pos[1]))
+
         self.__blocked_positions.append(pos)
 
         self.board.shoot_arrow(pos)
