@@ -231,8 +231,12 @@ def get_matchup_from_line(line: str) -> tuple:
     Returns: tuple containing both players and number of matches
     """
     line = line.split(":")
+    if len(line) != 2:
+        raise ValueError("match training file format is not valid")
     match_up = line[0]
     players = match_up.split(" v ")
+    if len(players) != 2:
+        raise ValueError("match training file format is not valid")
     player1 = players[0].strip()
     player2 = players[1].strip()
     n_matches = line[1].strip()
