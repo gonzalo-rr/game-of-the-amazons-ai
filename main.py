@@ -51,117 +51,6 @@ def main():
         train_ais(file)
     elif mode == 'graphic':
         run_gui(file)
-    # if len(sys.argv) == 1:
-    #     run_gui()
-    # else:
-    #     if len(sys.argv) != 3:
-    #         raise ValueError('for training mode a file must be given')
-    #     mode = sys.argv[1]
-    #     if mode != '-t':
-    #         raise ValueError(f'no mode {mode} supported')
-    #     file = sys.argv[2]
-    #     if file
-
-    # mode = args[0]
-    #
-    # if mode == '-t'
-    #
-    # file_training = args[1]
-    #
-    # run_gui()
-
-    # board = Board()
-    # move = board.get_legal_moves(1)[0]
-    # board.execute_move(move, 1)
-    # board.execute_move(((3, 0), (4, 1), (5, 2)), -1)
-    # board.print_board()
-    # print()
-    # board2 = Board(board)
-    # board2.print_board()
-    # mcts = MCTSAlgorithm(10)
-    # b = Board(False)
-    # mcts.make_move(b, 1)
-
-    # node = Node(b, 1)
-    # node.expand()
-    # print(len(node.children))
-
-    # board = Board()
-    # board.board = [
-    #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [-1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    #      [0, 0, 0, 0, 2, 2, 2, 0, 0, 0],
-    #      [0, 0, 0, 0, 2, 0, 2, 0, 0, 0],
-    #      [-1, 0, 0, 0, 2, 2, 2, 0, 0, 1],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #      [0, 0, 0, -1, 0, 0, 1, 0, 0, 0]
-    #      ]
-    # # print(len(board.get_legal_moves(-1)))
-    # # board.white_positions = [(0, 6), (9, 6), (3, 9), (6, 9)]
-    # # board.black_positions = [(3, 0), (6, 0), (0, 3), (9, 3)]
-    # # print(len(board.get_legal_moves(-1)))
-    #
-    # eval2 = MinimaxAlgorithm.evaluate_territory2(board)
-    # print("Eval", eval2)
-
-    # board = Board(False)
-    # # board.print_board()
-    # print()
-    # start = time.time()
-    # eval2 = MinimaxAlgorithm.evaluate_territory2(board)
-    # end = time.time()
-    # print('New way:', end - start, eval2)
-    # start = time.time()
-    # eval1 = MinimaxAlgorithm.evaluate_territory1(board)
-    # end = time.time()
-    # print('Old way:', end - start, eval1)
-
-    # calculate_copy_times()
-
-    # compare_for_tests()
-
-    # calculate_king_moves(Board(False))
-    # b = Board(False)
-    # b.board = [
-    #     [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
-    #     [0, 0, 0, 0, 2, 0, 0, 2, 0, 0],
-    #     [0, 0, 0, 1, 0, -1, 0, 0, 0, 0],
-    #     [0, 0, 2, 2, 0, -1, 0, 0, 0, 0],
-    #     [0, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-    #     [0, 2, -1, 2, 0, 2, 2, 2, 2, 2],
-    #     [0, 0, 0, 0, 0, 2, 1, 1, 2, 0],
-    #     [0, 0, 0, 1, 2, 2, 0, 2, 0, 0],
-    #     [0, 2, -1, 0, 0, 2, 0, 0, 0, 0],
-    #     [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-    #      ]
-    # b.white_positions = [(2,3),(6,6),(6,7),(7,3)]
-    # b.black_positions = [(2,5), (3,5), (5,2), (8,2)]
-    # b.print_board()
-    # print()
-    # _, bw, bb = evaluate_territory(b)
-    # evaluate_individual_mobility(b, bw, bb)
-
-    # test_parallelization()
-
-    # Check history table ratings
-    # h = HistoryTable()
-    # h.load_table()
-    # b = Board(False)
-    # moves = b.get_legal_moves(1)
-    # for move in moves:
-    #     rating = h.get_rating(move)
-    #     if rating > 0:
-    #         print(rating)
-
-    # b = Board(False)
-    # move = RandomAlgorithm.make_move(b, 1)
-    # b.execute_move(((3, 9), (4, 8), (5, 7)), 1)
-    # b.print_board()
-    # print()
-    # MinimaxAlgorithm.evaluate_territory(b)
 
 
 def compare_for_tests():
@@ -174,14 +63,6 @@ def compare_for_tests():
 
 
 def test_parallelization():
-    # global x
-
-    # start = time.time()
-    # calculation(4)
-    # calculation(4)
-    # end = time.time()
-    # print(end - start, " secs no paralelo", x)
-
     x = mp.Array('i', 2)
 
     start = time.time()
@@ -276,22 +157,6 @@ def train_ais(file: str) -> None:
     matches = conf_file_reader.read_training_file(file)
 
     match_training(matches)
-
-
-# def profile(fnc):
-#     def inner(*args, **kwargs):
-#         pr = cProfile.Profile()
-#         pr.enable()
-#         retval = fnc(*args, **kwargs)
-#         pr.disable()
-#         s = io.StringIO()
-#         sortby = 'cumulative'
-#         ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-#         ps.print_stats()
-#         print(s.getvalue())
-#         return retval
-#
-#     return inner
 
 
 if __name__ == "__main__":

@@ -245,4 +245,7 @@ def get_matchup_from_line(line: str) -> tuple:
     player1 = get_algorithm_from_line(player1)
     player2 = get_algorithm_from_line(player2)
 
+    if player1 is None or player2 is None:
+        raise ValueError("players can not be human")
+
     return player1, player2, n_matches
