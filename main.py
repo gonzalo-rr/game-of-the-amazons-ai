@@ -24,19 +24,20 @@ Author: Gonzalo Rodríguez Rodríguez
 def main():
     # Check if arguments are correct
     args = sys.argv[1:]
-    if len(args) == 0:
-        raise ValueError("no mode provided, possible modes: -g, -t")
     if len(args) > 2:
         raise ValueError("too many arguments")
 
     # Check mode
-    mode = args[0]
-    if mode == '-t' or mode == '--training':
-        mode = 'training'
-    elif mode == '-g' or mode == '--graphic':
-        mode = 'graphic'
-    else:
-        raise ValueError(f"unsupported mode {mode}, possible modes: -g, -t")
+    mode = 'graphic'
+
+    if len(args) != 0:
+        mode = args[0]
+        if mode == '-t' or mode == '--training':
+            mode = 'training'
+        elif mode == '-g' or mode == '--graphic':
+            mode = 'graphic'
+        else:
+            raise ValueError(f"unsupported mode {mode}, possible modes: -g, -t")
 
     # Check additional file
     file = ''
