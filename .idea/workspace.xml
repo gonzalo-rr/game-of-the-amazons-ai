@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Actualización docs">
+    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Corrección formato incorrecto entrenamiento">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb_cut.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb_cut.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +66,7 @@
     &quot;Python.main_training.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ui&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/srgon/Desktop/TFG/game_of_the_amazons_ai&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PythonContentEntriesConfigurable&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/srgon/Desktop/TFG/pythonProject/amazons/algorithms/MCTSAlgorithm2.py&quot;
@@ -254,30 +255,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1705163119634</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Implementación básica HistoryTable">
-      <option name="closed" value="true" />
-      <created>1711220113685</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1711220113685</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Implementación básica ordenación simple">
-      <option name="closed" value="true" />
-      <created>1712053613470</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1712053613470</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Creado entrenamiento para minimas">
-      <option name="closed" value="true" />
-      <created>1714145578031</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1714145578031</updated>
     </task>
     <task id="LOCAL-00011" summary="Entrenemiento completo minimax y greedy">
       <option name="closed" value="true" />
@@ -647,7 +624,31 @@
       <option name="project" value="LOCAL" />
       <updated>1719396473531</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Modo gráfico por defecto">
+      <option name="closed" value="true" />
+      <created>1720167362565</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1720167362565</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Corrección error humano entrenamiento">
+      <option name="closed" value="true" />
+      <created>1720167668434</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1720167668434</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Corrección formato incorrecto entrenamiento">
+      <option name="closed" value="true" />
+      <created>1720167804600</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1720167804600</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -674,9 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Adición MatchRecorder y pruebas" />
-    <MESSAGE value="Refactorización de clases y paquetes" />
-    <MESSAGE value="Inclusión de cambios de match_training" />
     <MESSAGE value="Creación estructura de herencia" />
     <MESSAGE value="Cambios herencia y type hinting" />
     <MESSAGE value="Comentarios en AmazonsLogic" />
@@ -699,6 +697,9 @@
     <MESSAGE value="Docs para conf_file_reader.py &gt; get_matchup_from_line" />
     <MESSAGE value="Actualización docs" />
     <MESSAGE value="Optimización lógica y cambio entrenamiento" />
-    <option name="LAST_COMMIT_MESSAGE" value="Optimización lógica y cambio entrenamiento" />
+    <MESSAGE value="Modo gráfico por defecto" />
+    <MESSAGE value="Corrección error humano entrenamiento" />
+    <MESSAGE value="Corrección formato incorrecto entrenamiento" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrección formato incorrecto entrenamiento" />
   </component>
 </project>

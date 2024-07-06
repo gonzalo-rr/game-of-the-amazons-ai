@@ -8,7 +8,7 @@ from amazons.algorithms.mcts.node.node_ucb_cut import NodeUCB
 
 class MCTSAlgorithmCut(MCTSAlgorithm):
     """
-    Class for the MCTS Epsilon-Greedy cut algorithm
+    Class for the MCTS UCB cut algorithm
 
     Attributes:
         exploration_parameter: exploration parameter, by default 2

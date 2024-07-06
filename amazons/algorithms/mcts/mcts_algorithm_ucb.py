@@ -8,7 +8,7 @@ from amazons.algorithms.mcts.node.node_ucb import NodeUCB
 
 class MCTSAlgorithmUCB(MCTSAlgorithm):
     """
-    Class for the MCTS Epsilon-Greedy algorithm
+    Class for the MCTS UCB algorithm
 
     Attributes:
         exploration_parameter: exploration parameter, by default 2
