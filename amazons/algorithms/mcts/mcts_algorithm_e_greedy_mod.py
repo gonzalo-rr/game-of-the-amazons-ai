@@ -76,7 +76,7 @@ class MCTSAlgorithmEMod(MCTSAlgorithm):
 
         new_board = Board(board)
         self._leaf_nodes = []
-        self._root = NodeEpsilon(new_board, None, player)
+        self._root = NodeEpsilon(new_board, (), player)
         self._leaf_nodes.append(self._root)
         self._expand(self._root)
         self._current_state = self._root
