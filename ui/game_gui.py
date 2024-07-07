@@ -1,13 +1,10 @@
 import sys
-
-from amazons.logic.amazons_logic import Board
 import pygame
-
-from amazons.players.human_player import HumanPlayer
-from amazons.players.ai_player import AIPlayer
-
 import threading
 
+from amazons.logic.amazons_logic import Board
+from amazons.players.human_player import HumanPlayer
+from amazons.players.ai_player import AIPlayer
 from ui.players_menu import PlayersMenu
 
 

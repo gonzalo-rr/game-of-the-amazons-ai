@@ -6,8 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Corrección formato incorrecto entrenamiento">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb_cut.py" beforeDir="false" afterPath="$PROJECT_DIR$/amazons/algorithms/mcts/mcts_algorithm_ucb_cut.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/amazons.algorithms.mcts.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/amazons.algorithms.mcts.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_static/sphinx_highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_static/sphinx_highlight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/amazons.algorithms.mcts.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/amazons.algorithms.mcts.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/game_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/game_gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
