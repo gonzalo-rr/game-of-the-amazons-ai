@@ -233,13 +233,19 @@ def play_n_games(p1: Algorithm, p2: Algorithm, n_matches: int, name: str) -> Non
     """
     full_results = []  # Each element is the results of a single game
 
+    n_game = 1
+
     for game in range(n_matches // 2):
         results = play_game(p1, p2)
         full_results.append(results)
+        print(f"Game {n_game} finished")
+        n_game += 1
 
     for game in range(n_matches // 2):
         results = play_game(p2, p1)
         full_results.append(results)
+        print(f"Game {n_game} finished")
+        n_game += 1
 
     update_csv(full_results, name)
 
@@ -305,7 +311,6 @@ def play_game(white: Algorithm, black: Algorithm) -> []:
         n_moves_black += 1
 
     end = time.time()
-    print('Game finished')
     match_recorder.finish_game()
 
     results = [white, black, result, end - start, n_moves_white, n_moves_black, avg_move_time_white,

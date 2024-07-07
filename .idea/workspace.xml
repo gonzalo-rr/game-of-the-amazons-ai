@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Generación documentación final">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+    <list default="true" id="711d335a-e57f-4d09-8fc6-53cc1443670e" name="Changes" comment="Corrección venv">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pythonProject.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,26 +52,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for test_board.MyTestCase.test_is_valid_move.executor": "Run",
-    "Python tests.Python tests in test_algorithm.py.executor": "Run",
-    "Python tests.Python tests in test_board.py.executor": "Run",
-    "Python.MCTSAlgorithm.executor": "Run",
-    "Python.conf_file_reader.executor": "Run",
-    "Python.gui.executor": "Run",
-    "Python.main (1).executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.main_gui.executor": "Run",
-    "Python.main_training.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "develop",
-    "last_opened_file_path": "C:/Users/srgon/Desktop/TFG/game_of_the_amazons_ai/main.py",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "two.files.diff.last.used.file": "C:/Users/srgon/Desktop/TFG/pythonProject/amazons/algorithms/MCTSAlgorithm2.py"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for test_board.MyTestCase.test_is_valid_move.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_algorithm.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_board.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MCTSAlgorithm.executor&quot;: &quot;Run&quot;,
+    &quot;Python.conf_file_reader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.gui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_gui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_training.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/srgon/Desktop/TFG/game_of_the_amazons_ai/main.py&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/srgon/Desktop/TFG/pythonProject/amazons/algorithms/MCTSAlgorithm2.py&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\srgon\Desktop\TFG\pythonProject\amazons\algorithms\mcts\node" />
@@ -130,14 +127,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1705163119634</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Entrenemiento completo minimax y greedy">
-      <option name="closed" value="true" />
-      <created>1715071975107</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1715071975107</updated>
     </task>
     <task id="LOCAL-00012" summary="Primera implementación MCTS">
       <option name="closed" value="true" />
@@ -523,7 +512,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720167804600</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Corrección venv">
+      <option name="closed" value="true" />
+      <created>1720364603695</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1720364603695</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -550,7 +547,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Creación estructura de herencia" />
     <MESSAGE value="Cambios herencia y type hinting" />
     <MESSAGE value="Comentarios en AmazonsLogic" />
     <MESSAGE value="Primeros test para la lógica" />
@@ -575,6 +571,7 @@
     <MESSAGE value="Modo gráfico por defecto" />
     <MESSAGE value="Corrección error humano entrenamiento" />
     <MESSAGE value="Corrección formato incorrecto entrenamiento" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrección formato incorrecto entrenamiento" />
+    <MESSAGE value="Corrección venv" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrección venv" />
   </component>
 </project>
